@@ -66,7 +66,7 @@
         </record>
         <record id="custom_b2c.group_thi_cong_user" model="res.groups">
             <field name="name">Nhân viên</field>
-            <field name="category_id" ref="custom_b2c.module_custom_b2c"/>
+            <field name="category_id" ref="custom_b2c.module_custom_b2c_cong_trinh"/>
             <field name="implied_ids" eval="[(4, ref('custom_b2c.group_thi_cong_adm'))]"/>
         </record>
 
