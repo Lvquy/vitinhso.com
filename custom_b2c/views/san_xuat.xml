@@ -1,0 +1,118 @@
+<odoo>
+    <record id="bom_view_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.bom.form.inherit</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group/field[@name='product_id']" position="after">
+                <field name="chi_phi"/>
+            </xpath>
+            <field name="bom_line_ids" position="replace">
+                <field name="bom_line_ids" widget="one2many"
+                       context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_company_id': company_id, 'default_bom_id': id}">
+                    <tree string="Components" editable="bottom">
+                        <field name="company_id" invisible="1"/>
+                        <field name="sequence" widget="handle"/>
+                        <field name="product_id" context="{'default_detailed_type': 'product'}"/>
+                        <field name="product_tmpl_id" invisible="1"/>
+                        <button name="action_see_attachments" type="object" icon="fa-files-o"
+                                aria-label="Product Attachments" title="Product Attachments"
+                                class="float-right oe_read_only"/>
+                        <field name="attachments_count" class="text-left oe_read_only"
+                               string=" "/>
+                        <field name="product_qty"/>
+                        <field name="cost"/>
+                        <field name="product_uom_category_id" invisible="1"/>
+                        <field name="parent_product_tmpl_id" invisible="1"/>
+                        <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                               groups="uom.group_uom"/>
+                        <field name="possible_bom_product_template_attribute_value_ids" invisible="1"/>
+                        <field name="bom_product_template_attribute_value_ids" optional="hide" widget="many2many_tags"
+                               options="{'no_create': True}"
+                               attrs="{'column_invisible': [('parent.product_id', '!=', False)]}"
+                               groups="product.group_product_variant"/>
+                        <field name="allowed_operation_ids" invisible="1"/>
+                        <field name="operation_id" groups="mrp.group_mrp_routings" optional="hidden"
+                               attrs="{'column_invisible': [('parent.type','not in', ('normal', 'phantom'))]}"
+                               options="{'no_quick_create':True,'no_create_edit':True}"/>
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+    <record id="chi_phi_view_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group/field[@name='bom_id']" position="after">
+                <field name="chi_phi"/>
+            </xpath>
+            <xpath expr="//sheet/group/group/field[@name='user_id']" position="after">
+                <field name="partner_id" options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
+            </xpath>
+            <page name="components" position="after">
+                <page name="nhancong" string="Nhân công">
+                    <field name="nhan_cong" options="{'no_open': True, 'no_create': True , 'no_quick_create': True}">
+                        <tree>
+                            <field name="name"/>
+                            <field name="mobile_phone"/>
+                            <field name="department_id"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+            <page name="components" position="after">
+                <page name="tam_ung" string="Tạm ứng">
+                    <field name="tam_ung"/>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="sx_tam_ung_view_form" model="ir.ui.view">
+            <field name="name">sx.tam.ung.form</field>
+            <field name="model">sx.tam.ung</field>
+            <field name="arch" type="xml">
+                <form string="Tạm ứng tiền">
+                    <header>
+                            <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
+                            <button name="confirm" string="Xác nhận"
+                                    attrs="{'invisible':[('state', 'in', ('1','2'))]}"
+                                    groups="base.group_system,custom_b2c.group_ql"
+                                    type="object"/>
+                            <button name="cancel" string="Hủy"
+                                    attrs="{'invisible':[('state', 'in', ('1','2'))]}"
+                                    groups="base.group_system,custom_b2c.group_ql"
+                                    type="object"/>
+                        </header>
+                    <sheet>
+                        <group>
+                            <field name="date_create" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="nguoi_ung" widget="selection" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="so_tien" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="sx_tam_ung_view_tree" model="ir.ui.view">
+            <field name="name">sx.tam.ung.tree</field>
+            <field name="model">sx.tam.ung</field>
+            <field name="arch" type="xml">
+                <tree string="Tạm ứng">
+                    <field name="date_create" optional="show"/>
+                    <field name="nguoi_ung" optional="show"/>
+                    <field name="so_tien" optional="show"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+</odoo>

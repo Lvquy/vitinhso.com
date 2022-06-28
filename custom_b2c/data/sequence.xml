@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for thi.cong -->
+        <record id="seq_thi_cong" model="ir.sequence">
+            <field name="name">Mã thi công</field>
+            <field name="code">maphieu.code</field>
+            <field name="prefix">TC</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for ngay.nghi -->
+        <record id="seq_ngay_nghi" model="ir.sequence">
+            <field name="name">Mã phép nghỉ</field>
+            <field name="code">phepnghi.code</field>
+            <field name="prefix">PN</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for co.phan -->
+        <record id="seq_cophan" model="ir.sequence">
+            <field name="name">Mã cổ phần</field>
+            <field name="code">cophan.code</field>
+            <field name="prefix">CP</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for gia.dich-->
+        <record id="seq_giaodich_cp" model="ir.sequence">
+            <field name="name">Mã giao dịch cổ phần</field>
+            <field name="code">giaodichcp.code</field>
+            <field name="prefix">TRAS</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- Sequences for dau.tu-->
+        <record id="seq_dau_tu" model="ir.sequence">
+            <field name="name">Mã đầu tư</field>
+            <field name="code">dautu.code</field>
+            <field name="prefix">Invest-</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- Sequences for wallet-->
+        <record id="seq_wallet" model="ir.sequence">
+            <field name="name">Ví cá nhân</field>
+            <field name="code">wallet.code</field>
+            <field name="prefix">WL</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+         <!-- Sequences for tiet.kiem-->
+        <record id="seq_tietkiem" model="ir.sequence">
+            <field name="name">Mã gửi tiết kiệm</field>
+            <field name="code">tietkiem.code</field>
+            <field name="prefix">TK</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for tai.san-->
+        <record id="seq_taisan" model="ir.sequence">
+            <field name="name">Mã tài sản</field>
+            <field name="code">taisan.code</field>
+            <field name="prefix">TS</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- Sequences for napruttien-->
+        <record id="seq_napruttien" model="ir.sequence">
+            <field name="name">Mã tài sản</field>
+            <field name="code">napruttien.code</field>
+            <field name="prefix">NRT</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

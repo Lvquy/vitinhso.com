@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="line_vatlieu_view_form" model="ir.ui.view">
+            <field name="name">line.vatlieu.form</field>
+            <field name="model">line.vatlieu</field>
+            <field name="arch" type="xml">
+                <form string="Vật liệu thi công">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="so_luong"/>
+                            <field name="so_luong_confirm"/>
+                            <field name="gia_ban"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="line_vatlieu_view_tree" model="ir.ui.view">
+            <field name="name">line.vatlieu.tree</field>
+            <field name="model">line.vatlieu</field>
+            <field name="arch" type="xml">
+                <tree string="Vật liệu thi công"  editable="bottom">
+                    <field name="name"/>
+                    <field name="so_luong"/>
+                    <field name="so_luong_confirm"/>
+                    <field name="gia_ban"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

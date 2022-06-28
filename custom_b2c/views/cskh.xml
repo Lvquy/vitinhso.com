@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cskh_view_form" model="ir.ui.view">
+            <field name="name">cskh.form</field>
+            <field name="model">cskh</field>
+            <field name="arch" type="xml">
+                <form string="Chăm sóc khách hàng">
+                    <header>
+                        <field name="status_recall" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm" string="Xác nhận" type="object"
+                                attrs="{'invisible':[('status_recall', 'in', ('1'))]}"/>
+                        <button name="get_line_kh" string="Lấy DS khách hàng" type="object"
+                                attrs="{'invisible':[('status_recall', 'in', ('1'))]}"/>
+                        <button name="update_date_cs" string="Làm mới DS cần chăm sóc" type="object" class="btn btn-success"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="limit_kh" attrs="{'readonly':[('status_recall', 'in', ('1'))]}"/>
+                                <field name="date_recall" attrs="{'readonly':[('status_recall', 'in', ('1'))]}"/>
+                                <field name="date_next" attrs="{'readonly':[('status_recall', 'in', ('1'))]}"/>
+                                <field name="nv_cham_soc"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="khachhang" string="Danh sách khách hàng chăm sóc">
+                                <field name="khach_hang_list"
+
+                                       attrs="{'readonly':[('status_recall', 'in', ('1'))]}">
+                                    <tree editable="bottom" string="Dahn sách khách hàng">
+                                        <field name="khach_hang" options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
+                                        <field name="phone"/>
+                                        <field name="nv_cs"/>
+                                        <field name="note"/>
+                                        <field name="status_cs"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <!--                    <field name="activity_ids"/>-->
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="cskh_view_tree" model="ir.ui.view">
+            <field name="name">cskh.tree</field>
+            <field name="model">cskh</field>
+            <field name="arch" type="xml">
+                <tree string="Chăm sóc khách hàng" decoration-danger="status_recall=='0'" decoration-success="status_recall=='1'">
+                    <field name="date_recall" optional="show"/>
+                    <field name="date_next" optional="show"/>
+                    <field name="status_recall" optional="show"/>
+                    <field name="nv_cham_soc" optional="show"/>
+                    <field name="khach_hang_list" optional="hide"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_cskh" model="ir.actions.act_window">
+            <field name="name">Chăm sóc khách hàng</field>
+            <field name="res_model">cskh</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <!--        line cskh-->
+        <record id="line_cskh_view_form" model="ir.ui.view">
+            <field name="name">line.cskh.form</field>
+            <field name="model">line.cskh</field>
+            <field name="arch" type="xml">
+                <form string="Chăm sóc khách hàng">
+                    <sheet>
+                        <field name="khach_hang" options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+        <menuitem id="menu_cskh" name="Chăm sóc khách hàng" sequence="10"
+                  groups="custom_b2c.group_ql,custom_b2c.group_nv,base.group_system" parent="contacts.menu_contacts"/>
+        <menuitem id="menu_cskh_sub" name="Danh sách" parent="menu_cskh" action="action_view_cskh"
+                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_nv,base.group_system"/>
+    </data>
+</odoo>

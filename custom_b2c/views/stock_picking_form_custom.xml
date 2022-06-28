@@ -1,0 +1,16 @@
+
+<odoo>
+    <record id="custom_view_stock_picking_form" model="ir.ui.view">
+                <field name="name">custom.stock.picking.form</field>
+                <field name="model">stock.picking</field>
+                <field name="inherit_id" ref="stock.view_picking_form"/>
+                <field name="arch" type="xml">
+
+                <xpath expr="//sheet/group/group/field[@name='location_id']" position="after">
+                    <field name="shipcode" attrs="{'readonly':[('state', 'in', ('done'))]}"/>
+                    <field name="shiper" attrs="{'readonly':[('state', 'in', ('done'))]}"/>
+                    <field name="shiping_fee" attrs="{'readonly':[('state', 'in', ('done'))]}"/>
+                </xpath>
+                </field>
+    </record>
+</odoo>

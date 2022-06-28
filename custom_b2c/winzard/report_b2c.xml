@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_b2c_wizard_form1" model="ir.ui.view">
+            <field name="name">report.b2c.form</field>
+            <field name="model">report.b2c</field>
+            <field name="arch" type="xml">
+                <form create="0" delete="0" export_xlsx="false">
+                    <sheet>
+                        <group>
+                            <field name="cost_total"/>
+                            <field name="ln_total"/>
+                            <field name="ln_dautu"/>
+                            <field name="ln_phi_giao_dich_cp"/>
+                            <field name="ln_thi_cong"/>
+                            <field name="ln_sale"/>
+                            <field name="date_update"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+        <record id="report_b2c_wizard_tree1" model="ir.ui.view">
+            <field name="name">report.b2c.tree</field>
+            <field name="model">report.b2c</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="0" export_xlsx="false" editable="bottom">
+                    <field name="cost_total" sum="Tổng"/>
+                    <field name="ln_total" sum="Tổng"/>
+                    <field name="ln_dautu" sum="Tổng"/>
+                    <field name="ln_phi_giao_dich_cp" sum="Tổng"/>
+                    <field name="ln_thi_cong" sum="Tổng"/>
+                    <field name="ln_sale" sum="Tổng"/>
+                    <field name="date_update"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="report_b2c_winzard_action1" model="ir.actions.act_window">
+            <field name="name">Report</field>
+            <field name="res_model">report.b2c</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <!--        quỹ công ty-->
+
+        <record id="quy_cty_view_form" model="ir.ui.view">
+            <field name="name">quy.cty.form</field>
+            <field name="model">quy.cty</field>
+            <field name="arch" type="xml">
+                <form string="Quỹ công ty">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm" string="Xác nhận" type="object"
+                                groups="base.group_system,custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                        <button name="get_sodu" string="Cập nhật số dư quỹ" type="object"
+                                groups="base.group_system,custom_b2c.group_ql" class="btn btn-success"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="discount" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="so_du" class="text-info"/>
+                            <field name="total_da_chi"/>
+                            <field name="total_da_thuong"/>
+                            <field name="total_thuong_chi" class="text-danger"/>
+                            <field name="con_lai" class="text-success"/>
+                            <field name="create_date" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                        </group>
+                        <notebook>
+                            <page name="log_quy" string="Nhật ký sử dụng quỹ">
+                                <field name="log_quy"/>
+                            </page>
+                            <page name="thuong_nv" string="Thưởng đồng loạt">
+                                <field name="thuong_nv" />
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="quy_cty_view_tree" model="ir.ui.view">
+            <field name="name">quy.cty.tree</field>
+            <field name="model">quy.cty</field>
+            <field name="arch" type="xml">
+                <tree string="Quỹ cty">
+                    <field name="name"/>
+                    <field name="discount"/>
+                    <field name="so_du" sum="Total"/>
+                    <field name="create_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_quy_cty" model="ir.actions.act_window">
+            <field name="name">Qũy Cty</field>
+            <field name="res_model">quy.cty</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <!--        log.quy form tree-->
+        <record id="log_quy_view_form" model="ir.ui.view">
+            <field name="name">log.quy.form</field>
+            <field name="model">log.quy</field>
+            <field name="arch" type="xml">
+                <form string="Lịch sử chi tiêu">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm" string="Xác nhận" groups="base.group_system,custom_b2c.group_ql"
+                                type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="date_chi" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="user_admin" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="so_tien" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="kieu_tien" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            <field name="note" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="log_quy_view_tree" model="ir.ui.view">
+            <field name="name">log.quy.tree</field>
+            <field name="model">log.quy</field>
+            <field name="arch" type="xml">
+                <tree string="Quỹ CTY" delete="false">
+                    <field name="date_chi"/>
+                    <field name="user_admin"/>
+                    <field name="kieu_tien"/>
+                    <field name="so_tien" sum="Total"/>
+                    <field name="state"/>
+                    <button name="confirm" string="Xác nhận" groups="base.group_system,custom_b2c.group_ql"
+                            type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        thuong.nv-->
+
+        <record id="thuong_nv_view_form" model="ir.ui.view">
+            <field name="name">thuong.nv.form</field>
+            <field name="model">thuong.nv</field>
+            <field name="arch" type="xml">
+                <form string="Thưởng nhân viên/khách hàng">
+                    <header>
+                            <field name="state_thuong_dong_loat" widget="statusbar" statusbar_visible="0,1"/>
+                            <button name="thuong_nhan_vien" string="Xác nhận thưởng" type="object"
+                                    attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                            <button name="get_nguoi_thu_huong" string="Lấy danh sách" type="object"
+                                    attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                        </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="so_tien_thuong" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                                <field name="tong_nguoi_thu_huong" />
+                                <field name="so_tien_chia" />
+                                <field name="tu_quy" />
+                                <field name="kieu_tien" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                                <field name="ngay_thuong" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                            </group>
+                            <group>
+                                <field name="note" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Danh sách tài khoản thụ hưởng">
+                                <field name="ds_nguoi_thu_huong"
+                                       attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"
+                                       options="{'no_create_edit': True}">
+                                    <tree create="false">
+                                        <field name="name" string="Tên tài khoản"/>
+                                        <field name="login" string="Email đăng nhập"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="thuong_nv_view_tree" model="ir.ui.view">
+            <field name="name">thuong.nv.tree</field>
+            <field name="model">thuong.nv</field>
+            <field name="arch" type="xml">
+                <tree string="Thưởng nhân viên/khách hàng"
+                      decoration-danger="state_thuong_dong_loat=='0'"
+                      decoration-success="state_thuong_dong_loat=='1'" delete="false">
+                    <field name="so_tien_thuong" optional="show" sum="Total"/>
+                    <field name="tong_nguoi_thu_huong" optional="show"/>
+                    <field name="ds_nguoi_thu_huong" optional="hide"/>
+                    <field name="so_tien_chia" optional="show"/>
+                    <field name="state_thuong_dong_loat" optional="show"/>
+                    <button name="thuong_nhan_vien" string="Xác nhận thưởng" type="object"
+                                   class="btn btn-primary" attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                    <field name="tu_quy" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="menu_report" name="Báo cáo tổng hợp" sequence="6" groups="custom_b2c.group_ql"
+                  action="report_b2c_winzard_action1" web_icon="custom_b2c,static/src/img/baocao.png"/>
+
+        <menuitem id="menu_quycty" name="Qũy CTY" sequence="1" groups="base.group_system,custom_b2c.group_ql"
+                  action="action_view_quy_cty" parent="menu_report"/>
+    </data>
+</odoo>

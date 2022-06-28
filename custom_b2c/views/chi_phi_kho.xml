@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="chi_phi_kho_view_form" model="ir.ui.view">
+            <field name="name">chi.phikho.form</field>
+            <field name="model">chi.phikho</field>
+            <field name="arch" type="xml">
+                <form string="Chi phí vận hành kho trong tháng" class="o_sale_order" js_class="sale_discount_form">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm" string="Xác nhận" type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="stock"
+                                       options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"
+                                       attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="thue_matbang" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="tien_dien" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="tien_nuoc" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            </group>
+                            <group>
+                                <field name="tien_internet" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="chi_phi_khac" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="ngay_chot" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="total"/>
+                            </group>
+                            <field name="note"/>
+                        </group>
+                        <notebook>
+                            <page name="nhanvien" string="Nhân viên">
+                                <div id="o_work_employee_container">
+                                    <div id="o_work_employee_main">
+                                        <field name="employee">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="work_phone"/>
+                                                <field name="department_id"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="chi_phi_kho_view_tree" model="ir.ui.view">
+            <field name="name">chi.phikho.tree</field>
+            <field name="model">chi.phikho</field>
+            <field name="arch" type="xml">
+                <tree string="Chi phí vận hành kho / tháng">
+                    <field name="stock"/>
+                    <field name="thue_matbang"/>
+                    <field name="tien_dien"/>
+                    <field name="tien_nuoc"/>
+                    <field name="tien_internet"/>
+                    <field name="chi_phi_khac"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_chiphikho" model="ir.actions.act_window">
+            <field name="name">Chi phí kho</field>
+            <field name="res_model">chi.phikho</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_chiphikho" name="Chi phí kho" parent="stock.menu_stock_root" sequence="6"
+                  groups="custom_b2c.group_ql"/>
+        <menuitem id="sub_chiphikho" name="Danh sách" parent="menu_chiphikho" sequence="6"
+                  action="action_view_chiphikho" groups="custom_b2c.group_ql"/>
+    </data>
+</odoo>

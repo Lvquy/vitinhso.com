@@ -1,0 +1,20 @@
+<odoo>
+    <record id="product_product_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name="warranty"/>
+            </xpath>
+            <xpath expr="//field[@name='standard_price']" position="replace">
+                <field name="standard_price" widget='monetary'
+                       options="{'currency_field': 'cost_currency_id', 'field_digits': True}"
+                       groups="custom_b2c.group_ql,base.group_system"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

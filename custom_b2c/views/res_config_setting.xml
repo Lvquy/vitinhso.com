@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.stock</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="10"/>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='product_attributes']" position="before">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <!--                            <field name="hide_cost"/>-->
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <!--                            <label for="hide_cost"/>-->
+                            <div class="text-muted">
+                                Tích check để ẩn giá vốn
+                            </div>
+                        </div>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>
+
+

@@ -1,0 +1,77 @@
+<odoo>
+    <record id="customer_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page/group/group/field[@name='user_id']" position="replace">
+                <!--                    remove user_id default-->
+            </xpath>
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                </header>
+                <div class="alert alert-info text-center o_form_header" role="alert"
+                     attrs="{'invisible':[('is_cskh', '=', False)]}">
+                    <a class="close" data-dismiss="alert" href="#">x</a>
+                    <div>
+                        <strong>Đã tới ngày chăm sóc khách hàng này</strong>
+                    </div>
+                    <div>
+                        <field name="name" readonly="1"/>
+                    </div>
+                </div>
+                <br/>
+            </xpath>
+            <field name="function" position="before">
+                <field name="reward_points"/>
+                <field name="date_cs_min"/>
+                <field name="date_cs_max"/>
+                <field name="is_cskh" invisible="1"/>
+                <field name="nv_cs"/>
+                <field name="status_cs"/>
+            </field>
+            <page name="internal_notes" position="after">
+                <page name="user_login" string="Tài khoản hệ thống">
+                    <group>
+                        <group>
+                            <field name="user_id" string="Tài khoản hệ thống" domain="[('share', '=', False)]"
+                                   options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
+                        </group>
+                        <button name="create_user_profile" type="object" string="Tạo tài khoản hệ thống"
+                                class="btn btn-primary"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="res_partner_view_tree_inherit_status_cs" model="ir.ui.view">
+        <field name="name">res.partner.view.tree.inherit.mail</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="decoration-danger">is_cskh==True</attribute>
+                <attribute name="decoration-success">is_cskh==False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="is_cskh" optional="show"/>
+                <field name="status_cs" optional="show"/>
+                <field name="date_cs_max" optional="show"/>
+                <field name="date_cs_min" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">res.partner.kanban.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_kanban_partner_categories')]" position="inside">
+                <field name="status_cs"/>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

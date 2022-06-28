@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="dau_tu_view_form" model="ir.ui.view">
+            <field name="name">dau.tu.form</field>
+            <field name="model">dau.tu</field>
+            <field name="arch" type="xml">
+                <form string="Đầu tư">
+                    <header>
+                        <button name="action_1" string="Xác nhận" type="object" groups="custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('1','2','3'))]}"/>
+                        <button name="action_2" string="Đóng kêu gọi" type="object" groups="custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('0','2','3'))]}"/>
+                        <button name="action_3" string="Hoàn thành" type="object" groups="custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('0','1','3'))]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2,3"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="code_dautu"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <field name="catg_dautu" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <field name="start_date" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <field name="close_date" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <field name="done_date" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                            </group>
+                            <group>
+                                <field name="thoi_han" attrs="{'readonly':[('state', 'in', ('3'))]}"/>
+                                <field name="lai_suat" attrs="{'readonly':[('state', 'in', ('3'))]}"/>
+                            </group>
+                            <group>
+                                <button name="joined" type="object" string="Tham gia đầu tư" class="btn btn-success"
+                                        groups="custom_b2c.user_profile"
+                                        attrs="{'invisible':[('state', 'in', ('0','2','3'))]}"/>
+                                <button name="cancel_join" type="object" string="Hủy đầu tư" class="btn btn-warning"
+                                        groups="custom_b2c.user_profile"
+                                        attrs="{'invisible':[('state', 'in', ('0','2','3'))]}"/>
+                            </group>
+                            <group>
+                                <field name="total_cp" class="text-danger font-weight-bold"/>
+                                <field name="gia_tri"/>
+                                <field name="to_usd" attrs="{'readonly':[('state', 'in', ('2','3'))]}"/>
+                                <field name="gia_trungbinh" class="text-success font-weight-bold"/>
+                                <field name="gia_ban" class="text-primary font-weight-bold"/>
+                                <field name="lai_lo" class="custom"/>
+                                <field name="so_tien_lai"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="shareholder" string="Người tham gia đầu tư">
+                                <field name="share_holder" readonly="1"/>
+                            </page>
+                            <page name="line_dautu" string="Chi tiết lệnh">
+                                <field name="lenh_dautu"/>
+                            </page>
+                            <page name="chung_tu" string="Chứng từ liên quan">
+                                <field name="chung_tu"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <!--<field name="activity_ids"/>-->
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="dau_tu_view_tree" model="ir.ui.view">
+            <field name="name">dau.tu.tree</field>
+            <field name="model">dau.tu</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách các gói đầu tư">
+                    <field name="code_dautu" optional="show"/>
+                    <field name="name" optional="show"/>
+                    <field name="catg_dautu" optional="show"/>
+                    <field name="lai_suat" optional="show"/>
+                    <field name="state" optional="show"/>
+                    <field name="thoi_han" optional="hide"/>
+                    <field name="start_date" optional="hide"/>
+                    <field name="done_date" optional="hide"/>
+                    <field name="close_date" optional="hide"/>
+                    <field name="total_cp" optional="hide"/>
+                    <field name="gia_tri" optional="hide"/>
+                    <field name="lai_lo" optional="hide"/>
+                    <field name="so_tien_lai" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_dautu" model="ir.actions.act_window">
+            <field name="name">Đầu tư</field>
+            <field name="res_model">dau.tu</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="sub_dautu" name="Đầu tư" parent="custom_b2c.menu_cophan" action="action_view_dautu"
+                  sequence="4" groups="custom_b2c.group_ql,custom_b2c.user_profile"/>
+
+
+        <!--        line đầu tư -->
+        <record id="line_dau_tu_view_tree" model="ir.ui.view">
+            <field name="name">line.dautu.tree</field>
+            <field name="model">line.dautu</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách người đầu tư" editable="bottom">
+                    <field name="share_holder"/>
+                    <field name="sl_dautu" sum="Tổng cổ phần"/>
+                    <field name="cp2_vnd"/>
+                    <field name="lai_cp"/>
+                    <field name="join_date"/>
+                </tree>
+            </field>
+        </record>
+        <!--        form line đầu tư-->
+        <record id="line_dau_tu_view_form" model="ir.ui.view">
+            <field name="name">line.dautu.form</field>
+            <field name="model">line.dautu</field>
+            <field name="arch" type="xml">
+                <form string="Người Đầu tư">
+                    <header>
+                        <button name="confirm" string="Xác nhận" type="object"
+                                groups="custom_b2c.group_ql,custom_b2c.user_profile"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sl_dautu"/>
+                            </group>
+                        </group>
+                        <footer>
+
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--        line log dau tu-->
+        <record id="line_log_view_form" model="ir.ui.view">
+            <field name="name">line.log.form</field>
+            <field name="model">line.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="img" style="width: 200px; height: auto"
+                                   widget="image" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                            <field name="so_tien" readonly="1"/>
+                            <field name="gia_mua" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                            <field name="so_luong" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="line_log_view_tree" model="ir.ui.view">
+            <field name="name">line.log.tree</field>
+            <field name="model">line.log</field>
+            <field name="arch" type="xml">
+                <tree string="Lệnh đầu tư" delete="true">
+                    <field name="img" widget="image" class="oe_avatar"/>
+                    <field name="date"/>
+                    <field name="so_tien" sum="Tổng số tiền"/>
+                    <field name="so_luong" sum='Tổng số lượng'/>
+                    <field name="gia_mua" sum="Tổng số tiền"/>
+                    <field name="state"/>
+                    <button name="confirm" string="Xác nhận" type="object"
+                            attrs="{'invisible':[('state', 'in', ('1','2'))]}"/>
+                    <button name="cancel" string="Hủy" type="object"
+                            attrs="{'invisible':[('state', 'in', ('1','2'))]}"/>
+
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

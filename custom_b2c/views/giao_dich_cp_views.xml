@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="gd_co_phan_view_form" model="ir.ui.view">
+            <field name="name">giaodich.cp.form</field>
+            <field name="model">giaodich.cp</field>
+            <field name="arch" type="xml">
+                <form string="Giao dịch cổ phần">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2,3,4,5"/>
+                        <button name="action_sale" string="Xác nhận" type="object"
+                                attrs="{'invisible':[('state', 'in', ('1','2','3','4','5'))]}"/>
+                        <button name="action_tras_true" string="XN giao dịch thành công" type="object"
+                                attrs="{'invisible':[('state', 'in', ('0','1','3','4','5'))]}"
+                                groups="base.group_system"/>
+                        <button name="action_tras_false" string="XN giao dịch thất bại" type="object"
+                                attrs="{'invisible':[('state', 'in', ('0','1','3','4','5'))]}"
+                                groups="base.group_system"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="code"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="user_create"/>
+                                <field name="create_date"/>
+                                <field name="tras_date"/>
+                            </group>
+                            <group>
+                                <field name="type_gd"/>
+                                <field name="cus_order" attrs="{'invisible':[('type_gd', '=', 'purchase')]}"/>
+                                <field name="pur_order" attrs="{'invisible':[('type_gd', '=', 'sale')]}"/>
+                                <field name="user_confirm"/>
+
+                            </group>
+                            <group string="Details">
+                                <field name="price_unit" attrs="{'readonly':[('state', 'in', ('1','2','3','4','5'))]}"/>
+                                <field name="qty" attrs="{'readonly':[('state', 'in', ('1','2','3','4','5'))]}"/>
+                                <field name="price_total" />
+                                <field name="phi_giao_dich"/>
+                                <field name="total_bill"/>
+                            </group>
+                            <group string="Thông tin thanh toán">
+                                <div class="o_row">
+                                    <span class="bold">Số tiền cần thanh toán(vnđ):</span>
+                                    <field name="total_bill"/>
+                                </div>
+                                <div class="o_row">
+                                    <span class="bold">Thanh toán với nội dung là :</span>
+                                    <field name="code"/>
+                                </div>
+                                <field name="bank_user"/>
+                                <field name="bank_name"/>
+                                <field name="bank_num"/>
+
+                            </group>
+                        </group>
+                        <group>
+                            <button name="action_confirm_sale" string="Chấp nhận giao dịch" type="object"
+                                    attrs="{'invisible':[('state', 'in', ('0','2','3','4','5'))]}"
+                                    class="btn btn-success"/>
+                            <button name="action_cancel" string="Hủy giao dịch" type="object"
+                                    attrs="{'invisible':[('state', 'in', ('2','3','4','5'))]}" class="btn btn-danger"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Chứng từ giao dịch">
+                                <field name="chung_tu" widget="image" attrs="{'readonly':[('state', 'in', ('3','4','5'))]}"/>
+                            </page>
+                        </notebook>
+                        <field name="note" placeholder="Note"/>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <!--                    <field name="activity_ids"/>-->
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="gd_co_phan_view_tree" model="ir.ui.view">
+            <field name="name">giaodich.cp.tree</field>
+            <field name="model">giaodich.cp</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách giao dịch cổ phần" decoration-danger="type_gd=='sale'" decoration-success="type_gd=='purchase'" >
+                    <field name="code" />
+                    <field name="create_date"/>
+                    <field name="user_create"/>
+                    <field name="cus_order"/>
+                    <field name="pur_order"/>
+                    <field name="price_total" sum="Tổng" class="font-weight-bold"/>
+                    <field name="phi_giao_dich" sum="Tổng" class="font-weight-bold"/>
+                    <field name="total_bill" sum="Tổng" class="font-weight-bold"/>
+                    <field name="state"/>
+                    <field name="type_gd"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_gdcophan" model="ir.actions.act_window">
+            <field name="name">Giao dịch cổ phần</field>
+            <field name="res_model">giaodich.cp</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="gd_cophan" name="Giao dịch" parent="menu_cophan" action="action_view_gdcophan"
+                  sequence="3" groups="custom_b2c.group_ql,custom_b2c.user_profile"/>
+    </data>
+</odoo>

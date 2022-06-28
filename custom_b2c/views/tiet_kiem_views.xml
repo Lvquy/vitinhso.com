@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="tiet_kiem_view_form" model="ir.ui.view">
+            <field name="name">tiet.kiem.form</field>
+            <field name="model">tiet.kiem</field>
+            <field name="arch" type="xml">
+                <form string="Gửi tiết kiệm cổ phần">
+                    <header>
+                        <button name="action_1" string="Xác nhận" type="object"
+                                groups="custom_b2c.group_ql,custom_b2c.user_profile"
+                                attrs="{'invisible':[('state', 'in', ('1','2','3'))]}"/>
+                        <button name="action_2" string="Thanh toán hợp đồng" type="object"
+                                groups="custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('0','2','3'))]}"/>
+                        <button name="action_3" string="Huỷ" type="object"
+                                groups="custom_b2c.group_ql,custom_b2c.user_profile"
+                                attrs="{'invisible':[('state', 'in', ('0','1','2'))]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2,3"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="code"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="user_tk"/>
+                                <field name="ky_han" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+
+                                <field name="start_date" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <field name="end_date" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                            </group>
+                            <group>
+                                <field name="sl_cophan" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <field name="lai_suat"/>
+                                <field name="gia_cp"/>
+                                <field name="thanh_vnd"/>
+                                <field name="cp_lai"/>
+                            </group>
+                        </group>
+                        <field name="note"/>
+                        <notebook>
+                            <page string="Nhật ký trả lãi">
+                                <field name="log_tra_lai">
+                                    <tree create="false" delete="false">
+                                        <field name="ngay_tra"/>
+                                        <field name="cp_lai" sum="Tổng"/>
+                                        <field name="nguoi_thu_huong"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <!--<field name="activity_ids"/>-->
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="tiet_kiem_view_tree" model="ir.ui.view">
+            <field name="name">tiet.kiem.tree</field>
+            <field name="model">tiet.kiem</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách">
+                    <field name="code" optional="show"/>
+                    <field name="user_tk" optional="show"/>
+                    <field name="ky_han" optional="show"/>
+                    <field name="lai_suat" optional="show"/>
+                    <field name="sl_cophan" optional="show"/>
+                    <field name="gia_cp" optional="hide"/>
+                    <field name="cp_lai" optional="show"/>
+                    <field name="thanh_vnd" optional="hide"/>
+                    <field name="start_date" optional="show"/>
+                    <field name="end_date" optional="show" widget="date"/>
+                    <field name="state" optional="show" decoration-info="state=='1'" decoration-success="state=='2'"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_tietkiem" model="ir.actions.act_window">
+            <field name="name">Tiết kiệm</field>
+            <field name="res_model">tiet.kiem</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+        <record id="action_view_tietkiem_admin" model="ir.actions.act_window">
+            <field name="name">Admin - Tiết kiệm</field>
+            <field name="res_model">tiet.kiem</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="sub_tietkiem" name="Tiết kiệm" parent="custom_b2c.menu_cophan" action="action_view_tietkiem"
+                  sequence="6" groups="custom_b2c.group_ql,custom_b2c.user_profile"/>
+        <menuitem id="sub_tietkiem_admin" name="Admin - tiết kiệm" parent="custom_b2c.menu_cophan" action="action_view_tietkiem_admin"
+                  sequence="6" groups="custom_b2c.group_ql"/>
+
+        <!--        setting-->
+        <record id="res_config_settings_view_form_tkiem" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.tiet.kiem</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="10"/>
+            <field name="inherit_id" ref="custom_b2c.res_config_settings_view_form_cp"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('custom')]" position="after">
+                    <h2>Cài đặt % phí giao dịch cổ phần</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="phi_giao_dich"/>
+                                <field name="phi_giao_dich"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h2>Cài đặt % lãi suất gửi tiết kiệm</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="lai_tk_1"/>
+                                <field name="lai_tk_1"/>
+                                <label for="lai_tk_3"/>
+                                <field name="lai_tk_3"/>
+                                <label for="lai_tk_6"/>
+                                <field name="lai_tk_6"/>
+                                <label for="lai_tk_12"/>
+                                <field name="lai_tk_12"/>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="lai_tk_18"/>
+                                <field name="lai_tk_18"/>
+                                <label for="lai_tk_24"/>
+                                <field name="lai_tk_24"/>
+                                <label for="lai_tk_36"/>
+                                <field name="lai_tk_36"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+
+                            <div class="o_setting_left_pane">
+                                <field name="doi_cp"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Cho phép đổi cổ phần</span>
+                                <div class="text-muted">
+                                    Cho phép đổi điểm thưởng lấy cổ phần công ty
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        line tra lai-->
+        <record id="line_tralai_view_form" model="ir.ui.view">
+            <field name="name">line.tralai.form</field>
+            <field name="model">line.tralai</field>
+            <field name="arch" type="xml">
+                <form string="Trả lãi cổ phần">
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        </header>
+                        <group>
+                            <field name="ngay_tra"/>
+                            <field name="cp_lai"/>
+                            <field name="nguoi_thu_huong"/>
+
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

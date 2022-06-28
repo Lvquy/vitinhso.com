@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--        nap rut tien-->
+
+        <record id="nr_tien_view_form" model="ir.ui.view">
+            <field name="name">nap.rut.tien.form</field>
+            <field name="model">nap.rut.tien</field>
+            <field name="arch" type="xml">
+                <form string="Nạp/Rút tiền">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,otp,1,2,3"/>
+                        <button name="send_otp" string="Lấy mã OTP" type="object"
+                                attrs="{'invisible':[('state', 'in', ('1','2','3'))]}"/>
+                        <button name="confirm" string="Xác nhân" type="object"
+                                attrs="{'invisible':[('state', 'in', ('0','1','2','3'))]}"/>
+                        <button name="done" string="Giao dịch thành công" groups="base.group_system,custom_b2c.group_ql"
+                                type="object" attrs="{'invisible':[('state', 'in', ('0','otp','2','3'))]}"/>
+                        <button name="cancel" string="Hủy" groups="base.group_system,custom_b2c.group_ql"
+                                type="object" attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
+                        <button name="get_self" string="Lấy tài khoản của tôi"
+                                type="object" class="btn btn-success"
+                                attrs="{'invisible':[('state', 'in', ('1','2','3'))]}"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="code"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="type_phieu" attrs="{'readonly':[('state', 'in', ('otp','1','2','3'))]}"/>
+                                <field name="account" widget="selection" force_save="1"
+                                       attrs="{'readonly':['|',('state','in',('otp','1','2','3')),('type_phieu', '=', 'rut')]}"/>
+                                <field name="self_account"/>
+                                <field name="wallet"/>
+                                <field name="sotien" attrs="{'readonly':[('state', 'in', ('otp','1','2','3'))]}"/>
+                                <field name="create_date" attrs="{'readonly':[('state', 'in', ('otp','1','2','3'))]}"/>
+                                <field name="otp" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                            </group>
+                            <group>
+                                <field name="note"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="chungtu" string="Hình ảnh chứng từ">
+                                <field name="chung_tu" widget="image"
+                                       attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="nap_rut_tien_view_tree" model="ir.ui.view">
+            <field name="name">nap.rut.tien.tree</field>
+            <field name="model">nap.rut.tien</field>
+            <field name="arch" type="xml">
+                <tree string="Nạp rút tiền">
+                    <field name="code" optional="show"/>
+                    <field name="account" optional="show"/>
+                    <field name="wallet" optional="show"/>
+                    <field name="sotien" optional="show" sum="Total"/>
+                    <field name="create_date" optional="show"/>
+                    <field name="type_phieu" optional="show"/>
+                    <field name="state" optional="show"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_napruttien" model="ir.actions.act_window">
+            <field name="name">Nạp rút tiền</field>
+            <field name="res_model">nap.rut.tien</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <!-- action view admin-->
+        <record id="action_view_napruttien_admin" model="ir.actions.act_window">
+            <field name="name">Nạp rút tiền</field>
+            <field name="res_model">nap.rut.tien</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+<!--        trans.points-->
+        <record id="trans_points_view_form" model="ir.ui.view">
+            <field name="name">trans.points.form</field>
+            <field name="model">trans.points</field>
+            <field name="arch" type="xml">
+                <form string="Chuyển điểm">
+                    <header>
+                            <field name="state" widget="statusbar" statusbar_visible="0,otp,1"/>
+                            <button name="send_otp" string="Lấy mã OTP" type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                            <button name="confirm" string="Xác nhận" type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                        </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_create" attrs="{'readonly':[('state', 'in', ('1','otp'))]}"/>
+                                <field name="account_thu_huong" attrs="{'readonly':[('state', 'in', ('1','otp'))]}"/>
+                                <field name="wallet"/>
+                                <field name="account_self"/>
+                                <field name="qty_points" attrs="{'readonly':[('state', 'in', ('1','otp'))]}"/>
+                                <field name="otp" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                            </group>
+                            <group>
+                                <field name="note"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trans_points_view_tree" model="ir.ui.view">
+            <field name="name">trans.points.tree</field>
+            <field name="model">trans.points</field>
+            <field name="arch" type="xml">
+                <tree string="Chuyển điểm">
+                    <field name="date_create" optional="show"/>
+                    <field name="account_self" optional="show"/>
+                    <field name="wallet" optional="show"/>
+                    <field name="account_thu_huong" optional="show"/>
+                    <field name="qty_points" optional="show"/>
+                    <field name="state" optional="show"/>
+                    <field name="otp" optional="hide"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_trans_points_admin" model="ir.actions.act_window">
+            <field name="name">Chuyển điểm</field>
+            <field name="res_model">trans.points</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_trans_points_user" model="ir.actions.act_window">
+            <field name="name">Chuyển điểm</field>
+            <field name="res_model">trans.points</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <!--        trans.wallet-->
+        <record id="trans_wallet_view_form" model="ir.ui.view">
+            <field name="name">trans.wallet.form</field>
+            <field name="model">trans.wallet</field>
+            <field name="arch" type="xml">
+                <form string="Chuyển tiền">
+                    <header>
+                            <field name="state" widget="statusbar" statusbar_visible="0,otp,1"/>
+                            <button name="send_otp" string="Lấy mã OTP" type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                            <button name="confirm" string="Xác nhận" type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                        </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_create" attrs="{'readonly':[('state', 'in', ('1','otp'))]}"/>
+                                <field name="account_thu_huong" attrs="{'readonly':[('state', 'in', ('1','otp'))]}"/>
+                                <field name="wallet"/>
+                                <field name="account_self"/>
+                                <field name="qty_wallet" attrs="{'readonly':[('state', 'in', ('1','otp'))]}"/>
+                                <field name="otp" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                            </group>
+                            <group>
+                                <field name="note"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="trans_wallet_view_tree" model="ir.ui.view">
+            <field name="name">trans.wallet.tree</field>
+            <field name="model">trans.wallet</field>
+            <field name="arch" type="xml">
+                <tree string="Chuyển tiền">
+                    <field name="date_create" optional="show"/>
+                    <field name="account_self" optional="show"/>
+                    <field name="wallet" optional="show"/>
+                    <field name="account_thu_huong" optional="show"/>
+                    <field name="qty_wallet" optional="show"/>
+                    <field name="state" optional="show"/>
+                    <field name="otp" optional="hide"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_trans_wallet_admin" model="ir.actions.act_window">
+            <field name="name">Tất cả DS Chuyển tiền</field>
+            <field name="res_model">trans.wallet</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_trans_wallet_user" model="ir.actions.act_window">
+            <field name="name">User Chuyển tiền</field>
+            <field name="res_model">trans.wallet</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_trans_diem" name="Chuyển điểm" groups="custom_b2c.user_profile,base.group_system,custom_b2c.group_ql"
+                  parent="menu_user_profile" />
+
+        <menuitem id="menu_trans_tien" name="Nạp rút tiền" groups="custom_b2c.user_profile,base.group_system,custom_b2c.group_ql"
+                  parent="menu_user_profile" />
+
+        <menuitem id="menu_trans_wallet" name="Chuyển tiền" groups="custom_b2c.user_profile,base.group_system,custom_b2c.group_ql"
+                  parent="menu_user_profile" />
+
+        <menuitem id="menu_napruttien" name="Nạp Rút Tiền" groups="custom_b2c.user_profile"
+                  action="action_view_napruttien" parent="menu_trans_tien"/>
+
+        <menuitem id="menu_napruttien_admin" name="Danh sách tất cả Nạp Rút Tiền"
+                  groups="base.group_system,custom_b2c.group_ql"
+                  action="action_view_napruttien_admin" parent="menu_trans_tien"/>
+
+        <menuitem id="menu_chuyen_diem_admin" name="Tất cả DS Chuyển điểm"
+                  groups="base.group_system,custom_b2c.group_ql"
+                  action="action_view_trans_points_admin" parent="menu_trans_diem"/>
+        <menuitem id="menu_chuyen_diem_user" name="User Chuyển điểm"
+                  groups="custom_b2c.user_profile"
+                  action="action_view_trans_points_user" parent="menu_trans_diem"/>
+
+        <menuitem id="menu_chuyen_tien_user" name="User Chuyển tiền"
+                  groups="custom_b2c.user_profile"
+                  action="action_view_trans_wallet_user" parent="menu_trans_wallet"/>
+
+        <menuitem id="menu_chuyen_tien_admin" name="Tất cả DS Chuyển tiền"
+                  groups="base.group_system,custom_b2c.group_ql"
+                  action="action_view_trans_wallet_admin" parent="menu_trans_wallet"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+.custom{
+    color:blue;
+    font-weight: bold;
+
+}
+
+.custom:hover{
+    color:red;
+}
+
+.bold{
+    color:red;
+    font-weight: bold;
+}

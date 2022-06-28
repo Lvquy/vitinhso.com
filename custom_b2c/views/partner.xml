@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="partner_view_form" model="ir.ui.view">
+            <field name="name">partner.form</field>
+            <field name="model">partner</field>
+            <field name="arch" type="xml">
+                <form string="Đối tác">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm" string="Xác nhận" type="object"
+                                attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                    </header>
+                    <sheet>
+                        <field name="img" widget="image" class="oe_avatar"
+                               attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                        <group>
+                            <group>
+                                <field name="date_create" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="name" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="add" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="mobile" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="tong_diem" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            </group>
+
+                            <group>
+                                <field name="discount_partner" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="discount_cus" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="discount_adm" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="order" string="Đơn hàng">
+                                <field name="order_line"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="partner_view_tree" model="ir.ui.view">
+            <field name="name">partner.tree</field>
+            <field name="model">partner</field>
+            <field name="arch" type="xml">
+                <tree string="Cửa hàng đối tác" decoration-danger="state=='0'"
+                      decoration-success="state=='1'">
+                    <field name="date_create" optional="hide"/>
+                    <field name="name" optional="show"/>
+                    <field name="add" optional="show"/>
+                    <field name="mobile" optional="show"/>
+                    <field name="tong_diem" optional="show" sum="Total"/>
+                    <field name="state" optional="show"/>
+                    <field name="discount_partner" optional="hide"/>
+                    <field name="discount_cus" optional="hide"/>
+                    <field name="discount_adm" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_partner" model="ir.actions.act_window">
+            <field name="name">Đối tác cửa hàng</field>
+            <field name="res_model">partner</field>
+            <field name="view_mode">tree,form</field>
+            <!--            <field name="domain">[('create_uid', '=', uid)]</field>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_partner" name="Đối tác" sequence="1"
+                  web_icon="custom_b2c,static/src/img/partner.png"
+                  groups="custom_b2c.group_ql,custom_b2c.group_partner"/>
+        <menuitem id="sub_partner" name="Danh sách đối tác" parent="menu_partner"
+                  action="action_view_partner"
+                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_partner"/>
+
+        <!--        order.partner-->
+        <record id="order_partner_view_form" model="ir.ui.view">
+            <field name="name">order.partner.form</field>
+            <field name="model">order.partner</field>
+            <field name="arch" type="xml">
+                <form string="Đơn hàng">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm_order" string="Xác nhận" type="object"
+                                attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner"/>
+                                <field name="date_order" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="total" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="cus_name" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="cus_mobile" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="note" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="order_partner_view_tree" model="ir.ui.view">
+            <field name="name">order.partner.tree</field>
+            <field name="model">order.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách đơn hàng" decoration-danger="state=='0'" decoration-success="state=='1'">
+                    <field name="partner" optional="show"/>
+                    <field name="total" optional="show" sum="Total"/>
+                    <field name="cus_name" optional="show"/>
+                    <field name="cus_mobile" optional="show"/>
+                    <field name="date_order" optional="show"/>
+                    <field name="state" optional="show"/>
+                    <field name="note" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_order_partner" model="ir.actions.act_window">
+            <field name="name">Danh sách đơn hàng</field>
+            <field name="res_model">order.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="sub_order_partner" name="Danh sách đơn hàng" parent="menu_partner"
+                  action="action_view_order_partner"
+                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_partner"/>
+    </data>
+</odoo>

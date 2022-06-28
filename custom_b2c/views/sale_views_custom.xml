@@ -1,0 +1,46 @@
+<odoo>
+    <record id="res_config_settings_view_form_points" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.points</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="custom_b2c.res_config_settings_view_form_cp"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('custom')]" position="after">
+                <h2>Cài đặt % điểm thưởng cho khách hàng</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <label for="discount"/>
+                            <field name="discount"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <h6>Chỉ thay đổi khi tất cả các đơn hàng đã được thanh toán!</h6>
+                        </div>
+                    </div>
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_sale_config_settings_point" model="ir.actions.act_window">
+        <field name="name">Settings Point</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form_points"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'custom_b2c', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="menu_sale_general_settings_point"
+              name="Cài đặt % thưởng cho khách hàng"
+              parent="sale.menu_sale_config"
+              sequence="0"
+              action="action_sale_config_settings_point"
+    />
+
+
+</odoo>

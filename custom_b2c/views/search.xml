@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    thi công search-->
+    <record id="view_search_thicong" model="ir.ui.view">
+        <field name="name">thi.cong.search</field>
+        <field name="model">thi.cong</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Thi Cong">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="truong_nhom"/>
+                <field name="ma_phieu"/>
+                <filter string="Đã hoàn thành" name="hoanthanh" domain="[('state','=','2')]"/>
+                <filter string="Đã xác nhận" name="xacnhan" domain="[('state','=','1')]"/>
+                <filter string="Nháp" name="nhap" domain="[('state','=','0')]"/>
+                <filter string="Đã Hủy" name="huy" domain="[('state','=','3')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Trưởng nhóm " name="salesperson" domain="[]" context="{'group_by': 'truong_nhom'}"/>
+                    <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Danh mục" name="catg" domain="[]" context="{'group_by': 'ctag_thicong'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--    tài sản search-->
+    <record id="view_search_taisan" model="ir.ui.view">
+        <field name="name">tai.san.search</field>
+        <field name="model">tai.san</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Tài sản">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="id_taisan"/>
+                <field name="of_user"/>
+                <field name="of_user"/>
+                <filter string="Đang sử dụng" name="dangsd" domain="[('status','=','1')]"/>
+                <filter string="Chưa có người bảo quản" name="no_sl" domain="[('status','=','0')]"/>
+                <filter string="Đã hủy" name="huy" domain="[('status','=','2')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Người bảo quản" name="of_user" domain="[]" context="{'group_by': 'of_user'}"/>
+                    <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--    ngay.nghi search-->
+    <record id="view_search_ngaynghi" model="ir.ui.view">
+        <field name="name">ngay.nghi.search</field>
+        <field name="model">ngay.nghi</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search ngay nghi">
+                <field name="ma_phieu"/>
+                <field name="nhanvien"/>
+                <field name="ngay_viet_don"/>
+                <field name="ngay_xin_nghi"/>
+                <field name="nghi_toi_ngay"/>
+                <field name="state"/>
+                <filter string="Mới tạo" name="new" domain="[('state','=','0')]"/>
+                <filter string="Cho nghỉ" name="chonghi" domain="[('state','=','1')]"/>
+                <filter string="Không cho nghỉ" name="ochonghi" domain="[('state','=','2')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Nhân viên" name="of_user" domain="[]" context="{'group_by': 'nhanvien'}"/>
+                    <filter string="Trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--    report.b2c search-->
+    <record id="view_search_report_b2c" model="ir.ui.view">
+        <field name="name">report.b2c.search</field>
+        <field name="model">report.b2c</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search report b2c">
+                <field name="cost_total"/>
+                <field name="ln_total"/>
+                <field name="ln_dautu"/>
+                <field name="ln_phi_giao_dich_cp"/>
+                <field name="ln_thi_cong"/>
+                <field name="ln_sale"/>
+                <field name="date_update"/>
+                <group expand="0" string="Group By">
+                    <filter string="Theo ngày" name="date_update" domain="[]" context="{'group_by': 'date_update'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--    co.phan search-->
+    <record id="view_search_cophan" model="ir.ui.view">
+        <field name="name">co.phan.search</field>
+        <field name="model">co.phan</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search co phan">
+                <field name="id_cp"/>
+                <field name="status"/>
+                <field name="create_date"/>
+                <field name="of_user"/>
+                <field name="of_create"/>
+                <filter string="Thuộc Cty" name="new" domain="[('status','=','0')]"/>
+                <filter string="Đang sẵn sàng" name="1" domain="[('status','=','1')]"/>
+                <filter string="Đang đầu tư" name="2" domain="[('status','=','2')]"/>
+                <filter string="Đang tiết kiệm" name="3" domain="[('status','=','3')]"/>
+                <filter string="Đang khóa" name="4" domain="[('status','=','4')]"/>
+                <filter string="Đã hủy" name="5" domain="[('status','=','5')]"/>
+                <filter string="Đang chờ" name="6" domain="[('status','=','6')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Theo trạng thái" name="status" domain="[]" context="{'group_by': 'status'}"/>
+                    <filter string="Theo người sở hữu" name="status" domain="[]" context="{'group_by': 'of_user'}"/>
+                    <filter string="Theo đợt phát hành" name="of_create" domain="[]" context="{'group_by': 'of_create'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--   phat.cp search-->
+    <record id="view_search_phatcp" model="ir.ui.view">
+        <field name="name">phat.cp.search</field>
+        <field name="model">phat.cp</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search phat cp">
+                <field name="name"/>
+                <field name="create_date"/>
+                <field name="so_luong_cp"/>
+                <field name="state"/>
+                <field name="user_create"/>
+                <filter string="Bản nháp" name="0" domain="[('state','=','0')]"/>
+                <filter string="Đã xác nhận" name="1" domain="[('state','=','1')]"/>
+                <filter string="Đã hủy" name="2" domain="[('state','=','2')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Theo trạng thái" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Theo người phát hành" name="of_create" domain="[]" context="{'group_by': 'user_create'}"/>
+                    <filter string="Theo ngày phát hành" name="create_date" domain="[]" context="{'group_by': 'create_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--   giaodich.cp search-->
+    <record id="view_search_giaodichcp" model="ir.ui.view">
+        <field name="name">giaodich.cp.search</field>
+        <field name="model">giaodich.cp</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search giao dịch">
+                <field name="code"/>
+                <field name="state"/>
+                <field name="create_date"/>
+                <field name="tras_date"/>
+                <field name="user_create"/>
+                <field name="user_confirm"/>
+                <field name="price_unit"/>
+                <field name="price_total"/>
+                <field name="qty"/>
+                <field name="cus_order"/>
+                <field name="total_bill"/>
+                <field name="type_gd"/>
+
+                <filter string="Lệnh bán" name="sale" domain="[('type_gd','=','sale')]"/>
+                <filter string="Lệnh mua" name="purchase" domain="[('type_gd','=','purchase')]"/>
+                <filter string="Bản nháp" name="0" domain="[('state','=','0')]"/>
+                <filter string="Đang bán" name="1" domain="[('state','=','1')]"/>
+                <filter string="Đang giao dịch" name="2" domain="[('state','=','2')]"/>
+                <filter string="GD thành công" name="3" domain="[('state','=','3')]"/>
+                <filter string="GD thất bại" name="4" domain="[('state','=','4')]"/>
+                <filter string="Đã hủy" name="5" domain="[('state','=','5')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Theo kiểu lệnh" name="type_gd" domain="[]" context="{'group_by': 'type_gd'}"/>
+                    <filter string="Theo trạng thái" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Theo người mua" name="cus_order" domain="[]" context="{'group_by': 'cus_order'}"/>
+                    <filter string="Theo người bán" name="user_create" domain="[]" context="{'group_by': 'user_create'}"/>
+                    <filter string="Theo người bảo lãnh" name="user_confirm" domain="[]" context="{'group_by': 'user_confirm'}"/>
+                    <filter string="Theo ngày tạo lệnh" name="create_date" domain="[]" context="{'group_by': 'create_date'}"/>
+                    <filter string="Theo ngày giao dịch" name="tras_date" domain="[]" context="{'group_by': 'tras_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!--   dau.tu search-->
+    <record id="view_search_dautu" model="ir.ui.view">
+        <field name="name">dau.tu.search</field>
+        <field name="model">dau.tu</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search dau tu">
+                <field name="name"/>
+                <field name="thoi_han"/>
+                <field name="start_date"/>
+                <field name="close_date"/>
+                <field name="done_date"/>
+                <field name="lai_suat"/>
+                <field name="code_dautu"/>
+                <field name="state"/>
+                <field name="share_holder"/>
+                <field name="catg_dautu"/>
+                <field name="lai_lo"/>
+                <field name="so_tien_lai"/>
+
+                <filter string="Bản nháp" name="0" domain="[('state','=','0')]"/>
+                <filter string="Đang nhận cổ đông" name="1" domain="[('state','=','1')]"/>
+                <filter string="Đã đóng (Đang đầu tư)" name="2" domain="[('state','=','2')]"/>
+                <filter string="Hoàn thành đầu tư" name="3" domain="[('state','=','3')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Theo thời hạn" name="thoi_han" domain="[]" context="{'group_by': 'thoi_han'}"/>
+                    <filter string="Theo ngày mở" name="start_date" domain="[]" context="{'group_by': 'start_date'}"/>
+                    <filter string="Theo ngày đóng" name="close_date" domain="[]" context="{'group_by': 'close_date'}"/>
+                    <filter string="Theo ngày hoàn thành" name="done_date" domain="[]" context="{'group_by': 'done_date'}"/>
+                    <filter string="Theo trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Theo danh mục" name="catg_dautu" domain="[]" context="{'group_by': 'catg_dautu'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+<!--   tiet.kiem search-->
+    <record id="view_search_tietkiem" model="ir.ui.view">
+        <field name="name">tiet.kiem.search</field>
+        <field name="model">tiet.kiem</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search dau tu">
+                <field name="code"/>
+                <field name="user_tk"/>
+                <field name="ky_han"/>
+                <field name="lai_suat"/>
+                <field name="sl_cophan"/>
+                <field name="state"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="cp_lai"/>
+
+                <filter string="Bản nháp" name="0" domain="[('state','=','0')]"/>
+                <filter string="Đang gửi" name="1" domain="[('state','=','1')]"/>
+                <filter string="Đã thanh toán hợp đồng" name="2" domain="[('state','=','2')]"/>
+                <filter string="Đã hủy" name="3" domain="[('state','=','3')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Theo người gửi" name="user_tk" domain="[]" context="{'group_by': 'user_tk'}"/>
+                    <filter string="Theo kỳ hạn" name="ky_han" domain="[]" context="{'group_by': 'ky_han'}"/>
+                    <filter string="Theo trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Theo ngày xác nhận gửi" name="start_date" domain="[]" context="{'group_by': 'start_date'}"/>
+                    <filter string="Theo ngày đáo hạn" name="end_date" domain="[]" context="{'group_by': 'end_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

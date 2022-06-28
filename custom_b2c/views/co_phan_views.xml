@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="co_phan_view_form" model="ir.ui.view">
+            <field name="name">co.phan.form</field>
+            <field name="model">co.phan</field>
+            <field name="arch" type="xml">
+                <form string="Danh sách cổ phần" create="false">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="0,1,2,3,4"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="id_cp"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="create_date"/>
+                                <field name="of_user"/>
+                                <field name="of_create"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="log_cp" string="History">
+                                <field name="log_history"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <!--<field name="activity_ids"/>-->
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="co_phan_view_tree" model="ir.ui.view">
+            <field name="name">co.phan.tree</field>
+            <field name="model">co.phan</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách cổ phần" create="false">
+                    <header>
+                    </header>
+                    <field name="id_cp"/>
+                    <field name="create_date"/>
+                    <field name="of_user"/>
+                    <field name="status"/>
+                    <field name="of_create"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_cophan" model="ir.actions.act_window">
+            <field name="name">Cổ phần</field>
+            <field name="res_model">co.phan</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <record id="mutil_create_view_form" model="ir.ui.view">
+            <field name="name">phat.cp.form</field>
+            <field name="model">phat.cp</field>
+            <field name="arch" type="xml">
+                <form string="Danh sách cổ phần">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
+                        <button name="confirm" string="Confirm" type="object"/>
+                        <button name="cancel" string="Cancel" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="so_luong_cp"/>
+                            <field name="create_date"/>
+                            <field name="user_create"/>
+                        </group>
+                        <notebook>
+                            <page name="list" string="List cổ phần">
+                                <field name="line_cp" readonly="1"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <!--                    <field name="activity_ids"/>-->
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="mutil_create_view_tree" model="ir.ui.view">
+            <field name="name">phat.cp.tree</field>
+            <field name="model">phat.cp</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách cổ phần">
+                    <field name="name"/>
+                    <field name="so_luong_cp"/>
+                    <field name="create_date"/>
+                    <field name="user_create"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_phatcp" model="ir.actions.act_window">
+            <field name="name">Phát hành Cổ phần</field>
+            <field name="res_model">phat.cp</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+        <!--        ============= log ===============-->
+
+        <record id="log_co_phan_view_form" model="ir.ui.view">
+            <field name="name">log.cp.form</field>
+            <field name="model">log.cp</field>
+            <field name="arch" type="xml">
+                <form string="Lịch sử CP">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="from_user"/>
+                                <field name="to_user"/>
+                                <field name="code_giaodich"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="log_co_phan_view_tree" model="ir.ui.view">
+            <field name="name">log.cp.tree</field>
+            <field name="model">log.cp</field>
+            <field name="arch" type="xml">
+                <tree string="Lịch sử cổ phần">
+                    <field name="date"/>
+                    <field name="from_user"/>
+                    <field name="to_user"/>
+                    <field name="code_giaodich"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="menu_cophan" name="Cổ phần"
+                  groups="custom_b2c.group_ql,custom_b2c.group_nv,custom_b2c.user_profile"
+                  web_icon="custom_b2c,static/src/img/cp.png"/>
+
+        <menuitem id="sub_cophan" name="Danh sách" parent="menu_cophan" action="action_view_cophan"
+                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_nv"/>
+
+        <menuitem id="sub_phat_cophan" name="Phát hành cổ phần" parent="menu_cophan" action="action_view_phatcp"
+                  sequence="2" groups="custom_b2c.group_ql"/>
+
+        <!--    co phan-->
+        <record id="res_config_settings_view_form_cp" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.cp</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="10"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" string="Cài đặt cổ phần"
+                         data-key="custom_b2c">
+                        <h2>Cài đặt tổng cung cổ phần</h2>
+                        <div class="custom row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="total_cp"/>
+                                    <field name="total_cp"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2>Cài đặt giá cổ phần</h2>
+                        <div class="custom row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="price_unit_cp"/>
+                                    <field name="price_unit_cp"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="price_unit_r2cp"/>
+                                    <field name="price_unit_r2cp"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_config_settings_cp" model="ir.actions.act_window">
+            <field name="name">Cài đặt cổ phần</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_id" ref="res_config_settings_view_form_cp"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'custom_b2c', 'bin_size': False}</field>
+        </record>
+
+        <menuitem id="menu_sale_general_settings_cp"
+                  name="Cài đặt cổ phần"
+                  parent="custom_b2c.menu_cophan"
+                  sequence="100"
+
+                  groups="custom_b2c.group_ql,base.group_system"
+        />
+        <menuitem id="menu_sale_general_settings_cp_1"
+                  name="Cài đặt cổ phần"
+                  parent="custom_b2c.menu_sale_general_settings_cp"
+                  sequence="100"
+                  action="action_config_settings_cp"
+                  groups="custom_b2c.group_ql,base.group_system"
+        />
+    </data>
+</odoo>

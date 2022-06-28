@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_footer_cp" inherit_id="website.footer_copyright_company_name" priority="5">
+        <xpath expr="//footer//span[hasclass('o_footer_copyright_name')]" position="replace">
+            <span class="o_footer_copyright_name mr-2">Copyright &amp;copy; Company name</span>
+        </xpath>
+    </template>
+    <template id="website_sale.brand_promotion" inherit_id="website.brand_promotion">
+        <xpath expr="//t[@t-call='web.brand_promotion_message']" position="replace">
+            <img t-att-src="'/custom_b2c/static/src/img/bct.gif'" alt="Đã Đăng Ký Bộ Công Thương" width="150"/>
+<!--            <t t-call="web.brand_promotion_message">-->
+<!--                <t t-set="_message">-->
+<!--                    The #1 <a target="_blank" href="http://www.odoo.com/app/ecommerce?utm_source=db&amp;utm_medium=website">Open Source eCommerce</a>-->
+<!--                </t>-->
+<!--                <t t-set="_utm_medium" t-valuef="website"/>-->
+<!--            </t>-->
+        </xpath>
+    </template>
+</odoo>

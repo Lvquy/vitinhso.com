@@ -1,0 +1,54 @@
+<odoo>
+    <record id="ke_hang_view_form" model="ir.ui.view">
+        <field name="name">ke.hang.form</field>
+        <field name="model">ke.hang</field>
+        <field name="arch" type="xml">
+            <form string="Kệ hàng trong kho">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="of_stock" options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ke_hang_view_tree" model="ir.ui.view">
+        <field name="name">ke.hang.tree</field>
+        <field name="model">ke.hang</field>
+        <field name="arch" type="xml">
+            <tree string="List Kệ hàng" >
+                <field name="name"/>
+                <field name="of_stock"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_view_ke_hang" model="ir.actions.act_window">
+        <field name="name">Kệ Hàng</field>
+        <field name="res_model">ke.hang</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo mới!
+            </p>
+            <p>
+                Tạo các kệ hàng có trong kho
+                <br/>
+                giúp bạn tìm kiếm và sắp xếp dễ dàng hơn
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_ke_hang" name="Kệ Hàng" sequence="5" parent="stock.menu_stock_config_settings"/>
+    <menuitem id="menu_view_ke_hang" name="Cài đặt kệ hàng" parent="menu_ke_hang"
+              action="action_view_ke_hang"
+              sequence="1"/>
+</odoo>

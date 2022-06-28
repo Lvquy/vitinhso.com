@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="mail_template_b2c_otp" model="mail.template">
+            <field name="name">OTP CODE Points</field>
+            <field name="model_id" ref="custom_b2c.model_trans_points"/>
+            <field name="subject">OTP CODE Points</field>
+            <field name="email_from"></field>
+            <field name="email_to">{{ (object.account_self.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <h2>OTP</h2>
+                            <h2>
+                                Mã OTP của bạn là:
+                                <span t-out="object.otp_save or ''"/>
+                            </h2>
+                            <h4>Không được chia sẻ mã này cho bất kì ai</h4>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <!--        otp nạp rút tiền-->
+        <record id="mail_template_b2c_otp_nr_tien" model="mail.template">
+            <field name="name">OTP CODE NR Tiền</field>
+            <field name="model_id" ref="custom_b2c.model_nap_rut_tien"/>
+            <field name="subject">OTP CODE NR Tiền</field>
+            <field name="email_from"></field>
+            <field name="email_to">{{ (object.self_account.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <h2>OTP</h2>
+                            <h2>
+                                Mã OTP của bạn là:
+                                <span t-out="object.otp_save or ''"/>
+                            </h2>
+                            <h4>Không được chia sẻ mã này cho bất kì ai</h4>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+        <record id="mail_template_b2c_otp_wallet" model="mail.template">
+            <field name="name">OTP CODE Wallet</field>
+            <field name="model_id" ref="custom_b2c.model_trans_wallet"/>
+            <field name="subject">OTP CODE WALLET</field>
+            <field name="email_from"></field>
+            <field name="email_to">{{ (object.account_self.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <h2>OTP</h2>
+                            <h2>
+                                Mã OTP của bạn là:
+                                <span t-out="object.otp_save or ''"/>
+                            </h2>
+                            <h4>Không được chia sẻ mã này cho bất kì ai</h4>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <!--        otp nạp lock edit profile-->
+        <record id="mail_template_b2c_otp_edit_profile1" model="mail.template">
+            <field name="name">OTP CODE Edit Profile</field>
+            <field name="model_id" ref="custom_b2c.model_user_profile"/>
+            <field name="subject">OTP CODE Edit Profile</field>
+            <field name="email_from"></field>
+            <field name="email_to">{{ (object.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <h2>OTP</h2>
+                            <h2>
+                                Mã OTP của bạn là:
+                                <span t-out="object.otp_save or ''"/>
+                            </h2>
+                            <h4>Không được chia sẻ mã này cho bất kì ai</h4>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

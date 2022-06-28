@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="users_profile_view_form" model="ir.ui.view">
+            <field name="name">user.profile.form</field>
+            <field name="model">user.profile</field>
+            <field name="arch" type="xml">
+                <form string="Thông tin tài khoản" create="false">
+                    <header>
+                        <field name="kyc_status" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="action_lock_edit" string="Khóa sửa thông tin" type="object"
+                                attrs="{'invisible':[('lock_edit', '=', True)]}"/>
+                        <button name="send_otp" string="Lấy mã OTP" type="object"
+                                attrs="{'invisible':[('lock_edit', '=', False)]}"/>
+                        <button name="unlock_edit" string="Mở khóa sửa thông tin" type="object"
+                                attrs="{'invisible':[('lock_edit', '=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <field name="img" widget='image' class="oe_avatar"
+                               options='{"zoom": true}'/>
+                        <div class="oe_title">
+                            <h1 class="d-flex">
+                                <field name="name" placeholder="Employee's Name" required="True"/>
+                            </h1>
+                        </div>
+
+                        <group string="Tài khoản">
+                            <group>
+                                <field name="wallet" placeholder="Ví cá nhân" readonly="1"/>
+                                <field name="wallet_balance" placeholder="Số dư" readonly="1"/>
+
+                                <label for="reward_points"/>
+                                <div class="o_row">
+                                    <field name="reward_points" class="font-weight-bold"/>
+                                    <button type="object" name="reward2cp" class="btn-sm btn-link mb4 fa  fa-exchange"
+                                            aria-label="Đổi điểm lấy CP"
+                                            groups="base.group_system,custom_b2c.user_profile"
+                                            title="Đổi điểm lấy cổ phần"
+                                            context="{'default_name':active_id}"
+                                    />
+                                </div>
+                            </group>
+                            <group string="Thông tin cá nhân">
+                                <field name="gender"/>
+                                <field name="birthday"/>
+                                <field name="email" attrs="{'readonly':[('lock_edit', '=', True)]}"/>
+                                <field name="mobile" attrs="{'readonly':[('lock_edit', '=', True)]}"/>
+                                <field name="login"/>
+                            </group>
+                            <group>
+                                <field name="total_cp" class="font-weight-bold text-primary"/>
+                                <field name="total_cp_ready" class="font-weight-bold text-success"/>
+                                <field name="total_cp_tk" class="font-weight-bold"/>
+                                <field name="total_cp_dt" class="font-weight-bold"/>
+                                <field name="total_cp_lock" class="font-weight-bold text-danger"/>
+                                <field name="total_cp_wait" class="font-weight-bold text-warning"/>
+                            </group>
+                            <group string="Khóa sửa thông tin">
+                                <field name="lock_edit"/>
+                                <field name="otp"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="cophan" string="Danh sách cổ phần">
+                                <field name="co_phan"/>
+                            </page>
+                            <page name="chuyen_points" string="Chuyển điểm">
+                                <field name="chuyen_points"/>
+                            </page>
+                            <page name="bank" string="Tài khoản ngân hàng">
+                                <field name="bank_id" attrs="{'readonly':[('lock_edit', '=', True)]}">
+                                    <tree editable="bottom">
+                                        <field name="id" widget='handle'/>
+                                        <field name="name"/>
+                                        <field name="bank_no"/>
+                                        <field name="user_bank"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Đổi điểm lấy cổ phần">
+                                <field name="reward_cp" readonly="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="user_profile_view_tree" model="ir.ui.view">
+            <field name="name">user.profile.tree</field>
+            <field name="model">user.profile</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách" create="false">
+                    <field name="img" widget="image" class="oe_avatar" optional="hide"/>
+                    <field name="name" optional="show"/>
+                    <field name="gender" optional="hide"/>
+                    <field name="email" optional="hide"/>
+                    <field name="mobile" optional="show"/>
+                    <field name="reward_points" sum="Tổng" optional="show"/>
+                    <field name="wallet" optional="show"/>
+                    <field name="wallet_balance" optional="show"/>
+                    <field name="kyc_status" optional="hide"/>
+                    <field name="login" optional="hide"/>
+                    <field name="total_cp_tk" sum="Tổng" optional="show"/>
+                    <field name="total_cp_dt" sum="Tổng" optional="show"/>
+                    <field name="total_cp_lock" sum="Tổng" optional="show"/>
+                    <field name="total_cp_ready" sum="Tổng" optional="show"/>
+                    <field name="total_cp_wait" sum="Tổng" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--         action view-->
+        <record id="action_view_userprofile" model="ir.actions.act_window">
+            <field name="name">User Profile</field>
+            <field name="res_model">user.profile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('login', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+        <!--         action view-->
+        <record id="admin_action_view_userprofile" model="ir.actions.act_window">
+            <field name="name">User Profile admin</field>
+            <field name="res_model">user.profile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+        <!--        reward to cp-->
+        <record id="reward2cp_view_form" model="ir.ui.view">
+            <field name="name">line.reward2cp.form</field>
+            <field name="model">line.reward2cp</field>
+            <field name="arch" type="xml">
+                <form string="Đổi điểm lấy cổ phần">
+                    <sheet>
+                        <header>
+                            <field name="status" widget="statusbar" statusbar_visible="0,1,2"/>
+                            <button name="confirm_1" string="Xác nhận" type="object"
+                                    attrs="{'invisible':[('status', 'in', ('1','2'))]}"/>
+                            <button name="confirm_2" string="Hủy" type="object"
+                                    attrs="{'invisible':[('status', 'in', ('1','2'))]}"/>
+                        </header>
+                        <group>
+                            <field name="date"/>
+                            <field name="qty_cp"/>
+                            <field name="price_unit"/>
+                            <field name="total_reward"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="line_reward2cp_view_tree" model="ir.ui.view">
+            <field name="name">line.reward2cp.tree</field>
+            <field name="model">line.reward2cp</field>
+            <field name="arch" type="xml">
+                <tree string="Danh sách">
+                    <field name="date"/>
+                    <field name="qty_cp"/>
+                    <field name="price_unit"/>
+                    <field name="total_reward"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_user_profile" name="User Profile" groups="custom_b2c.user_profile,base.group_system"
+                  web_icon="custom_b2c,static/src/img/profile.jpg" action="action_view_userprofile"/>
+        <menuitem id="menu_user_profile_admin" name="ALL User Profile" groups="base.group_system"
+                  action="admin_action_view_userprofile" parent="menu_user_profile"/>
+    </data>
+</odoo>

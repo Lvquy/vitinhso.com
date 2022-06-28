@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <record id="set_price_view_form" model="ir.ui.view">
+            <field name="name">set.price.form</field>
+            <field name="model">set.price</field>
+            <field name="arch" type="xml">
+                <form string="Sales Order" class="o_sale_order" js_class="sale_discount_form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type" string="Chọn kiểu" required='1'/>
+                                <field name="price" string="Nhập số tiền/%"/>
+                            </group>
+                            <group>
+                                <field name="cost_sale" string="Chọn kiểu giá" required='1'/>
+                            </group>
+                            <hr></hr>
+                            <br/>
+                            <h6 style="color:blue">Điều chỉnh giá sản phẩm theo giá vốn / giá bán hiện tại</h6>
+                        </group>
+                        <footer>
+                            <button name="up_price" string="Tăng" type="object"/>
+                            <button name="down_price" string="Giảm" type="object"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="set_price_view_tree" model="ir.ui.view">
+            <field name="name">set.price.tree</field>
+            <field name="model">set.price</field>
+            <field name="arch" type="xml">
+                <tree string="Cài đặt giá ">
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_set_price" model="ir.actions.act_window">
+            <field name="name">set price</field>
+            <field name="res_model">set.price</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new quotation, the first step of a new sale!
+                </p>
+                <p>
+                    Once the quotation is confirmed by the customer, it becomes a sales order.
+                    <br/>
+                    You will be able to create an invoice and collect the payment.
+                </p>
+            </field>
+        </record>
+
+<!--                <menuitem id="menu_setprice" name="SET Price" parent="sale.menu_sale_config" sequence="5"/>-->
+<!--                <menuitem id="setprice" name="SET PRICE PRODUCT" parent="menu_setprice" action="action_view_set_price"-->
+<!--                          sequence="1"/>-->
+    </data>
+</odoo>

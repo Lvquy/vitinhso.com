@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="website_blog.action_blog_post" model="ir.actions.act_window">
+        <field name="domain">[('create_uid', '=', uid)]</field>
+    </record>
+</odoo>

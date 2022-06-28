@@ -1,0 +1,239 @@
+<odoo>
+    <record id="hr_employee_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="country_id" position="after">
+                <field name="phep_nghi"/>
+            </field>
+            <notebook>
+                <page name="document" string="Giấy tờ">
+                    <div id="o_work_employee_container">
+                        <div id="o_work_employee_main">
+                            <group string="CMND">
+                                <field name="cmnd_front" widget="image" class=""/>
+                                <field name="cmnd_back" widget="image" class=""/>
+                            </group>
+                            <group string="Khác">
+                                <field name="other_doc1" widget="image" class=""/>
+                                <field name="other_doc2" widget="image" class=""/>
+                                <field name="other_doc3" widget="image" class=""/>
+                                <field name="other_doc4" widget="image" class=""/>
+                            </group>
+                            <group string="PDF SCAN">
+                                <field name="pdf_doc"/>
+                            </group>
+                        </div>
+                    </div>
+                </page>
+                <page name="ngaynghi" string="Ngày nghỉ">
+                    <sheet>
+                        <field name="ngay_nghi"/>
+                    </sheet>
+                </page>
+                <page name="ungluong" string="Ứng lương">
+                    <field name="ung_tien"/>
+                </page>
+                <page name="bao_cao" string="Báo cáo công việc hàng ngày">
+                    <field name="bao_cao_cv"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+
+    <record id="ngay_nghi_view_form" model="ir.ui.view">
+        <field name="name">ngay.nghi.form</field>
+        <field name="model">ngay.nghi</field>
+        <field name="arch" type="xml">
+            <form string="Ngày nghỉ">
+                <header>
+                    <button name="confirm" string="Cho nghỉ" type="object" groups="custom_b2c.group_ql"/>
+                    <button name="cancel" string="Không Cho nghỉ" type="object" groups="custom_b2c.group_ql"/>
+                    <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
+                </header>
+                <sheet>
+                    <h2>
+                        <field name="ma_phieu"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="nhanvien"/>
+                        </group>
+                        <group>
+                            <field name="ngay_viet_don"/>
+                            <field name="ngay_xin_nghi"/>
+                            <field name="nghi_toi_ngay"/>
+                        </group>
+                        <group>
+                            <field name="pdf"/>
+                        </group>
+
+                    </group>
+                    <field name="ly_do" widget="html" options="{'collaborative':True}"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <!--                    <field name="activity_ids"/>-->
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="ngay_nghi_view_tree" model="ir.ui.view">
+        <field name="name">ngay.nghi.tree</field>
+        <field name="model">ngay.nghi</field>
+        <field name="arch" type="xml">
+            <tree string="Ngày nghỉ">
+                <field name="ma_phieu"/>
+                <field name="nhanvien" context="{'default_nhanvien':active_id}"/>
+                <field name="ngay_xin_nghi"/>
+                <field name="nghi_toi_ngay"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- action view-->
+    <record id="action_view_ngay_nghi" model="ir.actions.act_window">
+        <field name="name">Ngày Nghỉ</field>
+        <field name="res_model">ngay.nghi</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new ...
+            </p>
+        </field>
+    </record>
+    <record id="ung_luong_view_form" model="ir.ui.view">
+        <field name="name">ung.luong.form</field>
+        <field name="model">ung.luong</field>
+        <field name="arch" type="xml">
+            <form string="Ứng lương">
+                <sheet>
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="0,1,2"/>
+                        <button name="confirm" string="Xác nhận" type="object"
+                                attrs="{'invisible':[('status', 'in', ('1','2'))]}"
+                                groups="base.group_system,custom_b2c.group_ql"/>
+                        <button name="cancel" string="Hủy" type="object"
+                                attrs="{'invisible':[('status', 'in', ('1','2'))]}"
+                                groups="base.group_system,custom_b2c.group_ql"/>
+                    </header>
+                    <group>
+                        <field name="date_create"/>
+                        <field name="date_confirm"/>
+                        <field name="nguoi_ung" attrs="{'readonly':[('status', 'in', ('1','2'))]}"/>
+                        <field name="so_tien" attrs="{'readonly':[('status', 'in', ('1','2'))]}"/>
+                        <field name="nguoi_xacnhan"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="ung_luong_view_tree" model="ir.ui.view">
+        <field name="name">ung.luong.tree</field>
+        <field name="model">ung.luong</field>
+        <field name="arch" type="xml">
+            <tree string="Ứng lương" decoration-danger="status=='2'" decoration-success="status=='1'"
+                  decoration-muted="status=='0'">
+                <field name="date_create"/>
+                <field name="date_confirm"/>
+                <field name="nguoi_ung"/>
+                <field name="so_tien"/>
+                <field name="nguoi_xacnhan"/>
+                <button name="confirm" string="Xác nhận" type="object"
+                        attrs="{'invisible':[('status', 'in', ('1','2'))]}"
+                        groups="base.group_system,custom_b2c.group_ql"/>
+                <button name="cancel" string="Hủy" type="object" attrs="{'invisible':[('status', 'in', ('1','2'))]}"
+                        groups="base.group_system,custom_b2c.group_ql"/>
+                <field name="status"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- action view ung.luong-->
+    <record id="action_view_ung_luong" model="ir.actions.act_window">
+        <field name="name">Ứng Lương</field>
+        <field name="res_model">ung.luong</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new ...
+            </p>
+        </field>
+    </record>
+    <!--    báo cáo công việc form tree-->
+    <record id="baocao_cv_view_form" model="ir.ui.view">
+        <field name="name">baocao.cv.form</field>
+        <field name="model">baocao.cv</field>
+        <field name="arch" type="xml">
+            <form string="Báo cáo công việc">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                    <button name="confirm" string="Xác nhận" type="object"
+                            attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="date_create"/>
+                    </group>
+                    <group>
+                    </group>
+                    <notebook>
+                        <page name="nhanvien" string="Mô tả công việc làm">
+                            <field name="cong_viec" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="baocao_cv_view_tree" model="ir.ui.view">
+        <field name="name">baocao.cv.tree</field>
+        <field name="model">baocao.cv</field>
+        <field name="arch" type="xml">
+            <tree string="Báo cáo công việc">
+                <field name="date_create" optional="show"/>
+                <field name="nhan_vien" optional="show"/>
+                <field name="cong_viec" optional="hide"/>
+                <field name="state" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    <!-- action view-->
+    <record id="action_view_baocao_cv" model="ir.actions.act_window">
+        <field name="name">Báo cáo công việc hàng ngày</field>
+        <field name="res_model">baocao.cv</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new ...
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_ngaynghi" name="Quản lý ngày nghỉ" sequence="1"
+              web_icon="custom_b2c,static/src/img/ngaynghi.png" groups="custom_b2c.group_ql,custom_b2c.group_nv"/>
+    <menuitem id="sub_ngaynghi" name="Danh sách" parent="menu_ngaynghi" action="action_view_ngay_nghi"
+              sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_nv"/>
+
+    <menuitem id="sub_baocao_cv" name="Báo cáo công việc của nhân viên" parent="menu_congviec"
+              action="action_view_baocao_cv"
+              sequence="10" groups="custom_b2c.group_ql,base.group_system"/>
+    <menuitem id="ung_luong" name="Duyệt ứng lương" parent="menu_congviec" action="action_view_ung_luong"
+              sequence="11" groups="custom_b2c.group_ql,base.group_system"/>
+
+</odoo>

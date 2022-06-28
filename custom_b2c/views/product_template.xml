@@ -1,0 +1,59 @@
+<odoo>
+    <record id="product_product_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <header>
+                <button string="Cài đặt giá" type="object" name="setprice_product"/>
+            </header>
+            <field name="standard_price" optional="show" position="replace" >
+                <field name="hide"  attrs="{'invisible':1}"/>
+                <field name="standard_price" optional="show" attrs="{'invisible':[('hide', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_product_form_view_inherit1" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='barcode']" position="after">
+                <field name ="warranty"/>
+                <field name ="vitri_kehang"/>
+            </xpath>
+            <xpath expr="//field[@name='standard_price']" position="replace">
+                <field name="standard_price" widget='monetary' options="{'currency_field': 'cost_currency_id', 'field_digits': True}"
+                        groups="custom_b2c.group_ql,base.group_system"/>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="product_template_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="standard_price" optional="show" position="replace" >
+                <field name="hide"  attrs="{'invisible':1}"/>
+                <field name="standard_price" optional="show" attrs="{'invisible':[('hide', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="replace">
+                <field name ="hide" attrs="{'invisible':0}" />
+                <field name="standard_price" widget='monetary' options="{'currency_field': 'cost_currency_id', 'field_digits': True}"
+                       attrs="{'invisible':[('hide', '=', True)]}" />
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

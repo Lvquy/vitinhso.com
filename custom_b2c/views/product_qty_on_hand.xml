@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_qty_on_hand" inherit_id="website_sale.product"
+              name="Qty on Stock" active="True" customize_show="True">
+        <xpath expr="//div[@id='add_to_cart_wrap']" position="after">
+            <div>
+                <t t-if="product.warehouse_quantity">
+                    <h6 class="font-weight-bold mt-2">Tồn kho</h6>
+                    <t t-set="kho" t-value="(product.warehouse_quantity)"/>
+                    <t t-set="kho" t-value="kho.replace('.0','')"/>
+                    <t t-set="khos" t-value="kho.split('**')"/>
+                    <t t-set="remove_index0" t-value="khos.pop(0)"/>
+                    <ul>
+                        <t t-foreach="khos" t-as="k">
+                            <li>
+                                <t t-esc="k"/>
+                            </li>
+                        </t>
+
+                    </ul>
+                </t>
+
+            </div>
+        </xpath>
+    </template>
+
+    <template id="custom_field_to_home" inherit_id="website.homepage" priority="5" active="True" customize_show="True"
+              name="Trang chủ">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <div class="container-fluid">
+                <div class="row bg-info text-center">
+                    <div class="col-sm-1 pt-2 pb-2">
+                        <div class="spinner-border spinner-border-sm text-danger " role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-3 text-center font-weight-bold pt-2 pb-2">Tổng cung cổ phần:
+                        <t t-esc="'{0:,.0f}'.format(float(total_cp or 0))"/>
+                    </div>
+                    <div class="col-6 col-sm-3 text-center font-weight-bold pt-2 pb-2">Cổ phần đã phát hành:
+                        <t t-esc="'{0:,.0f}'.format(float(cp_phathanh or 0))"/>
+                    </div>
+                    <div class="col-6 col-sm-2 text-center font-weight-bold pt-2 pb-2">Giá Cổ Phần:
+                        <t t-esc="'{0:,.0f}'.format(float(price_cp or 0))"/>
+                        VNĐ
+                    </div>
+                    <div class="col-6 col-sm-3 text-center font-weight-bold pt-2 pb-2">Số điểm chuyển đổi cổ phần trong kỳ:
+                        <t t-esc="'{0:,.0f}'.format(float(total_points or 0))"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
