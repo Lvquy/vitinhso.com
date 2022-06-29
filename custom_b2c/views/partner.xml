@@ -75,10 +75,10 @@
 
         <menuitem id="menu_partner" name="Đối tác" sequence="1"
                   web_icon="custom_b2c,static/src/img/partner.png"
-                  groups="custom_b2c.group_ql,custom_b2c.group_partner"/>
+                  groups="custom_b2c.group_partner_adm,group_partner_user"/>
         <menuitem id="sub_partner" name="Danh sách đối tác" parent="menu_partner"
                   action="action_view_partner"
-                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_partner"/>
+                  sequence="1" groups="custom_b2c.group_partner_adm,group_partner_user"/>
 
         <!--        order.partner-->
         <record id="order_partner_view_form" model="ir.ui.view">
@@ -139,6 +139,6 @@
 
         <menuitem id="sub_order_partner" name="Danh sách đơn hàng" parent="menu_partner"
                   action="action_view_order_partner"
-                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_partner"/>
+                  sequence="1" groups="custom_b2c.group_partner_adm,group_partner_user"/>
     </data>
 </odoo>

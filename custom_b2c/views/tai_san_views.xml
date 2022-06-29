@@ -129,10 +129,10 @@
         </record>
 
         <menuitem id="menu_taisan" name="Tài sản" action="action_view_taisan"
-                  sequence="6" groups="custom_b2c.group_ql,base.group_system" web_icon="custom_b2c,static/src/img/tb.jpg" />
+                  sequence="6"  web_icon="custom_b2c,static/src/img/tb.jpg" />
         <menuitem id="menu_sd_taisan" name="Phiếu bàn giao tài sản" parent="custom_b2c.menu_taisan"
                   action="action_view_sdtaisan"
-                  sequence="6" groups="custom_b2c.group_ql,base.group_system"/>
+                  sequence="6" />
 
     </data>
 </odoo>

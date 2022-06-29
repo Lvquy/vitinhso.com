@@ -12,10 +12,10 @@
                                 attrs="{'invisible':[('state', 'in', ('1','2','3','4','5'))]}"/>
                         <button name="action_tras_true" string="XN giao dịch thành công" type="object"
                                 attrs="{'invisible':[('state', 'in', ('0','1','3','4','5'))]}"
-                                groups="base.group_system"/>
+                                groups="base.group_system,custom_b2c.group_co_phan_adm"/>
                         <button name="action_tras_false" string="XN giao dịch thất bại" type="object"
                                 attrs="{'invisible':[('state', 'in', ('0','1','3','4','5'))]}"
-                                groups="base.group_system"/>
+                                groups="base.group_system,custom_b2c.group_co_phan_adm"/>
                     </header>
                     <sheet>
                         <h2>
@@ -113,6 +113,6 @@
         </record>
 
         <menuitem id="gd_cophan" name="Giao dịch" parent="menu_cophan" action="action_view_gdcophan"
-                  sequence="3" groups="custom_b2c.group_ql,custom_b2c.user_profile"/>
+                  sequence="3" groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"/>
     </data>
 </odoo>

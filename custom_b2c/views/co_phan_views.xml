@@ -156,14 +156,14 @@
         </record>
 
         <menuitem id="menu_cophan" name="Cổ phần"
-                  groups="custom_b2c.group_ql,custom_b2c.group_nv,custom_b2c.user_profile"
+                  groups="custom_b2c.group_co_phan_adm,custom_b2c.group_co_phan_user,custom_b2c.user_profile"
                   web_icon="custom_b2c,static/src/img/cp.png"/>
 
         <menuitem id="sub_cophan" name="Danh sách" parent="menu_cophan" action="action_view_cophan"
-                  sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_nv"/>
+                  sequence="1" groups="custom_b2c.group_co_phan_adm"/>
 
         <menuitem id="sub_phat_cophan" name="Phát hành cổ phần" parent="menu_cophan" action="action_view_phatcp"
-                  sequence="2" groups="custom_b2c.group_ql"/>
+                  sequence="2" groups="custom_b2c.group_co_phan_adm"/>
 
         <!--    co phan-->
         <record id="res_config_settings_view_form_cp" model="ir.ui.view">
@@ -220,14 +220,14 @@
                   parent="custom_b2c.menu_cophan"
                   sequence="100"
 
-                  groups="custom_b2c.group_ql,base.group_system"
+                  groups="custom_b2c.group_co_phan_adm,base.group_system"
         />
         <menuitem id="menu_sale_general_settings_cp_1"
                   name="Cài đặt cổ phần"
                   parent="custom_b2c.menu_sale_general_settings_cp"
                   sequence="100"
                   action="action_config_settings_cp"
-                  groups="custom_b2c.group_ql,base.group_system"
+                  groups="custom_b2c.group_co_phan_adm,base.group_system"
         />
     </data>
 </odoo>

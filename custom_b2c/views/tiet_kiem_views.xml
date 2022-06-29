@@ -8,13 +8,13 @@
                 <form string="Gửi tiết kiệm cổ phần">
                     <header>
                         <button name="action_1" string="Xác nhận" type="object"
-                                groups="custom_b2c.group_ql,custom_b2c.user_profile"
+                                groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"
                                 attrs="{'invisible':[('state', 'in', ('1','2','3'))]}"/>
                         <button name="action_2" string="Thanh toán hợp đồng" type="object"
-                                groups="custom_b2c.group_ql"
+                                groups="custom_b2c.group_co_phan_adm"
                                 attrs="{'invisible':[('state', 'in', ('0','2','3'))]}"/>
                         <button name="action_3" string="Huỷ" type="object"
-                                groups="custom_b2c.group_ql,custom_b2c.user_profile"
+                                groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"
                                 attrs="{'invisible':[('state', 'in', ('0','1','2'))]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="0,1,2,3"/>
                     </header>
@@ -104,9 +104,9 @@
         </record>
 
         <menuitem id="sub_tietkiem" name="Tiết kiệm" parent="custom_b2c.menu_cophan" action="action_view_tietkiem"
-                  sequence="6" groups="custom_b2c.group_ql,custom_b2c.user_profile"/>
+                  sequence="6" groups="custom_b2c.group_co_phan_user,custom_b2c.group_co_phan_adm,custom_b2c.user_profile"/>
         <menuitem id="sub_tietkiem_admin" name="Admin - tiết kiệm" parent="custom_b2c.menu_cophan" action="action_view_tietkiem_admin"
-                  sequence="6" groups="custom_b2c.group_ql"/>
+                  sequence="6" groups="custom_b2c.group_co_phan_adm,custom_b2c.group_co_phan_user"/>
 
         <!--        setting-->
         <record id="res_config_settings_view_form_tkiem" model="ir.ui.view">
