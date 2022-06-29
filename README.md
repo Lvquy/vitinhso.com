@@ -45,3 +45,16 @@ INSTALL MODULE
 	auto_database_backup (requiment lib 'dropbox')
 	custom_b2c
 
+#Auto start bash in ubuntu
+crontab -e
+add code below:
+@reboot /odoo/bash/run_odoo.sh
+
+run_odoo.sh  code
+	#!/bin/bash
+	sudo -u odoo bash -c 'bash /odoo/bash/odoo.sh'
+
+odoo.sh code
+	#!/bin/bash
+	cd /odoo/odoo-server
+	./odoo-bin -c /etc/odoo-server.conf
