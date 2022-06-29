@@ -49,8 +49,8 @@
         <field name="arch" type="xml">
             <form string="Ngày nghỉ">
                 <header>
-                    <button name="confirm" string="Cho nghỉ" type="object" groups="custom_b2c.group_ql"/>
-                    <button name="cancel" string="Không Cho nghỉ" type="object" groups="custom_b2c.group_ql"/>
+                    <button name="confirm" string="Cho nghỉ" type="object" groups="custom_b2c.group_ngay_nghi_adm"/>
+                    <button name="cancel" string="Không Cho nghỉ" type="object" groups="custom_b2c.group_ngay_nghi_adm"/>
                     <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
                 </header>
                 <sheet>
@@ -118,10 +118,10 @@
                         <field name="status" widget="statusbar" statusbar_visible="0,1,2"/>
                         <button name="confirm" string="Xác nhận" type="object"
                                 attrs="{'invisible':[('status', 'in', ('1','2'))]}"
-                                groups="base.group_system,custom_b2c.group_ql"/>
+                                groups="base.group_system,custom_b2c.group_ngay_nghi_adm"/>
                         <button name="cancel" string="Hủy" type="object"
                                 attrs="{'invisible':[('status', 'in', ('1','2'))]}"
-                                groups="base.group_system,custom_b2c.group_ql"/>
+                                groups="base.group_system,custom_b2c.group_ngay_nghi_adm"/>
                     </header>
                     <group>
                         <field name="date_create"/>
@@ -149,9 +149,9 @@
                 <field name="nguoi_xacnhan"/>
                 <button name="confirm" string="Xác nhận" type="object"
                         attrs="{'invisible':[('status', 'in', ('1','2'))]}"
-                        groups="base.group_system,custom_b2c.group_ql"/>
+                        groups="base.group_system,custom_b2c.group_ngay_nghi_adm"/>
                 <button name="cancel" string="Hủy" type="object" attrs="{'invisible':[('status', 'in', ('1','2'))]}"
-                        groups="base.group_system,custom_b2c.group_ql"/>
+                        groups="base.group_system,custom_b2c.group_ngay_nghi_adm"/>
                 <field name="status"/>
 
             </tree>
@@ -226,14 +226,14 @@
     </record>
 
     <menuitem id="menu_ngaynghi" name="Quản lý ngày nghỉ" sequence="1"
-              web_icon="custom_b2c,static/src/img/ngaynghi.png" groups="custom_b2c.group_ql,custom_b2c.group_nv"/>
+              web_icon="custom_b2c,static/src/img/ngaynghi.png" groups="custom_b2c.group_ngay_nghi_adm,custom_b2c.group_nv"/>
     <menuitem id="sub_ngaynghi" name="Danh sách" parent="menu_ngaynghi" action="action_view_ngay_nghi"
-              sequence="1" groups="custom_b2c.group_ql,custom_b2c.group_nv"/>
+              sequence="1" groups="custom_b2c.group_ngay_nghi_adm,custom_b2c.group_nv"/>
 
     <menuitem id="sub_baocao_cv" name="Báo cáo công việc của nhân viên" parent="menu_congviec"
               action="action_view_baocao_cv"
-              sequence="10" groups="custom_b2c.group_ql,base.group_system"/>
+              sequence="10" groups="custom_b2c.group_ngay_nghi_adm,base.group_system"/>
     <menuitem id="ung_luong" name="Duyệt ứng lương" parent="menu_congviec" action="action_view_ung_luong"
-              sequence="11" groups="custom_b2c.group_ql,base.group_system"/>
+              sequence="11" groups="custom_b2c.group_ngay_nghi_adm,base.group_system"/>
 
 </odoo>

@@ -127,11 +127,11 @@
                         <button name="confirm" string="Xác nhận" type="object"
                                 class="btn btn-success"
                                 attrs="{'invisible':[('state', 'in', ('1','2'))]}"
-                                groups="base.group_system,custom_b2c.group.ql"/>
+                                groups="base.group_system,custom_b2c.group_thi_cong_adm,custom_b2c.group_thi_cong_user"/>
                         <button name="cancel" string="Hủy" type="object"
                                 class="btn btn-warning"
                                 attrs="{'invisible':[('state', 'in', ('1','2'))]}"
-                                groups="base.group_system,custom_b2c.group.ql"
+                                groups="base.group_system,custom_b2c.group_thi_cong_adm,custom_b2c.group_thi_cong_user"
                         />
                     </header>
                     <sheet>
@@ -158,11 +158,11 @@
                     <button name="confirm" string="Xác nhận" type="object"
                             class="btn btn-success"
                             attrs="{'invisible':[('state', 'in', ('1','2'))]}"
-                            groups="base.group_system,custom_b2c.group.ql"/>
+                            groups="base.group_system,custom_b2c.group_thi_cong_adm,custom_b2c.group_thi_cong_user"/>
                     <button name="cancel" string="Hủy" type="object"
                             class="btn btn-warning"
                             attrs="{'invisible':[('state', 'in', ('1','2'))]}"
-                            groups="base.group_system,custom_b2c.group.ql"
+                            groups="base.group_system,custom_b2c.group_thi_cong_adm,custom_b2c.group_thi_cong_user"
                     />
                 </tree>
             </field>
