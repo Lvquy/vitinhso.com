@@ -58,3 +58,5 @@ odoo.sh code
 	#!/bin/bash
 	cd /odoo/odoo-server
 	./odoo-bin -c /etc/odoo-server.conf
+
+#test commit ubuntu
