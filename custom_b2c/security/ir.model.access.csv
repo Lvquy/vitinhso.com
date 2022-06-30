@@ -25,6 +25,9 @@ acess_custom_b2c_cong_viec_root,cong.viec.root,model_cong_viec,base.group_system
 acess_custom_b2c_cong_viec_admin,cong.viec.admin,model_cong_viec,custom_b2c.group_cong_viec_adm,1,1,1,1
 acess_custom_b2c_cong_viec_user,cong.viec.user,model_cong_viec,custom_b2c.group_cong_viec_user,1,1,0,0
 
+acess_custom_b2c_catg_partner_root,catg.partner.root,model_catg_partner,base.group_system,1,1,1,1
+acess_custom_b2c_catg_partner_adm,catg.partner.adm,model_catg_partner,custom_b2c.group_cong_viec_adm,1,1,1,1
+acess_custom_b2c_catg_partner_user,catg.partner.user,model_catg_partner,custom_b2c.group_cong_viec_user,1,1,1,1
 
 acess_custom_b2c_baocao_cv_root,baocao.cv.root,model_baocao_cv,base.group_system,1,1,1,1
 acess_custom_b2c_baocao_cv_admin,baocao.cv.admin,model_baocao_cv,custom_b2c.group_cong_viec_adm,1,1,1,1

@@ -22,6 +22,7 @@
                                 <field name="of_user"/>
                             </group>
                             <group>
+                                <field name="nha_kho"/>
                                 <field name="tinh_trang"/>
                                 <field name="bao_hanh"/>
                             </group>
@@ -50,6 +51,7 @@
                 <tree string="Danh sách tài sản">
                     <field name="id_taisan" optional="show"/>
                     <field name="name" optional="show"/>
+                    <field name="nha_kho" optional="show"/>
                     <field name="gia_tri" optional="show" sum="Total"/>
                     <field name="date_use" optional="show"/>
                     <field name="of_user" optional="show"/>
