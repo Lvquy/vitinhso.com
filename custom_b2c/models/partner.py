@@ -20,7 +20,7 @@ class Partner(models.Model):
     discount_cus = fields.Float(string='Phần trăm cho khách hàng')
     discount_adm = fields.Float(string='Phần trăm cho Vi Tính Số')
     order_line = fields.One2many(comodel_name='order.partner', inverse_name='partner', string='Đơn hàng', readonly=True)
-
+    catg_partner = fields.Many2one(comodel_name='catg.partner', string='Danh Mục')
 
     def confirm(self):
         for rec in self:
@@ -68,4 +68,7 @@ class OrderPartner(models.Model):
                     user_profile_adm.reward_points += POINTS_ADMIN
 
 
+class CatgPartner(models.Model):
+    _name = 'catg.partner'
 
+    name = fields.Char(string='Tên danh mục')

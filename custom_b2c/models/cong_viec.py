@@ -12,7 +12,7 @@ class CongViec(models.Model):
 
     date_create = fields.Date(string='Ngày tạo công việc', default=datetime.today(),track_visibility = 'onchange')
     ten_cv = fields.Char(string='Tên công việc',track_visibility = 'onchange')
-    note = fields.Text(string='Mô tả công việc')
+    note = fields.Html(string='Mô tả công việc')
     nhan_su = fields.Many2many(string='Nhân viên phụ trách', comodel_name='hr.employee',track_visibility = 'onchange')
     state = fields.Selection([('0','Nháp'),('1','Xác nhận'),('2','Đã hoàn thành'),('3','Đã hủy')],string='Trạng thái',
                              default='0',track_visibility = 'onchange')

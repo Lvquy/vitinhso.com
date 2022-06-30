@@ -24,6 +24,32 @@
         </field>
     </record>
 
+    <!--    công việc search-->
+    <record id="view_search_congviec" model="ir.ui.view">
+        <field name="name">cong.viec.search</field>
+        <field name="model">cong.viec</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Thi Cong">
+                <field name="date_create"/>
+                <field name="ten_cv"/>
+                <field name="nhan_su"/>
+                <field name="state"/>
+                <field name="thuoc_kho"/>
+                <field name="price"/>
+                <filter string="Đã hoàn thành" name="hoanthanh" domain="[('state','=','2')]"/>
+                <filter string="Đã xác nhận" name="xacnhan" domain="[('state','=','1')]"/>
+                <filter string="Nháp" name="nhap" domain="[('state','=','0')]"/>
+                <filter string="Đã Hủy" name="huy" domain="[('state','=','3')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Kho" name="catg" domain="[]" context="{'group_by': 'thuoc_kho'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
 <!--    tài sản search-->
     <record id="view_search_taisan" model="ir.ui.view">
         <field name="name">tai.san.search</field>
@@ -36,12 +62,14 @@
                 <field name="id_taisan"/>
                 <field name="of_user"/>
                 <field name="of_user"/>
+                <field name="nha_kho"/>
                 <filter string="Đang sử dụng" name="dangsd" domain="[('status','=','1')]"/>
                 <filter string="Chưa có người bảo quản" name="no_sl" domain="[('status','=','0')]"/>
                 <filter string="Đã hủy" name="huy" domain="[('status','=','2')]"/>
                 <group expand="0" string="Group By">
                     <filter string="Người bảo quản" name="of_user" domain="[]" context="{'group_by': 'of_user'}"/>
                     <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'status'}"/>
+                    <filter string="Nhà kho" name="stock" domain="[]" context="{'group_by': 'nha_kho'}"/>
                 </group>
             </search>
         </field>
@@ -59,6 +87,7 @@
                 <field name="ngay_viet_don"/>
                 <field name="ngay_xin_nghi"/>
                 <field name="nghi_toi_ngay"/>
+                <field name="thuoc_kho"/>
                 <field name="state"/>
                 <filter string="Mới tạo" name="new" domain="[('state','=','0')]"/>
                 <filter string="Cho nghỉ" name="chonghi" domain="[('state','=','1')]"/>
@@ -66,6 +95,7 @@
                 <group expand="0" string="Group By">
                     <filter string="Nhân viên" name="of_user" domain="[]" context="{'group_by': 'nhanvien'}"/>
                     <filter string="Trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Kho" name="state" domain="[]" context="{'group_by': 'thuoc_kho'}"/>
                 </group>
             </search>
         </field>
@@ -247,6 +277,55 @@
                     <filter string="Theo trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
                     <filter string="Theo ngày xác nhận gửi" name="start_date" domain="[]" context="{'group_by': 'start_date'}"/>
                     <filter string="Theo ngày đáo hạn" name="end_date" domain="[]" context="{'group_by': 'end_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--   partner search-->
+    <record id="view_search_catg_partner" model="ir.ui.view">
+        <field name="name">partner.search</field>
+        <field name="model">partner</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Catg Partner">
+                <field name="date_create"/>
+                <field name="name"/>
+                <field name="add"/>
+                <field name="mobile"/>
+                <field name="tong_diem"/>
+                <field name="state"/>
+                <field name="catg_partner"/>
+                <filter string="Đã xác nhận" name="xacnhan" domain="[('state','=','1')]"/>
+                <filter string="Nháp" name="nhap" domain="[('state','=','0')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Danh mục" name="catg" domain="[]" context="{'group_by': 'catg_partner'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--   order.partner search-->
+    <record id="view_search_order_partner" model="ir.ui.view">
+        <field name="name">order.partner.search</field>
+        <field name="model">order.partner</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search order partner">
+                <field name="partner"/>
+                <field name="total"/>
+                <field name="cus_name"/>
+                <field name="cus_mobile"/>
+                <field name="date_order"/>
+                <field name="state"/>
+                <filter string="Đã xác nhận" name="xacnhan" domain="[('state','=','1')]"/>
+                <filter string="Nháp" name="nhap" domain="[('state','=','0')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Khách hàng" name="catg" domain="[]" context="{'group_by': 'cus_mobile'}"/>
+                    <filter string="Đối tác" name="catg" domain="[]" context="{'group_by': 'partner'}"/>
+                    <filter string="Ngày tạo đơn" name="catg" domain="[]" context="{'group_by': 'date_order'}"/>
                 </group>
             </search>
         </field>

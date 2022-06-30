@@ -1,5 +1,0 @@
-*.pyc
-__pycache__/
-controllers/__pycache__/
-models/__pycache__/
-winzard/__pycache__/

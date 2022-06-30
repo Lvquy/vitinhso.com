@@ -22,6 +22,7 @@ class TaiSan(models.Model):
     phieu_bangiao = fields.One2many(comodel_name='sudung.ts', inverse_name='tai_san',string='Phiếu bàn giao tài sản')
     tinh_trang = fields.Char(string='Tình trạng')
     bao_hanh = fields.Date(string='Bảo hành tới')
+    nha_kho = fields.Many2one(comodel_name='nha.kho',string='Nhà Kho')
 
     @api.model
     def create(self, vals):
@@ -45,7 +46,7 @@ class SDTaisan(models.Model):
     date_use = fields.Date(string='Ngày nhận tài sản', default=datetime.today())
     of_user = fields.Many2one(comodel_name='hr.employee', string='Người nhận')
     status = fields.Selection([('0','Nháp'),('1','Đã xác nhận')],string='Trạng thái',readonly=True)
-    note = fields.Char(string='Note')
+    note = fields.Text(string='Note')
 
     def confirm(self):
         self.status = '1'

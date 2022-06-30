@@ -5,6 +5,7 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <field name="country_id" position="after">
+                <field name="thuoc_kho"/>
                 <field name="phep_nghi"/>
             </field>
             <notebook>
@@ -60,6 +61,7 @@
                     <group>
                         <group>
                             <field name="nhanvien"/>
+                            <field name="thuoc_kho"/>
                         </group>
                         <group>
                             <field name="ngay_viet_don"/>

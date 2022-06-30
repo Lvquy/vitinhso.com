@@ -20,6 +20,7 @@ class HR(models.Model):
     ung_tien = fields.One2many(comodel_name='ung.luong', inverse_name='nguoi_ung')
     bao_cao_cv = fields.One2many(comodel_name='baocao.cv', inverse_name='nhan_vien', string='Báo cáo công việc hàng ngày')
     phep_nghi = fields.Date(string='Ngày nghỉ đặc biệt')
+    thuoc_kho = fields.Many2one(comodel_name='nha.kho', string='Kho làm việc', store=True)
 
 
 class NgayNghi(models.Model):
@@ -54,6 +55,7 @@ class NgayNghi(models.Model):
     state = fields.Selection([('0', 'Mới tạo'), ('1', 'Cho nghỉ'), ('2', 'Không cho nghỉ')], string='Trạng thái đơn',
                              default='0', track_visibility='onchange')
     pdf = fields.Binary(string='Chứng từ')
+    thuoc_kho = fields.Many2one(comodel_name='nha.kho', related='nhanvien.thuoc_kho' ,store=True)
 
     def confirm(self):
         notification = {
