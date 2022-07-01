@@ -10,6 +10,7 @@ class Dautu(models.Model):
     _name = 'dau.tu'
     _description = 'Danh mục đầu tư'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = 'name'
 
 
     name = fields.Char(string='Tên gói đầu tư', required=True)

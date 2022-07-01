@@ -16,6 +16,7 @@ class Stock(models.Model):
 
 class StockWareHouse(models.Model):
     _name= 'chi.phikho'
+    _rec_name = 'ngay_chot'
 
     thue_matbang = fields.Integer(string='Mặt bằng /Tháng')
     tien_dien = fields.Integer(string='Tiền điện /Tháng')

@@ -8,6 +8,7 @@ from datetime import datetime
 class CongViec(models.Model):
     _name = 'cong.viec'
     _inherit = ['mail.thread','mail.activity.mixin']
+    _rec_name = 'ten_cv'
 
 
     date_create = fields.Date(string='Ngày tạo công việc', default=datetime.today(),track_visibility = 'onchange')

@@ -9,6 +9,7 @@ class CoPhan(models.Model):
     _name = 'co.phan'
     _description = 'Cổ phần CTY'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = 'id_cp'
 
     id_cp = fields.Char(string='ID cổ phần', readonly=True, default=lambda self: ('New'))
     status = fields.Selection([('0','New'),('1','Đang sẵn sàng'),('2','Đang đầu tư'),

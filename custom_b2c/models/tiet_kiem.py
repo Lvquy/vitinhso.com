@@ -12,6 +12,7 @@ class TietKiem(models.Model):
     _date_name = 'Gửi tiết kiệm cổ phần'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'state desc,end_date desc'
+    _rec_name = 'code'
 
 
     code = fields.Char(string='Mã chứng từ', default= lambda self:('New'), readonly=True)

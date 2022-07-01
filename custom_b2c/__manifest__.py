@@ -54,6 +54,7 @@
         'views/warehouse_quantity.xml',
         'views/blog.xml',
         'views/partner.xml',
+        'views/sua_chua_views.xml',
         'winzard/report_b2c.xml',
 
     ],

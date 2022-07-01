@@ -12,6 +12,7 @@ class GiaoDichCoPhan(models.Model):
     _name = 'giaodich.cp'
     _description = 'Giao dịch cổ phần'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _rec_name = 'code'
 
     def get_default_price(self):
         default = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
