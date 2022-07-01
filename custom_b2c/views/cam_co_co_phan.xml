@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cam_co_view_form" model="ir.ui.view">
+            <field name="name">cam.co.form</field>
+            <field name="model">cam.co</field>
+            <field name="arch" type="xml">
+                <form string="Cầm cố cổ phần">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
+                        <button name="confirm" string="Xác nhận" type="object" attrs="{'invisible':[('state', 'in', ('1','2'))]}"/>
+                        <button name="done" string="Chuộc cổ phần" type="object" attrs="{'invisible':[('state', 'in', ('0','2'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="nguoi_cam"/>
+                                <field name="code"/>
+                                <field name="qty" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="thoi_gian" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="gia_cp"/>
+                                <field name="so_tien"/>
+                                <field name="ngay_cam" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="ngay_rut" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="cam_co_view_tree" model="ir.ui.view">
+            <field name="name">cam.co.tree</field>
+            <field name="model">cam.co</field>
+            <field name="arch" type="xml">
+                <tree string="Cầm cố cổ phần">
+                    <field name="code" optional="show"/>
+                    <field name="qty" optional="show" sum="Total"/>
+                    <field name="thoi_gian" optional="show"/>
+                    <field name="gia_cp" optional="show"/>
+                    <field name="so_tien" optional="show"/>
+                    <field name="state" optional="show"/>
+                    <field name="nguoi_cam" optional="show"/>
+                    <field name="ngay_cam" optional="show"/>
+                    <field name="ngay_rut" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_cam_co" model="ir.actions.act_window">
+            <field name="name">Cầm cố cổ phần</field>
+            <field name="res_model">cam.co</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_cam_co_adm" model="ir.actions.act_window">
+            <field name="name">Cầm cố cổ phần admin</field>
+            <field name="res_model">cam.co</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_camco_adm" name="Cầm cố cổ phần admin" sequence="20"
+                  groups="custom_b2c.group_ql,base.group_system"
+                  parent="menu_cophan"
+                  action="action_view_cam_co_adm"
+        />
+        <menuitem id="menu_camco" name="Cầm cố cổ phần" sequence="19"
+                  groups="custom_b2c.user_profile"
+                  parent="menu_cophan"
+                  action="action_view_cam_co"
+        />
+    </data>
+</odoo>

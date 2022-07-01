@@ -98,7 +98,6 @@ class TietKiem(models.Model):
 
                 })
         else:
-            print('chua toi ngay dao han')
             # chưa tới ngày đáo hạn
             if self.state not in ('1'):
                 raise UserError("Vui lòng làm mới trình duyệt")
@@ -168,3 +167,66 @@ class TraLai(models.Model):
 
     def get_lai(self):
         self.cp_lai = int((self.ref_tietkiem.thanh_vnd*self.ref_tietkiem.lai_suat)*0.01)
+
+class CamCo(models.Model):
+    _name = 'cam.co'
+    _rec_name = 'code'
+
+    code = fields.Char(string='Mã phiếu', default= lambda self: ('New'), readonly=True)
+    qty = fields.Integer(string='Số lượng cổ phần')
+    thoi_gian = fields.Selection([('12','12 Tháng'),('24','24 Tháng'),('36','36 Tháng')],string='Thời hạn cầm', default='12')
+    gia_cp = fields.Integer(string='Giá cổ phần quy đổi hiện tại', readonly=True)
+    so_tien = fields.Integer(string='Số tiền nhận được / Phải trả (VNĐ)', compute= 'compute_so_tien',readonly=True)
+    nguoi_cam = fields.Many2one(comodel_name='res.users',string='Người cầm', default = lambda self: self.env.user,readonly=True)
+    state = fields.Selection([('0','Nháp'),('1','Đã xác nhận'),('2','Đã trả')],string='Trạng thái', default='0')
+    ngay_cam = fields.Date(string='Ngày cầm cố', default=datetime.today())
+    ngay_rut = fields.Date(string='Ngày rút cổ phần')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('code', ('New') == ('New')):
+            vals['code'] = self.env['ir.sequence'].next_by_code('camco.code') or ('New')
+            res = super(CamCo, self).create(vals)
+        return res
+
+    @api.onchange('qty')
+    def compute_so_tien(self):
+        for rec in self:
+            rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
+            rec.so_tien = rec.gia_cp*rec.qty
+    def confirm(self):
+        for rec in self:
+            if rec.state == '0':
+                rec.state = '1'
+                if rec.nguoi_cam.user_profile.total_cp_ready >= rec.qty:
+                    CP_READY_USER = rec.env['co.phan'].search(['&',('status','=','1'),('of_user','=', rec.nguoi_cam.user_profile.id)],limit=rec.qty)
+                    for cp in CP_READY_USER:
+                        cp.status = '4'
+                    rec.nguoi_cam.user_profile.wallet_balance += rec.so_tien
+                else:
+                    raise UserError('Số cổ phần sẵn sàng không đủ')
+            else:
+                raise UserError("Làm mới trình duyệt")
+
+    def update_gia_cp(self):
+        for rec in self:
+            rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
+            rec.so_tien = rec.gia_cp*rec.qty
+            print('update gia cp')
+
+    def done(self):
+        #chuộc cổ phần
+        for rec in self:
+            rec.update_gia_cp()
+            if rec.state == '1':
+                rec.state = '2'
+                rec.ngay_rut = datetime.today()
+                wallet_balance = rec.nguoi_cam.user_profile.wallet_balance
+                if wallet_balance >= rec.so_tien:
+                    rec.nguoi_cam.user_profile.wallet_balance -= rec.so_tien
+                    CP_LOCK_USER = rec.env['co.phan'].search(['&',('status','=','4'),('of_user','=', rec.nguoi_cam.user_profile.id)],limit=rec.qty)
+                    for cp in CP_LOCK_USER:
+                        cp.status = '1'
+                else:
+                    raise UserError("Số tiền không đủ")
+            else: raise UserError("Làm mới trình duyệt")
