@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sua_chua_view_form" model="ir.ui.view">
+            <field name="name">sua.chua.form</field>
+            <field name="model">sua.chua</field>
+            <field name="arch" type="xml">
+                <form string="Sửa chữa">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
+                        <button name="confirm" string="Xác nhận" type="object" attrs="{'invisible':[('state', 'in', ('1','2'))]}"/>
+                        <button name="done" string="Hoàn thành" type="object" attrs="{'invisible':[('state', 'in', ('0','2'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="kho_hang" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="nguoi_nhan" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="ngay_nhan" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="ngay_tra" attrs="{'readonly':[('state', 'in', ('2'))]}"/>
+                                <field name="ly_do_sua" attrs="{'readonly':[('state', 'in', ('2'))]}"/>
+                                <field name="khach_hang" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                                <field name="chi_phi" attrs="{'readonly':[('state', 'in', ('2'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="product" string="Mặt hàng">
+                                <field name="products" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                            </page>
+                        </notebook>
+                        <field name="note" attrs="{'readonly':[('state', 'in', ('2'))]}"/>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="sua_chua_view_tree" model="ir.ui.view">
+            <field name="name">sua.chua.tree</field>
+            <field name="model">sua.chua</field>
+            <field name="arch" type="xml">
+                <tree string="Sửa chữa"  decoration-danger="state=='0'"
+                      decoration-success="state=='2'">
+                    <field name="code" optional="show"/>
+                    <field name="kho_hang" optional="show"/>
+                    <field name="nguoi_nhan" optional="show"/>
+                    <field name="ngay_nhan" optional="show"/>
+                    <field name="ngay_tra" optional="show"/>
+                    <field name="ly_do_sua" optional="show"/>
+                    <field name="khach_hang" optional="show"/>
+                    <field name="chi_phi" optional="show"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_sua_chua" model="ir.actions.act_window">
+            <field name="name">Sửa chữa</field>
+            <field name="res_model">sua.chua</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <record id="sua_chua_lines_view_tree" model="ir.ui.view">
+            <field name="name">product.suachua.lines.tree</field>
+            <field name="model">product.suachua.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Sửa chữa" editable="bottom" >
+                    <field name="product_template" optional="show"/>
+                    <field name="serial_num" optional="show"/>
+                    <field name="qty" optional="show"/>
+                    <field name="note" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="menu_suachua" name="Sửa chữa/Bảo hành" sequence="1"
+                  web_icon="custom_b2c,static/src/img/suachua.jpg"
+                  groups="custom_b2c.group_ql,base.group_system"/>
+        <menuitem id="sub_suachua" name="Danh sách" parent="menu_suachua"
+                  action="action_view_sua_chua"
+                  sequence="1" groups="custom_b2c.group_ql,base.group_system"/>
+    </data>
+</odoo>

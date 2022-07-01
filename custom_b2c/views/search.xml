@@ -330,4 +330,82 @@
             </search>
         </field>
     </record>
+
+    <!--    log.quy search-->
+    <record id="view_search_log_quy" model="ir.ui.view">
+        <field name="name">log.quy.search</field>
+        <field name="model">log.quy</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Log Qũy">
+                <field name="date_chi"/>
+                <field name="user_admin"/>
+                <field name="so_tien"/>
+                <field name="state"/>
+                <field name="ten_quy"/>
+                <field name="kieu_tien"/>
+                <group expand="0" string="Group By">
+                    <filter string="Người nhận tiền" name="user_admin" domain="[]" context="{'group_by': 'user_admin'}"/>
+                    <filter string="Trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Qũy" name="ten_quy" domain="[]" context="{'group_by': 'ten_quy'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--    thuong.nv search-->
+    <record id="view_search_thuong_nv" model="ir.ui.view">
+        <field name="name">thuong.nv.search</field>
+        <field name="model">thuong.nv</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Thuong Nv">
+                <field name="so_tien_thuong"/>
+                <field name="tong_nguoi_thu_huong"/>
+                <field name="ds_nguoi_thu_huong"/>
+                <field name="so_tien_chia"/>
+                <field name="state_thuong_dong_loat"/>
+                <field name="tu_quy"/>
+                <field name="kieu_tien"/>
+                <field name="ngay_thuong"/>
+                <filter string="Mới tạo" name="new" domain="[('state_thuong_dong_loat','=','0')]"/>
+                <filter string="Đã thưởng" name="confirm" domain="[('state_thuong_dong_loat','=','1')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Tên Quỹ" name="of_quy" domain="[]" context="{'group_by': 'tu_quy'}"/>
+                    <filter string="Trạng thái" name="salesperson" domain="[]" context="{'group_by': 'state_thuong_dong_loat'}"/>
+                    <filter string="Ngày thưởng" name="date" domain="[]" context="{'group_by': 'ngay_thuong'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--    sua.chua search-->
+    <record id="view_search_sua_chua" model="ir.ui.view">
+        <field name="name">sua.chua.search</field>
+        <field name="model">sua.chua</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Sửa chữa search">
+                <field name="code"/>
+                <field name="kho_hang"/>
+                <field name="nguoi_nhan"/>
+                <field name="ngay_nhan"/>
+                <field name="ngay_tra"/>
+                <field name="khach_hang"/>
+                <field name="state"/>
+                <field name="chi_phi"/>
+                <filter string="Mới tạo" name="new" domain="[('state','=','0')]"/>
+                <filter string="Đã nhận" name="confirm" domain="[('state','=','1')]"/>
+                <filter string="Đã xong" name="done" domain="[('state','=','2')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Kho hàng" name="kho_hang" domain="[]" context="{'group_by': 'kho_hang'}"/>
+                    <filter string="Trạng thái" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Người nhận" name="nguoi_nhan" domain="[]" context="{'group_by': 'nguoi_nhan'}"/>
+                    <filter string="Khách hàng" name="khach_hang" domain="[]" context="{'group_by': 'khach_hang'}"/>
+                    <filter string="Ngày nhận" name="ngay_nhan" domain="[]" context="{'group_by': 'ngay_nhan'}"/>
+                    <filter string="Ngày trả" name="ngay_tra" domain="[]" context="{'group_by': 'ngay_tra'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
 </odoo>

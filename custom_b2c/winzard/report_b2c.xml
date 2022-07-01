@@ -127,6 +127,7 @@
                     </header>
                     <sheet>
                         <group>
+                            <field name="ten_quy" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
                             <field name="date_chi" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
                             <field name="user_admin" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
                             <field name="so_tien" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
@@ -147,7 +148,9 @@
                     <field name="date_chi"/>
                     <field name="user_admin"/>
                     <field name="kieu_tien"/>
-                    <field name="so_tien" sum="Total"/>
+                    <field name="so_tien" sum="Total" optional="show"/>
+                    <field name="ten_quy" optional="show"/>
+                    <field name="note" optional="show"/>
                     <field name="state"/>
                     <button name="confirm" string="Xác nhận" groups="base.group_system,custom_b2c.group_ql"
                             type="object" attrs="{'invisible':[('state', 'in', ('1'))]}"/>
@@ -155,8 +158,19 @@
             </field>
         </record>
 
-<!--        thuong.nv-->
+         <!-- action view log quy -->
+        <record id="action_view_log_quy" model="ir.actions.act_window">
+            <field name="name">Log Quỹ</field>
+            <field name="res_model">log.quy</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
 
+<!--        thuong.nv-->
         <record id="thuong_nv_view_form" model="ir.ui.view">
             <field name="name">thuong.nv.form</field>
             <field name="model">thuong.nv</field>
@@ -212,10 +226,23 @@
                     <field name="ds_nguoi_thu_huong" optional="hide"/>
                     <field name="so_tien_chia" optional="show"/>
                     <field name="state_thuong_dong_loat" optional="show"/>
+                    <field name="note" optional="show"/>
                     <button name="thuong_nhan_vien" string="Xác nhận thưởng" type="object"
                                    class="btn btn-primary" attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
-                    <field name="tu_quy" optional="hide"/>
+                    <field name="tu_quy" optional="show"/>
                 </tree>
+            </field>
+        </record>
+
+         <!-- action view thuong nv-->
+        <record id="action_view_thuong_nv" model="ir.actions.act_window">
+            <field name="name">Thưởng nhân viên</field>
+            <field name="res_model">thuong.nv</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
             </field>
         </record>
 
@@ -224,5 +251,11 @@
 
         <menuitem id="menu_quycty" name="Qũy CTY" sequence="1" groups="base.group_system,custom_b2c.group_ql"
                   action="action_view_quy_cty" parent="menu_report"/>
+
+        <menuitem id="menu_log_quy" name="Danh sách chi tiền" sequence="1" groups="base.group_system,custom_b2c.group_ql"
+                  action="action_view_log_quy" parent="menu_report"/>
+
+        <menuitem id="menu_thuong_nv" name="Thưởng nhân viên" sequence="1" groups="base.group_system,custom_b2c.group_ql"
+                  action="action_view_thuong_nv" parent="menu_report"/>
     </data>
 </odoo>

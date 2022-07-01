@@ -8,6 +8,7 @@ from datetime import datetime
 
 class Partner(models.Model):
     _name = 'partner'
+    _rec_name = 'name'
 
     date_create = fields.Date(string='Ngày tạo', default=datetime.today())
     name = fields.Char(string='Tên cửa hàng', required=True)

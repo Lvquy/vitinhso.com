@@ -144,6 +144,8 @@ acess_custom_b2c_trans_wallet_ql,trans.wallet.ql,model_trans_wallet,custom_b2c.g
 acess_custom_b2c_cskh_ql,cskh.ql,model_cskh,custom_b2c.group_ql,1,1,1,1
 acess_custom_b2c_line_cskh_ql,line.cskh.ql,model_line_cskh,custom_b2c.group_ql,1,1,1,1
 acess_custom_b2c_thuong_nv_ql,thuong.nv.ql,model_thuong_nv,custom_b2c.group_ql,1,1,1,1
+acess_custom_b2c_sua_chua_ql,sua.chua.ql,model_sua_chua,custom_b2c.group_ql,1,1,1,1
+acess_custom_b2c_product_suachua_lines_ql,product.suachua.lines.ql,model_product_suachua_lines,custom_b2c.group_ql,1,1,1,1
 
 acess_custom_b2c_line_bank_admin,line.bank.admin,model_line_bank,base.group_system,1,1,1,1
 acess_custom_b2c_r2cp_admin,line.reward2cp.admin,model_line_reward2cp,base.group_system,1,1,1,1
