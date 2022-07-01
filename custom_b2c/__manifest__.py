@@ -55,6 +55,7 @@
         'views/blog.xml',
         'views/partner.xml',
         'views/sua_chua_views.xml',
+        'views/cam_co_co_phan.xml',
         'winzard/report_b2c.xml',
 
     ],

@@ -146,6 +146,7 @@ acess_custom_b2c_line_cskh_ql,line.cskh.ql,model_line_cskh,custom_b2c.group_ql,1
 acess_custom_b2c_thuong_nv_ql,thuong.nv.ql,model_thuong_nv,custom_b2c.group_ql,1,1,1,1
 acess_custom_b2c_sua_chua_ql,sua.chua.ql,model_sua_chua,custom_b2c.group_ql,1,1,1,1
 acess_custom_b2c_product_suachua_lines_ql,product.suachua.lines.ql,model_product_suachua_lines,custom_b2c.group_ql,1,1,1,1
+acess_custom_b2c_cam_co_ql,cam.co.ql,model_cam_co,custom_b2c.group_ql,1,1,1,1
 
 acess_custom_b2c_line_bank_admin,line.bank.admin,model_line_bank,base.group_system,1,1,1,1
 acess_custom_b2c_r2cp_admin,line.reward2cp.admin,model_line_reward2cp,base.group_system,1,1,1,1
@@ -171,6 +172,7 @@ acess_custom_b2c_line_dautu_profile,line.log.profile,model_line_log,custom_b2c.u
 acess_custom_b2c_nr_tien_profile,nap.rut.tien.profile,model_nap_rut_tien,custom_b2c.user_profile,1,1,1,1
 acess_custom_b2c_trans_points_profile,trans.points.profile,model_trans_points,custom_b2c.user_profile,1,1,1,1
 acess_custom_b2c_trans_wallet_profile,trans.wallet.profile,model_trans_wallet,custom_b2c.user_profile,1,1,1,1
+acess_custom_b2c_cam_co_profile,cam.co.profile,model_cam_co,custom_b2c.user_profile,1,1,1,1
 
 acess_custom_b2c_stock_location_public,stock.location.public,stock.model_stock_location,base.group_public,1,0,0,0
 acess_custom_b2c_co_phan_public,co.phan.public,model_co_phan,base.group_public,1,0,0,0

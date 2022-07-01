@@ -56,6 +56,7 @@ class Partner(models.Model):
         })
         U.write({'login':LOGIN.id})
         self.reward_points = 0
+        self.user_id = LOGIN.id
 
 class cskh(models.Model):
     _name = 'cskh'
