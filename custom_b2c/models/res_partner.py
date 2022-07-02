@@ -17,6 +17,7 @@ class Partner(models.Model):
                                  default='0',
                                  string='Trạng thái chăm sóc')
     is_cskh = fields.Boolean(string='Tới ngày CSKH', compute ='_compute_is_cskh')
+    user_profile = fields.Many2one(comodel_name='user.profile', string='TK giao dịch', readonly=True)
 
     # get default -> error create new user
     # @api.model
@@ -48,6 +49,7 @@ class Partner(models.Model):
             'otp': '',
 
         })
+        self.user_profile = U.id
         LOGIN = User.create({
             'name':self.name,
             'partner_id': self.id,
