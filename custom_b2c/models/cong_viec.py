@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models
 from datetime import datetime
+from odoo.exceptions import UserError
 
 class CongViec(models.Model):
     _name = 'cong.viec'
@@ -42,7 +43,11 @@ class CongViec(models.Model):
             rec.state ='1'
     def done(self):
         for rec in self:
-            rec.state ='2'
+            if rec.state == '1':
+                rec.state ='2'
+                for i in rec.nhan_su:
+                    i.user_profile.wallet_balance += rec.price
+            else: raise UserError('Làm mới trình duyệt')
     def cancel(self):
         for rec in self:
             rec.state ='3'
