@@ -15,10 +15,10 @@
                         <button name="cancel" string="Hủy" type="object"
                                 attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
                         <button name="access_rule_user" string="Giao việc" type="object"
-                                groups="base.group_system,custom_b2c.group_ql"
+                                groups="base.group_system,custom_b2c.group_cong_viec_adm"
                                 attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
                         <button name="unaccess_rule_user" string="Hủy Giao việc" type="object"
-                                groups="base.group_system,custom_b2c.group_ql"
+                                groups="base.group_system,custom_b2c.group_cong_viec_adm"
                                 attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
                     </header>
                     <sheet>
@@ -29,6 +29,7 @@
                                 <field name="thuoc_kho" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"
                                        options="{'no_create': True , 'no_quick_create': True}"/>
                                 <field name="price" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}"/>
+                                <span>Thưởng hoàn thành nhiệm vụ(VNĐ)</span>
                             </group>
 
                         </group>
@@ -124,11 +125,10 @@
 
         <menuitem id="menu_congviec" name="Quản lý công việc" sequence="1"
                   web_icon="custom_b2c,static/src/img/congviec.png"
-                  groups="custom_b2c.group_cong_viec_adm,base.group_system"/>
+                  groups="custom_b2c.group_cong_viec_adm,custom_b2c.group_cong_viec_user,base.group_system"/>
         <menuitem id="sub_congviec_bd" name="Danh sách" parent="menu_congviec"
                   action="action_view_cong_viec"
-                  sequence="1" groups="base.group_system,custom_b2c.group_cong_viec_adm"/>
-
+                  sequence="1" groups="base.group_system,custom_b2c.group_cong_viec_adm,custom_b2c.group_cong_viec_user"/>
 
         <menuitem id="menu_nha_kho" name="Danh sách kho" parent="menu_congviec" action="action_view_nha_kho"
                   sequence="1" groups="base.group_system,custom_b2c.group_cong_viec_adm"/>

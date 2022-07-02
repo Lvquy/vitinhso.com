@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_sua_chua" model="ir.actions.report">
+            <field name="name">Phiếu sửa chữa</field>
+            <field name="model">sua.chua</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">custom_b2c.report_suachua</field>
+            <field name="report_file">custom_b2c.report_suachua</field>
+            <field name="print_report_name"> '%s' % (object.code)</field>
+            <field name="binding_model_id" ref="model_sua_chua"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

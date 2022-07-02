@@ -14,7 +14,7 @@
     'author': 'Lv Quy',
     'company': '',
     'website': 'https://#',
-    'depends': ['sale', 'base_setup', 'hr', 'web', 'product','contacts','mrp'],
+    'depends': ['sale', 'base_setup', 'hr', 'web', 'product', 'contacts', 'mrp'],
     'data': [
         'data/sequence.xml',
         'data/default_data.xml',
@@ -59,6 +59,8 @@
         'views/payment_acquirer.xml',
         'views/sale_order.xml',
         'winzard/report_b2c.xml',
+        'report/sua_chua_template.xml',
+        'report/sua_chua_report.xml'
 
     ],
     'assets': {
