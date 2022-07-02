@@ -156,6 +156,7 @@ acess_custom_b2c_sx_tamung_system,sx.tam.ung.system,model_sx_tam_ung,base.group_
 acess_custom_b2c_trans_wallet_system,trans.wallet.system,model_trans_wallet,base.group_system,1,1,1,1
 acess_custom_b2c_cskh_system,cskh.system,model_cskh,base.group_system,1,1,1,1
 acess_custom_b2c_line_cskh_system,line.cskh.system,model_line_cskh,base.group_system,1,1,1,1
+acess_custom_b2c_sua_chua_system,sua.chua.system,model_sua_chua,base.group_system,1,1,1,1
 
 
 acess_custom_b2c_cp_profile_user,co.phan.user.profile,model_co_phan,custom_b2c.user_profile,1,1,0,0
