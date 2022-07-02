@@ -4,11 +4,30 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
-             <xpath expr="//group/field[@name='partner_id']" position="after">
-                 <field name="user_profile"/>
-                 <field name="partner"/>
-                 <field name="thuoc_kho"/>
-             </xpath>
+            <xpath expr="//group/field[@name='partner_id']" position="after">
+                <field name="user_profile"/>
+                <field name="partner"/>
+                <field name="thuoc_kho"/>
+            </xpath>
+            <page name="access_rights" position="after">
+                <page name="suachua" string="Công việc Sửa chữa">
+                    <field name="sua_chua"/>
+                </page>
+                <page name="congviec" string="Công việc của tôi">
+                    <field name="cong_viec"/>
+                </page>
+            </page>
         </field>
     </record>
+    <record id="res_users_view_tree_inherit" model="ir.ui.view">
+        <field name="name">res.users.tree.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree"/>
+        <field name="arch" type="xml">
+            <tree position="inside">
+                <field name="thuoc_kho"/>
+            </tree>
+        </field>
+    </record>
+
 </odoo>

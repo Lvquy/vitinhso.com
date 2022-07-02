@@ -21,7 +21,25 @@ class SuaChua(models.Model):
     note = fields.Text(string='Kết quả sửa chữa')
     state = fields.Selection([('0','Nháp'),('1','Đã xác nhận'),('2','Đã trả cho khách')],string='Trạng thái',default='0')
     chi_phi = fields.Integer(string='Chi phí sửa chữa')
+    access_user = fields.Many2many(comodel_name='res.users', string='Access User')
 
+
+    def access_user_rule(self):
+        for rec in self:
+            for i in rec.access_user:
+                i.write({'sua_chua': [(4, rec.id)]})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload'
+        }
+    def unaccess_user_rule(self):
+        for rec in self:
+            for i in rec.access_user:
+                i.write({'sua_chua': [(3, rec.id)]})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload'
+        }
     @api.model
     def create(self, vals):
         if vals.get('code', ('New') == ('New')):

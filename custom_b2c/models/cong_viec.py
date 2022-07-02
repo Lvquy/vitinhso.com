@@ -14,11 +14,28 @@ class CongViec(models.Model):
     date_create = fields.Date(string='Ngày tạo công việc', default=datetime.today(),track_visibility = 'onchange')
     ten_cv = fields.Char(string='Tên công việc',track_visibility = 'onchange')
     note = fields.Html(string='Mô tả công việc')
-    nhan_su = fields.Many2many(string='Nhân viên phụ trách', comodel_name='hr.employee',track_visibility = 'onchange')
+    nhan_su = fields.Many2many(string='Nhân viên phụ trách', comodel_name='res.users',track_visibility = 'onchange')
     state = fields.Selection([('0','Nháp'),('1','Xác nhận'),('2','Đã hoàn thành'),('3','Đã hủy')],string='Trạng thái',
                              default='0',track_visibility = 'onchange')
     thuoc_kho = fields.Many2one(comodel_name='nha.kho', string='Thuộc kho', required=True)
     price = fields.Integer(string='Giá trị công việc')
+
+    def access_rule_user(self):
+        for rec in self:
+            for i in rec.nhan_su:
+                i.write({'cong_viec': [(4, rec.id)]})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload'
+        }
+    def unaccess_rule_user(self):
+        for rec in self:
+            for i in rec.nhan_su:
+                i.write({'cong_viec': [(3, rec.id)]})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload'
+        }
 
     def confirm(self):
         for rec in self:
@@ -29,6 +46,7 @@ class CongViec(models.Model):
     def cancel(self):
         for rec in self:
             rec.state ='3'
+
 
 class BaoCaoCV(models.Model):
     _name = 'baocao.cv'

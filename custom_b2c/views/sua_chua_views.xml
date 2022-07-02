@@ -10,6 +10,10 @@
                         <field name="state" widget="statusbar" statusbar_visible="0,1,2"/>
                         <button name="confirm" string="Xác nhận" type="object" attrs="{'invisible':[('state', 'in', ('1','2'))]}"/>
                         <button name="done" string="Hoàn thành" type="object" attrs="{'invisible':[('state', 'in', ('0','2'))]}"/>
+                        <button name="access_user_rule" string="Access rule"
+                                groups="custom_b2c.group_ql,base.group_system"
+                                type="object" attrs="{'invisible':[('state', 'in', ('2'))]}"/>
+                        <button name="unaccess_user_rule" string="UnAccess rule" type="object" attrs="{'invisible':[('state', 'in', ('2'))]}"/>
                     </header>
                     <sheet>
                         <group>
@@ -27,6 +31,9 @@
                         <notebook>
                             <page name="product" string="Mặt hàng">
                                 <field name="products" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
+                            </page>
+                            <page name="access" string="Access User">
+                                <field name="access_user" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
                             </page>
                         </notebook>
                         <field name="note" attrs="{'readonly':[('state', 'in', ('2'))]}"/>
@@ -86,5 +93,17 @@
         <menuitem id="sub_suachua" name="Danh sách" parent="menu_suachua"
                   action="action_view_sua_chua"
                   sequence="1" groups="custom_b2c.group_ql,base.group_system"/>
+
+<!--        rule -->
+        <record id="sua_chua_rule" model="ir.rule">
+            <field name="name">Sua chua Rule</field>
+            <field name="model_id" ref="model_sua_chua"/>
+            <field name="domain_force">[('id', 'in', [a.id for a in user.sua_chua])]</field>
+            <field name="groups" eval="[(4, ref('custom_b2c.group_nv'))]"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
     </data>
 </odoo>

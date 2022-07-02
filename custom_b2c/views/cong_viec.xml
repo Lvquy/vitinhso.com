@@ -14,6 +14,12 @@
                                 attrs="{'invisible':[('state', 'in', ('0','2','3'))]}"/>
                         <button name="cancel" string="Hủy" type="object"
                                 attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
+                        <button name="access_rule_user" string="Giao việc" type="object"
+                                groups="base.group_system,custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
+                        <button name="unaccess_rule_user" string="Hủy Giao việc" type="object"
+                                groups="base.group_system,custom_b2c.group_ql"
+                                attrs="{'invisible':[('state', 'in', ('2','3'))]}"/>
                     </header>
                     <sheet>
                         <group>
@@ -34,10 +40,8 @@
                                 <field name="nhan_su" attrs="{'readonly':[('state', 'in', ('1','2','3'))]}">
                                     <tree>
                                         <field name="name"/>
-                                        <field name="work_phone"/>
-                                        <field name="work_email"/>
-                                        <field name="department_id"/>
-                                        <field name="job_id" optional="hide"/>
+                                        <field name="login" string="Email"/>
+                                        <field name="thuoc_kho"/>
                                     </tree>
                                 </field>
                             </page>
@@ -106,24 +110,17 @@
             </field>
         </record>
 
+        <!--        rule -->
         <record id="cong_viec_rule" model="ir.rule">
-            <field name="name">Công việc Rule</field>
+            <field name="name">cong viec Rule</field>
             <field name="model_id" ref="model_cong_viec"/>
-            <field name="domain_force">[('thuoc_kho', 'in', [a.id for a in user.thuoc_kho])]</field>
+            <field name="domain_force">[('id', 'in', [a.id for a in user.cong_viec])]</field>
             <field name="groups" eval="[(4, ref('custom_b2c.group_cong_viec_user'))]"/>
-            <field name="perm_create" eval="False"/>
+            <field name="perm_create" eval="True"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
+            <field name="perm_unlink" eval="True"/>
         </record>
-
-        <record id="cong_viec_all" model="ir.rule">
-            <field name="name">All Leads</field>
-            <field name="model_id" ref="model_cong_viec"/>
-            <field name="domain_force">[(1,'=',1)]</field>
-            <field name="groups" eval="[(4, ref('custom_b2c.group_cong_viec_adm'))]"/>
-        </record>
-
 
         <menuitem id="menu_congviec" name="Quản lý công việc" sequence="1"
                   web_icon="custom_b2c,static/src/img/congviec.png"
