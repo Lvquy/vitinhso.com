@@ -36,6 +36,8 @@
                         <group>
                             <field name="user_id" string="Tài khoản hệ thống" domain="[('share', '=', False)]"
                                    options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
+                            <field name="user_profile" string="Tài khoản giao dịch"
+                                   options="{'no_open': True, 'no_create': True , 'no_quick_create': True}"/>
                         </group>
                         <button name="create_user_profile" type="object" string="Tạo tài khoản hệ thống"
                                 class="btn btn-primary"/>

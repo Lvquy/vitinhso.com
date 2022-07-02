@@ -56,6 +56,8 @@
         'views/partner.xml',
         'views/sua_chua_views.xml',
         'views/cam_co_co_phan.xml',
+        'views/payment_acquirer.xml',
+        'views/sale_order.xml',
         'winzard/report_b2c.xml',
 
     ],
