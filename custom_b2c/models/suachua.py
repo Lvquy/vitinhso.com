@@ -22,6 +22,7 @@ class SuaChua(models.Model):
     state = fields.Selection([('0','Nháp'),('1','Đã xác nhận'),('2','Đã trả cho khách')],string='Trạng thái',default='0')
     chi_phi = fields.Integer(string='Chi phí sửa chữa')
     access_user = fields.Many2many(comodel_name='res.users', string='Access User')
+    img_product = fields.Binary('Hình ảnh')
 
 
     def access_user_rule(self):

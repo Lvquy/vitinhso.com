@@ -147,6 +147,9 @@ acess_custom_b2c_thuong_nv_ql,thuong.nv.ql,model_thuong_nv,custom_b2c.group_ql,1
 acess_custom_b2c_sua_chua_ql,sua.chua.ql,model_sua_chua,custom_b2c.group_ql,1,1,1,1
 acess_custom_b2c_product_suachua_lines_ql,product.suachua.lines.ql,model_product_suachua_lines,custom_b2c.group_ql,1,1,1,1
 acess_custom_b2c_cam_co_ql,cam.co.ql,model_cam_co,custom_b2c.group_ql,1,1,1,1
+acess_custom_b2c_khieu_nai_ql,khieu.nai.ql,model_khieu_nai,custom_b2c.group_ql,1,1,1,1
+
+acess_custom_b2c_khieu_nai_nv,khieu.nai.nv,model_khieu_nai,custom_b2c.group_nv,1,1,1,1
 
 acess_custom_b2c_line_bank_admin,line.bank.admin,model_line_bank,base.group_system,1,1,1,1
 acess_custom_b2c_r2cp_admin,line.reward2cp.admin,model_line_reward2cp,base.group_system,1,1,1,1
@@ -186,4 +189,5 @@ acess_custom_b2c_co_phan_location_user,co.phan.location.user,model_co_phan,base.
 acess_custom_b2c_report_b2c_location_user,report.b2c.location.user,model_report_b2c,base.group_user,0,0,0,0
 access_ir_config_parameter_location_user,ir_config_parameter_location_user,base.model_ir_config_parameter,base.group_user,1,1,0,0
 access_user_profile_location_user,user_profile_location_user,model_user_profile,base.group_user,1,1,0,0
+
 

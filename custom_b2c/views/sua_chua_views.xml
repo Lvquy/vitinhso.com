@@ -27,6 +27,9 @@
                                 <field name="khach_hang" attrs="{'readonly':[('state', 'in', ('1','2'))]}"/>
                                 <field name="chi_phi" attrs="{'readonly':[('state', 'in', ('2'))]}"/>
                             </group>
+                            <group>
+                                <field name="img_product" widget="image"  class="img_medium"/>
+                            </group>
                         </group>
                         <notebook>
                             <page name="product" string="Mặt hàng">
