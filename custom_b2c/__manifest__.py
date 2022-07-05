@@ -58,6 +58,7 @@
         'views/cam_co_co_phan.xml',
         'views/payment_acquirer.xml',
         'views/sale_order.xml',
+        'views/khieunai_gopy.xml',
         'winzard/report_b2c.xml',
         'report/sua_chua_template.xml',
         'report/sua_chua_report.xml'

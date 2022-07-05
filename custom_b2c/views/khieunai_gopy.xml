@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="khieu_nai_view_form" model="ir.ui.view">
+            <field name="name">khieu.nai.form</field>
+            <field name="model">khieu.nai</field>
+            <field name="arch" type="xml">
+                <form string="Khiếu nại góp ý">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="confirm" string="Gửi đi" type="object"
+                                attrs="{'invisible':[('state', 'in', ('1'))]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="date_create" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                                <field name="user_create"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="an_danh" attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="content" string="Nội dung">
+                                <field name="content" placeholder='Gõ / để xem các tùy chọn ' attrs="{'readonly':[('state', 'in', ('1'))]}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="khieu_nai_view_tree" model="ir.ui.view">
+            <field name="name">khieu.nai.tree</field>
+            <field name="model">khieu.nai</field>
+            <field name="arch" type="xml">
+                <tree string="Khiếu nại đóng góp" decoration-danger="state=='0'"
+                      decoration-success="state=='1'">
+                    <field name="name" optional="show"/>
+                    <field name="date_create" optional="show"/>
+                    <field name="user_create" optional="show"/>
+                    <field name="email" optional="show"/>
+                    <field name="phone" optional="show"/>
+                    <field name="an_danh" optional="show"/>
+                    <field name="state" optional="show"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_khieu_nai" model="ir.actions.act_window">
+            <field name="name">Khiếu nại, góp ý</field>
+            <field name="res_model">khieu.nai</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_khieu_nai_adm" model="ir.actions.act_window">
+            <field name="name">Khiếu nại, góp ý</field>
+            <field name="res_model">khieu.nai</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_khieu_nai" name="Khiếu nại,góp ý" sequence="1"
+                  web_icon="custom_b2c,static/src/img/congviec.png"/>
+        <menuitem id="sub_khieunai" name="Danh sách" parent="menu_khieu_nai"
+                  action="action_view_khieu_nai"
+                  sequence="1"/>
+        <menuitem id="sub_khieunai_adm" name="Tất cả" parent="menu_khieu_nai"
+                  action="action_view_khieu_nai_adm"
+                  sequence="1"/>
+    </data>
+</odoo>

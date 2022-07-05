@@ -12,3 +12,9 @@
     color:red;
     font-weight: bold;
 }
+.img_medium > img{
+    border: none;
+    box-shadow: none;
+    max-width: 200px;
+    max-height: 200px;
+}
