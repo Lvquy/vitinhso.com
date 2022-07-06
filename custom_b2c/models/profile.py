@@ -37,7 +37,7 @@ class UserProfile(models.Model):
     lock_edit = fields.Boolean(string='Khóa sửa thông tin',default=False, readonly=True)
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
-
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
     def action_lock_edit(self):
         for rec in self:
             rec.lock_edit = True
