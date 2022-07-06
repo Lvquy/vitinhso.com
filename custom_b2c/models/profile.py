@@ -216,6 +216,7 @@ class NapRutTien(models.Model):
                                   required=True, default='nap')
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     def get_self(self):
         for rec in self:
@@ -322,6 +323,7 @@ class TransferPoints(models.Model):
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     note = fields.Text(string='Note')
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     def send_otp(self):
         otp = random.randrange(100000, 999999)
@@ -384,6 +386,7 @@ class TransWallet(models.Model):
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     note = fields.Text(string='Note')
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     def send_otp(self):
         otp = random.randrange(100000, 999999)
