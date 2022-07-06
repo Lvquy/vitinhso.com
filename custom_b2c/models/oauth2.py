@@ -16,7 +16,7 @@ class OAuthLogin(Home):
         for provider in providers:
             return_url = request.httprequest.url_root + 'auth_oauth/signin'
             Config = request.env['res.config.settings']
-            base_url = Config.get_uri()
+            base_url = Config.sudo().get_uri()
             return_url = base_url
             state = self.get_state(provider)
             params = dict(

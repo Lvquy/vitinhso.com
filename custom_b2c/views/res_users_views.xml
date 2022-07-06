@@ -4,6 +4,9 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
+            <header>
+                <button name="create_user_profile" string="Tạo tài khoản giao dịch" type="object" attrs="{'invisible':[('user_profile', '!=',False )]}"/>
+            </header>
             <xpath expr="//group/field[@name='partner_id']" position="after">
                 <field name="user_profile"/>
                 <field name="partner"/>

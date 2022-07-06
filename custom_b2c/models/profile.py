@@ -22,7 +22,6 @@ class UserProfile(models.Model):
     wallet = fields.Char(string='Ví cá nhân', default=lambda self: ('New'))
     wallet_balance = fields.Integer(string='Số dư (VNĐ)', readonly=True)
     co_phan = fields.Many2many(comodel_name='co.phan', string='Cổ phần', compute='get_cp')
-    kyc_status = fields.Selection([('0', 'Chưa kyc'), ('1', 'Đã kyc')], string='Trạng thái kyc', default='0')
     bank_id = fields.One2many(comodel_name='line.bank', inverse_name='of_user', string='Tài khoản ngân hàng')
     login = fields.Many2one(comodel_name='res.users', string='Tài khoản đăng nhập', readonly=True)
     is_adm_cty = fields.Boolean(string='Là tài khoản CTY', default=False, readonly=False)
@@ -38,6 +37,27 @@ class UserProfile(models.Model):
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
+    #kyc
+    kyc_status = fields.Selection([('0', 'Chưa kyc'), ('1', 'Đã kyc')], string='Trạng thái kyc', default='0')
+    img_cmnd_tcc_f = fields.Binary('Chứng minh / Thẻ căn cước / hộ chiếu mặt trước')
+    img_cmnd_tcc_b = fields.Binary('Chứng minh / Thẻ căn cước / hộ chiếu  mặt sau')
+    img_chan_dung = fields.Binary('Ảnh chân dung')
+    note = fields.Text(string='Note')
+    user_confirm = fields.Char('User ID Xác nhận KYC', readonly=True)
+    date_kyc = fields.Date('Ngày vượt qua KYC', readonly=True)
+
+    _sql_constraints = [
+        ('email_uniq', 'unique (email)', "Email đã tồn tại trong hệ thống !"),
+        ('mobile_uniq', 'unique (mobile)', "Mobile đã tồn tại trong hệ thống !"),
+
+    ]
+
+    def kyc(self):
+        for rec in self:
+            rec.kyc_status = '1'
+            rec.user_confirm = rec.env.user.id
+            rec.date_kyc = datetime.today()
+
     def action_lock_edit(self):
         for rec in self:
             rec.lock_edit = True
@@ -387,6 +407,7 @@ class TransWallet(models.Model):
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     note = fields.Text(string='Note')
     company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
+
 
     def send_otp(self):
         otp = random.randrange(100000, 999999)

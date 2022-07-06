@@ -14,6 +14,8 @@
                                 attrs="{'invisible':[('lock_edit', '=', False)]}"/>
                         <button name="unlock_edit" string="Mở khóa sửa thông tin" type="object"
                                 attrs="{'invisible':[('lock_edit', '=', False)]}"/>
+                        <button name="kyc" string="Xác nhận KYC" type="object"
+                                attrs="{'invisible':[('kyc_status', '=', '1')]}" groups="custom_b2c.group_ql"/>
                     </header>
                     <sheet>
                         <field name="img" widget='image' class="oe_avatar"
@@ -79,6 +81,18 @@
                             </page>
                             <page string="Đổi điểm lấy cổ phần">
                                 <field name="reward_cp" readonly="1"/>
+                            </page>
+                            <page name="kyc" string="KYC Document">
+                                <group>
+                                    <field name="img_cmnd_tcc_f" attrs="{'readonly':[('kyc_status', 'in', ('1'))]}" class="img_medium" widget="image"/>
+                                    <field name="img_cmnd_tcc_b" attrs="{'readonly':[('kyc_status', 'in', ('1'))]}" class="img_medium" widget="image"/>
+                                    <field name="img_chan_dung" attrs="{'readonly':[('kyc_status', 'in', ('1'))]}" class="img_medium" widget="image"/>
+                                </group>
+                                <group>
+                                    <field name="date_kyc"/>
+                                    <field name="user_confirm"/>
+                                    <field name="note"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
