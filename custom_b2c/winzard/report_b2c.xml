@@ -36,11 +36,25 @@
                 </tree>
             </field>
         </record>
+        <record id="report_b2c_view_pivot" model="ir.ui.view">
+            <field name="name">report.b2c.report.pivot</field>
+            <field name="model">report.b2c</field>
+            <field name="priority">60</field>
+            <field name="arch" type="xml">
+                <pivot string="Pivot Report Vi Tính Số" sample="1">
+                    <field name="date_update" interval="month" type="col"/>
+                    <field name="ln_sale" type="measure"/>
+                    <field name="ln_thi_cong" type="measure"/>
+                    <field name="ln_phi_giao_dich_cp" type="measure"/>
+                    <field name="ln_dautu" type="measure"/>
+                </pivot>
+            </field>
+        </record>
 
         <record id="report_b2c_winzard_action1" model="ir.actions.act_window">
             <field name="name">Report</field>
             <field name="res_model">report.b2c</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a new ...
