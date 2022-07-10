@@ -48,7 +48,6 @@ class QuyCty(models.Model):
         for rec in self:
             total_da_chi = 0
             for l in rec.log_quy.search(['&',('ten_quy','=',rec.id),('state','=','1')]):
-                print(l.so_tien)
                 total_da_chi += l.so_tien
             rec.total_da_chi = total_da_chi
 

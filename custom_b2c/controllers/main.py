@@ -24,11 +24,13 @@ class Home(Home,Response):
         total_cp = request.env['ir.config_parameter'].get_param('custom_b2c.total_cp') or 0
         cp_phathanh = CP.search_count([]) or 0
         total_points = 0
+        toal_price_up_cp = request.env['ir.config_parameter'].get_param('custom_b2c.loi_nhuan_ban_hang') or 0
         for i in UserProfile:
             total_points += i.reward_points
 
         return request.render('custom_b2c.custom_field_to_home', {
-           'price_cp': price_cp,'total_cp':total_cp,'cp_phathanh':cp_phathanh,'total_points':total_points
+           'price_cp': price_cp,'total_cp':total_cp,'cp_phathanh':cp_phathanh,
+            'total_points':total_points,'toal_price_up_cp':toal_price_up_cp
        })
         # return res
 

@@ -94,7 +94,7 @@ class cskh(models.Model):
                     i.date_cs_max  = datetime.today()
                 date_max = i.date_cs_max.strftime('%Y-%m-%d')
                 if date_max <= today:
-                    print(date_max, today)
+
                     i.status_cs = '2'
     def get_line_kh(self):
         self.update_date_cs()

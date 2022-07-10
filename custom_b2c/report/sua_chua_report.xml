@@ -13,7 +13,7 @@
         </record>
 
         <record id="action_report_sale" model="ir.actions.report">
-            <field name="name">Đơn hàng</field>
+            <field name="name">Báo giá / Đơn hàng Vi tính số</field>
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">custom_b2c.report_sale_order_custom1</field>

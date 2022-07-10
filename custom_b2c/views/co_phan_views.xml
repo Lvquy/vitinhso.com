@@ -199,6 +199,24 @@
                                     <field name="price_unit_r2cp"/>
                                 </div>
                             </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="loi_nhuan_ban_hang"/>
+                                    <field name="loi_nhuan_ban_hang"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="discount_up_cp"/>
+                                    <field name="discount_up_cp"/>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <button class="btn btn-success" name="up_value_cp" string="Tăng giá cổ phần" type="object"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </xpath>

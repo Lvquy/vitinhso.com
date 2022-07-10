@@ -212,7 +212,7 @@ class CamCo(models.Model):
         for rec in self:
             rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
             rec.so_tien = rec.gia_cp*rec.qty
-            print('update gia cp')
+
 
     def done(self):
         #chuộc cổ phần

@@ -16,6 +16,12 @@
                     </div>
                     <div class="col-12 col-lg-6 o_setting_box">
                         <div class="o_setting_right_pane">
+                            <label for="discount_for_cty"/>
+                            <field name="discount_for_cty"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
                             <h6>Chỉ thay đổi khi tất cả các đơn hàng đã được thanh toán!</h6>
                         </div>
                     </div>

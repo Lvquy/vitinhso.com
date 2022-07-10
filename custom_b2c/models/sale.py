@@ -12,6 +12,18 @@ class SaleOrderInherit(models.Model):
                                  domain=[('state','=','enabled')],track_visibility='onchange',
                                  string='Phương thức thanh toán')
 
+
+    def get_loi_nhuan_ban_hang(self):
+        ICP = self.env['ir.config_parameter'].sudo()
+        cp_dang_phat_hanh = self.env['co.phan'].search_count([])
+        discount= ICP.get_param('custom_b2c.discount', default=0)
+        discount_for_cty= ICP.get_param('custom_b2c.discount_for_cty', default=0)
+        khach_discount = (self.amount_total* float(discount))/100
+        cty_discount =(self.amount_total* float(discount_for_cty))/100
+
+        ICP.set_param('custom_b2c.loi_nhuan_ban_hang', (khach_discount+cty_discount)/cp_dang_phat_hanh)
+
+
     def action_confirm(self):
         #check pay method
         for rec in self:
@@ -20,6 +32,7 @@ class SaleOrderInherit(models.Model):
                 WALLET = rec.partner_id.user_profile.wallet_balance
                 if WALLET >=  rec.amount_total:
                     rec.partner_id.user_profile.wallet_balance -= rec.amount_total
+                    rec.get_loi_nhuan_ban_hang()
                 else:
                     notification = {
                         'type': 'ir.actions.client',
@@ -34,24 +47,31 @@ class SaleOrderInherit(models.Model):
                     }
                     return notification
             else:
-                pass
+                rec.get_loi_nhuan_ban_hang()
                 #ck ngan hang
+
         total = self.amount_total
         cost = 0
         for i in self.order_line:
             cost = cost + i.product_id.standard_price
         loinhuan = total - cost
         discount = self.env['ir.config_parameter'].sudo().get_param('custom_b2c.discount')
+        cty_discount = self.env['ir.config_parameter'].sudo().get_param('custom_b2c.discount_for_cty')
         a = float(total)
         b = float(discount)
+        d = float(cty_discount)
         c = a*b*0.01
+        cty_rw = a*d*0.01
         reward = int(c)
-        ln_cty = loinhuan - reward
+        reward_cty = int(cty_rw)
+        ln_cty = loinhuan
         REPORT_B2C = self.env['report.b2c']
         REPORT_B2C.create({
             'ln_sale':ln_cty,
             'date_update': datetime.today()
         })
+        ADMIN_CTY = self.env['user.profile'].search([('is_adm_cty','=',True)],limit=1)
+        ADMIN_CTY.reward_points +=reward_cty
         if self.partner_id.user_id:
             self.partner_id.user_id.user_profile.reward_points += reward
         else:
@@ -77,5 +97,3 @@ class SaleOrderInherit(models.Model):
         self.partner_id.reward_points -= reward
         res = super(SaleOrderInherit, self).action_cancel()
         return res
-
-
