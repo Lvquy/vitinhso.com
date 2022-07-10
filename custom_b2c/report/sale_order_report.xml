@@ -9,7 +9,7 @@
             <t t-if="doc.state in ('sale','done')">
                 <h1 class="text-center text-success mb-3">HÓA ĐƠN BÁN HÀNG</h1>
             </t>
-            <t t-if="doc.state in ('draft')">
+            <t t-if="doc.state in ('draft','sent')">
                 <h1 class="text-center text-success mb-3">BẢNG BÁO GIÁ</h1>
             </t>
 
@@ -33,7 +33,7 @@
                     <span t-esc="child.email"/>
                 </t>
             </div>
-            <t t-if="doc.state in ('draft')">
+            <t t-if="doc.state in ('draft','sent')">
                 <p>
                     Cám ơn quý khách hàng đã tin tưởng sản phẩm và dịch vụ của Công ty Vi Tính Số
                     Chúng tôi trân trọng gửi đến quý khách hàng báo giá thiết bị của Công ty Vi Tính Số theo nhu cầu của
@@ -137,7 +137,7 @@
             <div>
                 <span>Ghi chú:</span> <span t-field="doc.note"/>
             </div>
-            <div t-if="doc.state in ('draft')">
+            <div t-if="doc.state in ('draft','sent')">
                 <p>
                     Tất cả các thiết bị đều mới 100% . Và chính sách bảo hành đúng theo tiêu chuẩn quy định của các
                     hãng.
