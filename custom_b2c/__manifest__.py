@@ -60,8 +60,10 @@
         'views/sale_order.xml',
         'views/khieunai_gopy.xml',
         'winzard/report_b2c.xml',
+        # report
         'report/sua_chua_template.xml',
-        'report/sua_chua_report.xml'
+        'report/sua_chua_report.xml',
+        'report/sale_order_report.xml'
 
     ],
     'assets': {

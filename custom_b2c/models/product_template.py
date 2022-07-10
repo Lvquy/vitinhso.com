@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 from odoo import api, fields, models
 
 
@@ -31,7 +30,6 @@ class SetPrice(models.Model):
             if self.type == '2':
                 for i in selected_records:
                     i.list_price = i.list_price + self.price*0.01*i.list_price
-
 
     def down_price(self):
         ProductProduct= self.env['product.product']
@@ -64,7 +62,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     hide = fields.Boolean(string='Hide', default=True, compute="get_user")
-
+    warranty = fields.Integer(string="Thời gian bảo hành (Tháng)")
     @api.depends('hide')
     def get_user(self):
 

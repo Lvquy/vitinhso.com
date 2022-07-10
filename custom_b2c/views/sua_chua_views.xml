@@ -85,6 +85,7 @@
                     <field name="product_template" optional="show"/>
                     <field name="serial_num" optional="show"/>
                     <field name="qty" optional="show"/>
+                    <field name="chi_phi" optional="show"/>
                     <field name="note" optional="show"/>
                 </tree>
             </field>

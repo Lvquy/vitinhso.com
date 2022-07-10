@@ -3,80 +3,102 @@
     <template id="report_suachua_document">
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context(lang=doc.khach_hang.lang)"/>
-
+            <div>
+                <img src="/custom_b2c/static/src/img/logo_report.jpg" class="text-center img-fluid mb-5 mt-0"/>
+            </div>
             <div class="page">
                 <div class="oe_structure"/>
 
-                <h2 class="mt16">
-                    <span>Phiếu sửa chữa #</span>
-                    <span t-field="doc.code"/>
-                </h2>
+                <h1 class="text-center text-success mb-3">BIÊN NHẬN</h1>
 
-                <div class="row mt32 mb32" id="informations">
-                    <div class="col-auto col-3 mw-100 mb-2">
-                        <strong>Tên khách hàng: <span class="m-0" t-field="doc.khach_hang.name"/></strong>
+                <div class="mb-2" id="informations">
+                    <div class="mb-2">
+                        <strong>Tên khách hàng:</strong>
+                        <span class="m-0" t-field="doc.khach_hang.name"/>
                     </div>
-                </div>
+                    <div class="mb-2">
+                        <strong>Địa chỉ:</strong>
+                        <span t-field="doc.khach_hang.street"/>,<span t-field="doc.khach_hang.street2"/>,<span
+                            t-field="doc.khach_hang.city"/>,
+                        <span t-field="doc.khach_hang.state_id.name"/>
 
-                <table class="table table-sm o_main_table">
-                    <!-- In case we want to repeat the header, remove "display: table-row-group" -->
-                    <thead style="display: table-row-group">
-                        <tr>
-                            <th name="th_description" class="text-left">Product Name</th>
-                            <th name="th_quantity" class="text-right">Serial</th>
-                            <th name="th_priceunit" class="text-right">Qty</th>
-                            <th name="th_priceunit" class="text-right">Note</th>
-                        </tr>
-                    </thead>
-                    <tbody class="sale_tbody">
-                        <t t-foreach="doc.products" t-as="line">
-                            <tr t-att-class="'bg-200 font-weight-bold o_line_section'">
-                                <td name="td_product_template" class="text-right">
-                                    <span t-field="line.product_template"/>
-                                </td>
-                                <td name="td_serial_num" class="text-right">
-                                    <span t-field="line.serial_num"/>
-                                </td>
-                                <td name="td_qty" class="text-right">
-                                    <span t-field="line.qty"/>
-                                </td>
-                                <td name="td_note" class="text-right">
-                                    <span t-field="line.note"/>
-                                </td>
-                            </tr>
-                            <tr class="is-subtotal text-right">
-                                <td name="td_section_subtotal" colspan="99">
-                                </td>
-                            </tr>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Liên hệ:</strong>
+                        <t t-foreach="doc.khach_hang.child_ids" t-as="child">
+                            <span t-esc="child.mobile"/>
+                            -
+                            <span t-esc="child.name"/>
+                            -
+                            <span t-esc="child.email"/>
                         </t>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Đơn hàng số:</strong>
+                        <span t-field="doc.code"/>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Ngày tạo:</strong>
+                        <span t-field="doc.ngay_nhan"/>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Nhân viên phụ trách:</strong>
+                        <span t-field="doc.nguoi_nhan.name"/>
+                    </div>
+
+                    <table class="table table-sm o_main_table">
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th class="text-center text-primary">STT</th>
+                                <th class="text-center text-primary">Tên thiết bị</th>
+                                <th class="text-center text-primary">Số lượng</th>
+                                <th class="text-center text-primary">Serial</th>
+                                <th class="text-center text-primary">Ghi chú</th>
+                                <th class="text-right text-primary">Thành tiền</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-set="stt" t-value="1"/>
+                            <t t-foreach="doc.products" t-as="line">
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section'">
+                                    <td class="text-center">
+                                        <span t-esc="stt"/>
+                                        <t t-set="stt" t-value="stt+1"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.product_template.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.qty"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.serial_num"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.note"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.chi_phi"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
                         <tr class="is-subtotal text-right">
-                            <td name="td_section_subtotal" colspan="99">
-                                <strong class="mr16">Chi phí sửa chữa / bảo hành</strong>
+                            <td colspan="99">
+                                <strong class="mr16">Tổng:</strong>
                                 <span t-field="doc.chi_phi"/>
                             </td>
                         </tr>
-
-                    </tbody>
-                </table>
-                <div class="mt32 ml64 mr4" name="signature">
-                    <div class="offset-8">
-                        <strong>Đóng dấu</strong>
-                    </div>
-                    <div class="offset-8">
-                        <img src='/custom_b2c/static/description/icon.png' style="max-height: 45px;"/>
-                        <!-- <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>-->
-                    </div>
-                    <div class="offset-8 text-center">
-                        <!-- <p t-field="doc.signed_by"/>-->
-                        <span>Nhân viên đã ký</span> <br/>
-                        <span t-field="doc.nguoi_nhan.name"/>
-                    </div>
-                </div>
-                <div class="oe_structure"/>
-
-                <div>
-                    Ngày nhận:
-                    <span t-field="doc.ngay_nhan"/>
+                    </table>
+                    <table class="table">
+                        <tr>
+                            <td class="text-center">QUẢN LÝ</td>
+                            <td class="text-center">NHÂN VIÊN</td>
+                            <td class="text-center">KHÁCH HÀNG</td>
+                        </tr>
+                    </table>
+                    <div class="oe_structure"/>
                 </div>
             </div>
         </t>

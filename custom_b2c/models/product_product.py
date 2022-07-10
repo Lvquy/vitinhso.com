@@ -8,7 +8,7 @@ from odoo import api, fields, models
 class Product(models.Model):
     _inherit = 'product.product'
 
-    warranty = fields.Integer(string="Thời gian bảo hành (Tháng)")
+    # warranty = fields.Integer(string="Thời gian bảo hành (Tháng)")
     vitri_kehang = fields.Many2one(comodel_name='ke.hang', string='Vị trí trong kho')
 
     def setprice_product(self):

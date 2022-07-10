@@ -16,5 +16,20 @@
         </field>
     </record>
 
+    <record id="product_product_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <header>
+                <button string="Cài đặt giá" type="object" name="setprice_product"/>
+            </header>
+            <field name="standard_price" optional="show" position="replace" >
+                <field name="hide"  attrs="{'invisible':1}"/>
+                <field name="standard_price" optional="show" attrs="{'invisible':[('hide', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
+
 
 </odoo>

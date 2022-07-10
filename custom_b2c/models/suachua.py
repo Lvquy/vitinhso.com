@@ -20,9 +20,16 @@ class SuaChua(models.Model):
     products = fields.One2many(comodel_name='product.suachua.lines', inverse_name='product',string='Mặt hàng')
     note = fields.Text(string='Kết quả sửa chữa')
     state = fields.Selection([('0','Nháp'),('1','Đã xác nhận'),('2','Đã trả cho khách')],string='Trạng thái',default='0')
-    chi_phi = fields.Integer(string='Chi phí sửa chữa')
+    chi_phi = fields.Integer(string='Tổng Chi phí sửa chữa')
     access_user = fields.Many2many(comodel_name='res.users', string='Access User')
     img_product = fields.Binary('Hình ảnh')
+
+    @api.onchange('products')
+    def compute_total_chiphi(self):
+        for rec in self:
+            rec.chi_phi = 0
+            for cp in rec.products:
+                rec.chi_phi += cp.chi_phi
 
 
     def access_user_rule(self):
@@ -73,3 +80,4 @@ class ProductSuachuaLine(models.Model):
     serial_num = fields.Char(string='Serial/Model/Code')
     qty = fields.Integer(string='Số lượng')
     note = fields.Text(string='Note')
+    chi_phi = fields.Integer(string='Chi phí')
