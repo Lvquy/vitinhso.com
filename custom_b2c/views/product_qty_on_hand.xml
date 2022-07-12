@@ -47,7 +47,7 @@
                         <t t-esc="'{0:,.0f}'.format(float(total_points or 0))"/>
                     </div>
                     <div class="col-6 col-sm-2 text-center font-weight-bold pt-2 pb-2">Số tiền tăng giá CP:
-                        <t t-esc="'{0:,.0f}'.format(float(toal_price_up_cp or 0))"/>
+                        <t t-esc="'{0:,.3f}'.format(float(toal_price_up_cp or 0))"/>
                     </div>
                 </div>
             </div>
