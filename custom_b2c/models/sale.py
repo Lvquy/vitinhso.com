@@ -65,7 +65,8 @@ class SaleOrderInherit(models.Model):
         ln_cty = loinhuan
         REPORT_B2C = self.env['report.b2c']
         REPORT_B2C.create({
-            'ln_sale':ln_cty,
+            'price':ln_cty,
+            'type_profit':'sale',
             'date_update': datetime.today()
         })
         ADMIN_CTY = self.env['user.profile'].search([('is_adm_cty','=',True)],limit=1)
@@ -90,8 +91,13 @@ class SaleOrderInherit(models.Model):
         c = a * b * 0.01
         reward = int(c)
         ln_cty = loinhuan - reward
-        REPORT = self.env['report.b2c'].search([], limit=1)
-        REPORT.ln_sale -= ln_cty
+
+        REPORT_B2C = self.env['report.b2c']
+        REPORT_B2C.create({
+            'price': -ln_cty,
+            'type_profit': 'sale'
+        })
+
         self.partner_id.reward_points -= reward
         res = super(SaleOrderInherit, self).action_cancel()
         return res

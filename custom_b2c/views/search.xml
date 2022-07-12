@@ -109,14 +109,12 @@
         <field name="arch" type="xml">
             <search string="Search report b2c">
                 <field name="cost_total"/>
-                <field name="ln_total"/>
-                <field name="ln_dautu"/>
-                <field name="ln_phi_giao_dich_cp"/>
-                <field name="ln_thi_cong"/>
-                <field name="ln_sale"/>
+                <field name="type_profit"/>
+                <field name="price"/>
                 <field name="date_update"/>
                 <group expand="0" string="Group By">
                     <filter string="Theo ngày" name="date_update" domain="[]" context="{'group_by': 'date_update'}"/>
+                    <filter string="Theo kiểu" name="type" domain="[]" context="{'group_by': 'type_profit'}"/>
                 </group>
             </search>
         </field>

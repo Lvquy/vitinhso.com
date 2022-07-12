@@ -11,17 +11,13 @@ class Report(models.Model):
     _order = 'id'
 
     cost_total = fields.Integer(string='Tổng số vốn tiền mặt')
-    ln_total = fields.Integer(string='Tổng lợi nhuận', readonly=True, compute="get_total_ln")
-    ln_dautu = fields.Integer(string='Lợi nhuận đầu tư', readonly=True)
-    ln_phi_giao_dich_cp = fields.Integer(string='Lợi nhận phí giao dịch cổ phần', readonly=True)
-    ln_thi_cong = fields.Integer(string='Lợi nhuận thi công', readonly=True)
-    ln_sale = fields.Integer(string='Lợi nhuận bán hàng', readonly=True)
-    date_update = fields.Date(string='Ngày cập nhật',readonly=True,default=datetime.today())
+    type_profit = fields.Selection([('sale','Bán hàng'),('invest','Đầu tư'),
+                                    ('fee','Phí giao dịch'),('thicong','Thi công'),
+                                    ('partner','Đối tác'),('suachua','Sửa chữa')
+                                    ],string='Kiểu lợi nhuận', default='sale')
+    price = fields.Float(string='Số tiền')
+    date_update = fields.Date(string='Ngày phát sinh', readonly=True, default=datetime.today())
 
-    @api.onchange('ln_dautu','ln_phi_giao_dich_cp','ln_thi_cong')
-    def get_total_ln(self):
-        for rec in self:
-            rec.ln_total = rec.ln_dautu + rec.ln_thi_cong + rec.ln_phi_giao_dich_cp + rec.ln_sale
 
 class QuyCty(models.Model):
     _name = 'quy.cty'
@@ -74,7 +70,7 @@ class QuyCty(models.Model):
             ln = 0
             REPORT = rec.env['report.b2c'].search([])
             for i in REPORT:
-                ln += i.ln_total
+                ln += i.price
             rec.so_du = (ln*rec.discount)*0.01
 
 class LogQuy(models.Model):

@@ -11,7 +11,7 @@ class TaiSan(models.Model):
     _rec_name = 'id_taisan'
 
 
-    name = fields.Char(string='Tên tài sản',track_visibility = 'onchange')
+    name = fields.Many2one(comodel_name='product.template',string='Tên tài sản',track_visibility = 'onchange')
     status = fields.Selection([('0','New'),('1','Đang sử dụng'),('2','Đã Hủy')],string='Trạng thái tài sản', default='0'
                               ,track_visibility = 'onchange')
     id_taisan = fields.Char(string='ID tài sản', default=lambda self: ('New'),track_visibility = 'onchange',readonly=True)

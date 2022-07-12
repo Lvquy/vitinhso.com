@@ -98,7 +98,8 @@ class ThiCong(models.Model):
         self.state = '2'
         REPORT_B2C = self.env['report.b2c']
         REPORT_B2C.create({
-            'ln_thi_cong': self.loi_nhuan
+            'price': self.loi_nhuan,
+            'type_profit':'thicong'
         })
         # trả vật liệu thừa về kho
         stock_picking_type = self.env['stock.picking.type'].search(

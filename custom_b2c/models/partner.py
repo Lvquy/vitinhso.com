@@ -51,6 +51,14 @@ class OrderPartner(models.Model):
         for rec in self:
             if rec.state == '0':
                 rec.state = '1'
+
+                #report
+                REPORT_B2C = self.env['report.b2c'].sudo()
+                REPORT_B2C.create({
+                    'price': self.total,
+                    'type_profit': 'partner'
+                })
+
                 POINTS_CUA_HANG = 0
                 POINTS_CUA_HANG = int((rec.total*rec.partner.discount_partner)*0.01)
                 rec.partner.tong_diem += POINTS_CUA_HANG

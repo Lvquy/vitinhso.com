@@ -196,7 +196,8 @@ class GiaoDichCoPhan(models.Model):
 
             REPORT_B2C = self.env['report.b2c']
             REPORT_B2C.create({
-                'ln_phi_giao_dich_cp': self.phi_giao_dich
+                'price': self.phi_giao_dich,
+                'type_profit':'fee'
             })
 
 

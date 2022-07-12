@@ -117,7 +117,8 @@ class Dautu(models.Model):
         self.done_date = datetime.today()
         REPORT_B2C = self.env['report.b2c']
         REPORT_B2C.create({
-            'ln_dautu': self.so_tien_lai
+            'price': self.so_tien_lai,
+            'type_profit':'invest'
         })
 
 

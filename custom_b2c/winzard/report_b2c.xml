@@ -9,11 +9,8 @@
                     <sheet>
                         <group>
                             <field name="cost_total"/>
-                            <field name="ln_total"/>
-                            <field name="ln_dautu"/>
-                            <field name="ln_phi_giao_dich_cp"/>
-                            <field name="ln_thi_cong"/>
-                            <field name="ln_sale"/>
+                            <field name="price"/>
+                            <field name="type_profit"/>
                             <field name="date_update"/>
                         </group>
                     </sheet>
@@ -25,13 +22,10 @@
             <field name="name">report.b2c.tree</field>
             <field name="model">report.b2c</field>
             <field name="arch" type="xml">
-                <tree create="false" delete="0" export_xlsx="false" editable="bottom">
+                <tree create="true" delete="1" export_xlsx="false" editable="bottom">
                     <field name="cost_total" sum="Tổng"/>
-                    <field name="ln_total" sum="Tổng"/>
-                    <field name="ln_dautu" sum="Tổng"/>
-                    <field name="ln_phi_giao_dich_cp" sum="Tổng"/>
-                    <field name="ln_thi_cong" sum="Tổng"/>
-                    <field name="ln_sale" sum="Tổng"/>
+                    <field name="price" sum="Tổng"/>
+                    <field name="type_profit"/>
                     <field name="date_update"/>
                 </tree>
             </field>
@@ -43,10 +37,8 @@
             <field name="arch" type="xml">
                 <pivot string="Pivot Report Vi Tính Số" sample="1">
                     <field name="date_update" interval="month" type="col"/>
-                    <field name="ln_sale" type="measure"/>
-                    <field name="ln_thi_cong" type="measure"/>
-                    <field name="ln_phi_giao_dich_cp" type="measure"/>
-                    <field name="ln_dautu" type="measure"/>
+                    <field name="price" type="measure"/>
+                    <field name="price" type="type_profit"/>
                 </pivot>
             </field>
         </record>
@@ -93,7 +85,7 @@
                                 <field name="log_quy"/>
                             </page>
                             <page name="thuong_nv" string="Thưởng đồng loạt">
-                                <field name="thuong_nv" />
+                                <field name="thuong_nv"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -172,7 +164,7 @@
             </field>
         </record>
 
-         <!-- action view log quy -->
+        <!-- action view log quy -->
         <record id="action_view_log_quy" model="ir.actions.act_window">
             <field name="name">Log Quỹ</field>
             <field name="res_model">log.quy</field>
@@ -184,28 +176,30 @@
             </field>
         </record>
 
-<!--        thuong.nv-->
+        <!--        thuong.nv-->
         <record id="thuong_nv_view_form" model="ir.ui.view">
             <field name="name">thuong.nv.form</field>
             <field name="model">thuong.nv</field>
             <field name="arch" type="xml">
                 <form string="Thưởng nhân viên/khách hàng">
                     <header>
-                            <field name="state_thuong_dong_loat" widget="statusbar" statusbar_visible="0,1"/>
-                            <button name="thuong_nhan_vien" string="Xác nhận thưởng" type="object"
-                                    attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
-                            <button name="get_nguoi_thu_huong" string="Lấy danh sách" type="object"
-                                    attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
-                        </header>
+                        <field name="state_thuong_dong_loat" widget="statusbar" statusbar_visible="0,1"/>
+                        <button name="thuong_nhan_vien" string="Xác nhận thưởng" type="object"
+                                attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                        <button name="get_nguoi_thu_huong" string="Lấy danh sách" type="object"
+                                attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="so_tien_thuong" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
-                                <field name="tong_nguoi_thu_huong" />
-                                <field name="so_tien_chia" />
-                                <field name="tu_quy" />
+                                <field name="so_tien_thuong"
+                                       attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                                <field name="tong_nguoi_thu_huong"/>
+                                <field name="so_tien_chia"/>
+                                <field name="tu_quy"/>
                                 <field name="kieu_tien" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
-                                <field name="ngay_thuong" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                                <field name="ngay_thuong"
+                                       attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
                             </group>
                             <group>
                                 <field name="note" attrs="{'readonly':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
@@ -242,13 +236,13 @@
                     <field name="state_thuong_dong_loat" optional="show"/>
                     <field name="note" optional="show"/>
                     <button name="thuong_nhan_vien" string="Xác nhận thưởng" type="object"
-                                   class="btn btn-primary" attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
+                            class="btn btn-primary" attrs="{'invisible':[('state_thuong_dong_loat', 'in', ('1'))]}"/>
                     <field name="tu_quy" optional="show"/>
                 </tree>
             </field>
         </record>
 
-         <!-- action view thuong nv-->
+        <!-- action view thuong nv-->
         <record id="action_view_thuong_nv" model="ir.actions.act_window">
             <field name="name">Thưởng nhân viên</field>
             <field name="res_model">thuong.nv</field>
@@ -266,10 +260,12 @@
         <menuitem id="menu_quycty" name="Qũy CTY" sequence="1" groups="base.group_system,custom_b2c.group_ql"
                   action="action_view_quy_cty" parent="menu_report"/>
 
-        <menuitem id="menu_log_quy" name="Danh sách chi tiền" sequence="1" groups="base.group_system,custom_b2c.group_ql"
+        <menuitem id="menu_log_quy" name="Danh sách chi tiền" sequence="1"
+                  groups="base.group_system,custom_b2c.group_ql"
                   action="action_view_log_quy" parent="menu_report"/>
 
-        <menuitem id="menu_thuong_nv" name="Thưởng nhân viên" sequence="1" groups="base.group_system,custom_b2c.group_ql"
+        <menuitem id="menu_thuong_nv" name="Thưởng nhân viên" sequence="1"
+                  groups="base.group_system,custom_b2c.group_ql"
                   action="action_view_thuong_nv" parent="menu_report"/>
     </data>
 </odoo>

@@ -8,10 +8,6 @@
 
         <record id="report_b2c" model="report.b2c">
             <field name="cost_total">0</field>
-            <field name="ln_total">0</field>
-            <field name="ln_dautu">0</field>
-            <field name="ln_phi_giao_dich_cp">0</field>
-            <field name="ln_thi_cong">0</field>
         </record>
     </data>
 </odoo>
