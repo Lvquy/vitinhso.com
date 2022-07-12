@@ -77,12 +77,12 @@
 
         <menuitem id="menu_camco_adm" name="Cầm cố cổ phần admin" sequence="20"
                   groups="custom_b2c.group_ql,base.group_system"
-                  parent="menu_cophan"
+                  parent="menu_cophan_4"
                   action="action_view_cam_co_adm"
         />
         <menuitem id="menu_camco" name="Cầm cố cổ phần" sequence="19"
                   groups="custom_b2c.user_profile"
-                  parent="menu_cophan"
+                  parent="menu_cophan_4"
                   action="action_view_cam_co"
         />
     </data>

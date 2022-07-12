@@ -112,7 +112,7 @@
             </field>
         </record>
 
-        <menuitem id="gd_cophan" name="Giao dịch" parent="menu_cophan" action="action_view_gdcophan"
+        <menuitem id="gd_cophan" name="Giao dịch" parent="menu_cophan_2" action="action_view_gdcophan"
                   sequence="3" groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"/>
     </data>
 </odoo>

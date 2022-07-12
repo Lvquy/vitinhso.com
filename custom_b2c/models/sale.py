@@ -15,13 +15,11 @@ class SaleOrderInherit(models.Model):
 
     def get_loi_nhuan_ban_hang(self):
         ICP = self.env['ir.config_parameter'].sudo()
-        cp_dang_phat_hanh = self.env['co.phan'].search_count([])
-        discount= ICP.get_param('custom_b2c.discount', default=0)
-        discount_for_cty= ICP.get_param('custom_b2c.discount_for_cty', default=0)
-        khach_discount = (self.amount_total* float(discount))/100
-        cty_discount =(self.amount_total* float(discount_for_cty))/100
-
-        ICP.set_param('custom_b2c.loi_nhuan_ban_hang', (khach_discount+cty_discount)/cp_dang_phat_hanh)
+        discount_up_cp= float(ICP.get_param('custom_b2c.discount_up_cp', default=0))
+        loi_nhuan_ban_hang= float(ICP.get_param('custom_b2c.loi_nhuan_ban_hang', default=0))
+        total = float((self.amount_total*discount_up_cp)*0.01)
+        up_loi_nhuan = (loi_nhuan_ban_hang + total)
+        ICP.set_param('custom_b2c.loi_nhuan_ban_hang', up_loi_nhuan)
 
 
     def action_confirm(self):

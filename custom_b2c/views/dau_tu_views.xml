@@ -104,7 +104,7 @@
             </field>
         </record>
 
-        <menuitem id="sub_dautu" name="Đầu tư" parent="custom_b2c.menu_cophan" action="action_view_dautu"
+        <menuitem id="sub_dautu" name="Đầu tư" parent="custom_b2c.menu_cophan_2" action="action_view_dautu"
                   sequence="4" groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"/>
 
 

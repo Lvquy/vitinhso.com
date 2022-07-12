@@ -159,10 +159,26 @@
                   groups="custom_b2c.group_co_phan_adm,custom_b2c.group_co_phan_user,custom_b2c.user_profile"
                   web_icon="custom_b2c,static/src/img/cp.png"/>
 
-        <menuitem id="sub_cophan" name="Danh sách" parent="menu_cophan" action="action_view_cophan"
+        <menuitem id="menu_cophan_1" name="Cổ phần"
+                  groups="custom_b2c.group_co_phan_adm,custom_b2c.group_co_phan_user,custom_b2c.user_profile"
+                  parent="menu_cophan"  sequence="0"/>
+
+        <menuitem id="menu_cophan_2" name="Giao dịch - Đầu tư"
+                  groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"
+                  parent="menu_cophan"  sequence="1"/>
+
+        <menuitem id="menu_cophan_3" name="Tiết kiệm"
+                  groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"
+                  parent="menu_cophan"  sequence="2"/>
+
+        <menuitem id="menu_cophan_4" name="Cầm cố cổ phần"
+                  groups="custom_b2c.group_co_phan_adm,custom_b2c.user_profile"
+                  parent="menu_cophan"  sequence="3"/>
+
+        <menuitem id="sub_cophan" name="Danh sách" parent="menu_cophan_1" action="action_view_cophan"
                   sequence="1" groups="custom_b2c.group_co_phan_adm"/>
 
-        <menuitem id="sub_phat_cophan" name="Phát hành cổ phần" parent="menu_cophan" action="action_view_phatcp"
+        <menuitem id="sub_phat_cophan" name="Phát hành cổ phần" parent="menu_cophan_1" action="action_view_phatcp"
                   sequence="2" groups="custom_b2c.group_co_phan_adm"/>
 
         <!--    co phan-->

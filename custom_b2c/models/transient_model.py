@@ -28,7 +28,8 @@ class ResConfigSetting(models.TransientModel):
 
     def up_value_cp(self):
         ICP =  self.env['ir.config_parameter'].sudo()
-        value_up = self.price_unit_cp+ (self.loi_nhuan_ban_hang*self.discount_up_cp)/100
+        total_cp = self.env['co.phan'].search_count([])
+        value_up = self.price_unit_cp + (self.loi_nhuan_ban_hang/total_cp)
         ICP.set_param('custom_b2c.price_unit_cp', value_up)
         ICP.set_param('custom_b2c.loi_nhuan_ban_hang',0)
         super(ResConfigSetting, self).set_values()
