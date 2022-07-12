@@ -189,9 +189,9 @@
         </record>
 
 
-        <menuitem id="menu_user_profile" name="User Profile" groups="custom_b2c.user_profile,base.group_system"
+        <menuitem id="menu_user_profile" name="Tài khoản giao dịch" groups="custom_b2c.user_profile,base.group_system"
                   web_icon="custom_b2c,static/src/img/profile.jpg" action="action_view_userprofile"/>
-        <menuitem id="menu_user_profile_admin" name="ALL User Profile" groups="base.group_system"
+        <menuitem id="menu_user_profile_admin" name="Tất cả tài khoản" groups="base.group_system"
                   action="admin_action_view_userprofile" parent="menu_user_profile"/>
     </data>
 </odoo>
