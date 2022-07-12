@@ -122,4 +122,15 @@ unaccent = False
 upgrade_path = 
 without_demo = False
 workers = 0
-
+---------
+auto start bash on ubuntu
+create file: auto.sh
+	#!/bin/bash
+	sudo -H -u odoo bash -c '/odoo/bash/odoo.sh'
+create file: odoo.sh
+	#!/bin/bash
+	#sudo su - odoo -s /bin/bash
+	cd /odoo/odoo-server
+	./odoo-bin -c /etc/odoo-server.conf
+crontab -e
+	@reboot /odoo/bash/odoo.sh
