@@ -69,6 +69,7 @@
     'assets': {
         'web.assets_backend': [
             'custom_b2c/static/src/css/style.css',
+            'custom_b2c/static/src/js/custom.js',
         ],
     },
     'installable': True,
