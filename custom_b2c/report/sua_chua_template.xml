@@ -55,9 +55,10 @@
                         <thead style="display: table-row-group">
                             <tr>
                                 <th class="text-center text-primary">STT</th>
-                                <th class="text-center text-primary">Tên thiết bị</th>
+                                <th class="text-center text-primary">Nội dung</th>
                                 <th class="text-center text-primary">Số lượng</th>
                                 <th class="text-center text-primary">Serial</th>
+                                <th class="text-center text-primary">Bảo hành</th>
                                 <th class="text-center text-primary">Ghi chú</th>
                                 <th class="text-right text-primary">Thành tiền</th>
 
@@ -81,6 +82,9 @@
                                         <span t-field="line.serial_num"/>
                                     </td>
                                     <td class="text-center">
+                                        <span t-field="line.bao_hanh"/>
+                                    </td>
+                                    <td class="text-center">
                                         <span t-field="line.note"/>
                                     </td>
                                     <td class="text-right">
@@ -96,6 +100,10 @@
                             </td>
                         </tr>
                     </table>
+                    <div>
+                        <span t-field="doc.note"/>
+
+                    </div>
                     <table class="table">
                         <tr>
                             <td class="text-center">QUẢN LÝ</td>
