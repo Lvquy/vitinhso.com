@@ -91,7 +91,7 @@
             </field>
         </record>
 
-        <menuitem id="menu_suachua" name="Sửa chữa/Bảo hành" sequence="1"
+        <menuitem id="menu_suachua" name="Sửa chữa" sequence="1"
                   web_icon="custom_b2c,static/src/img/suachua.jpg"
                   groups="custom_b2c.group_ql,base.group_system"/>
         <menuitem id="sub_suachua" name="Danh sách" parent="menu_suachua"
