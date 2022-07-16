@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="action_report_sua_chua" model="ir.actions.report">
-            <field name="name">Phiếu sửa chữa</field>
+            <field name="name">Phiếu sửa chữa / Bảo hành</field>
             <field name="model">sua.chua</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">custom_b2c.report_suachua</field>
