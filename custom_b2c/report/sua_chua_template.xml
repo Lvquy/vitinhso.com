@@ -8,8 +8,13 @@
             </div>
             <div class="page">
                 <div class="oe_structure"/>
+                <t t-if ="doc.type_sc == 'bh'">
+                    <h1 class="text-center text-success mb-3">XÁC NHẬN BẢO HÀNH</h1>
+                </t>
+                <t t-if ="doc.type_sc == 'sc'">
+                    <h1 class="text-center text-success mb-3">BIÊN NHẬN</h1>
+                </t>
 
-                <h1 class="text-center text-success mb-3">BIÊN NHẬN</h1>
 
                 <div class="mb-2" id="informations">
                     <div class="mb-2">

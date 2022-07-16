@@ -23,6 +23,7 @@ class SuaChua(models.Model):
     chi_phi = fields.Integer(string='Tổng Chi phí sửa chữa')
     access_user = fields.Many2many(comodel_name='res.users', string='Access User')
     img_product = fields.Binary('Hình ảnh')
+    type_sc = fields.Selection([('bh','Bảo hành'),('sc','Sửa chữa')],default='bh',string='Kiểu', required=True)
 
     @api.onchange('products')
     def compute_total_chiphi(self):
@@ -87,3 +88,4 @@ class ProductSuachuaLine(models.Model):
     qty = fields.Integer(string='Số lượng')
     note = fields.Text(string='Note')
     chi_phi = fields.Integer(string='Chi phí')
+    bao_hanh = fields.Integer(string='Bảo hành (Tháng)')
