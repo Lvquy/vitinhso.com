@@ -16,7 +16,9 @@ class ResUsers(models.Model):
 
     def create_user_profile(self):
         for rec in self:
-            if rec.user_profile is False:
+            if rec.user_profile:
+                raise UserError('User already exists in system')
+            else:
                 User_Profile = rec.env['user.profile']
                 UP = User_Profile.create({
                     'name': rec.name,
@@ -27,8 +29,7 @@ class ResUsers(models.Model):
                 rec.user_profile = UP.id
                 rec.partner_id.user_id = rec.id
                 rec.partner_id.user_profile = UP.id
-            else:
-                raise UserError('User already exists in system')
+
 
     @api.onchange('user_profile')
     def onchange_user(self):

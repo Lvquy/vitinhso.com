@@ -10,6 +10,8 @@ class CongViec(models.Model):
     _name = 'cong.viec'
     _inherit = ['mail.thread','mail.activity.mixin']
     _rec_name = 'ten_cv'
+    _description = 'Công việc'
+    _order = "id desc"
 
 
     date_create = fields.Date(string='Ngày tạo công việc', default=datetime.today(),track_visibility = 'onchange')
