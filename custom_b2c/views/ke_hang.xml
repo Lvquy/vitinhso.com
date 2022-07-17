@@ -47,8 +47,11 @@
         </field>
     </record>
 
-    <menuitem id="menu_ke_hang" name="Kệ Hàng" sequence="5" parent="stock.menu_stock_config_settings"/>
+    <menuitem id="menu_ke_hang" name="Kệ Hàng" sequence="10" parent="stock.menu_warehouse_config"
+              groups="base.group_system,custom_b2c.group_ql"/>
+
     <menuitem id="menu_view_ke_hang" name="Cài đặt kệ hàng" parent="menu_ke_hang"
               action="action_view_ke_hang"
+              groups="base.group_system,custom_b2c.group_ql"
               sequence="1"/>
 </odoo>

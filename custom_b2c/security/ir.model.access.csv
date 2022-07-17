@@ -1,6 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
 
+acess_custom_b2c_ke_hang_root,ke.hang.root,model_ke_hang,base.group_system,1,1,1,1
+acess_custom_b2c_ke_hang_ql,ke.hang.ql,model_ke_hang,custom_b2c.group_ql,1,1,1,1
+
+
+
 acess_custom_b2c_thicong_root,thi.cong.root,model_thi_cong,base.group_system,1,1,1,1
 acess_custom_b2c_thicong_admin,thi.cong.admin,model_thi_cong,custom_b2c.group_thi_cong_adm,1,1,1,1
 acess_custom_b2c_thicong_user,thi.cong.user,model_thi_cong,custom_b2c.group_thi_cong_user,1,1,0,0

@@ -77,8 +77,8 @@
         </record>
 
         <menuitem id="menu_chiphikho" name="Chi phí kho" parent="stock.menu_stock_root" sequence="6"
-                  groups="custom_b2c.group_ql"/>
+                  groups="base.group_system,custom_b2c.group_ql"/>
         <menuitem id="sub_chiphikho" name="Danh sách" parent="menu_chiphikho" sequence="6"
-                  action="action_view_chiphikho" groups="custom_b2c.group_ql"/>
+                  action="action_view_chiphikho" groups="base.group_system,custom_b2c.group_ql"/>
     </data>
 </odoo>

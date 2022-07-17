@@ -23,7 +23,7 @@ class TietKiem(models.Model):
                               string='Kỳ hạn gửi',required=True, track_visibility = 'onchange')
     lai_suat = fields.Integer(string='Lãi suất (%)',
                               help='Nhập phần trăm lãi suất ví dụ 5% thì điền số 5',
-                              requỉed=True,track_visibility = 'onchange', readonly=True, compute='change_lai_suat'
+                              required=True,track_visibility = 'onchange', readonly=True, compute='change_lai_suat'
                               )
     sl_cophan = fields.Integer(string='Số lượng cổ phần gửi', required=True,track_visibility = 'onchange')
     gia_cp = fields.Integer(string='Giá cổ phần', compute="_compute_gia_cp")

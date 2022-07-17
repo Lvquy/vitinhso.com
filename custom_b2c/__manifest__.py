@@ -30,7 +30,6 @@
         'views/res_partner.xml',
         'views/product_template.xml',
         'views/ke_hang.xml',
-        'views/product_product.xml',
         # 'views/res_config_setting.xml',
         'views/chi_phi_kho.xml',
         'views/employee_stock.xml',

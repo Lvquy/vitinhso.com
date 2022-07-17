@@ -12,7 +12,7 @@ class SetPrice(models.Model):
     cost_sale = fields.Selection([('1','Theo giá vốn'),('2','Theo giá bán hiện tại')],string='Kiểu', default='1')
 
     def up_price(self):
-        ProductTemplate = self.env['product.product']
+        ProductTemplate = self.env['product.template']
 
         selected_ids = self.env.context.get('active_ids', [])
         selected_records = ProductTemplate.browse(selected_ids)
@@ -32,10 +32,10 @@ class SetPrice(models.Model):
                     i.list_price = i.list_price + self.price*0.01*i.list_price
 
     def down_price(self):
-        ProductProduct= self.env['product.product']
+        ProductTemplate= self.env['product.template']
 
         selected_ids = self.env.context.get('active_ids', [])
-        selected_records = ProductProduct.browse(selected_ids)
+        selected_records = ProductTemplate.browse(selected_ids)
         if self.cost_sale == '1':
             if self.type == '1':
                 for i in selected_records:
@@ -61,22 +61,18 @@ class KeHang(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    hide = fields.Boolean(string='Hide', default=True, compute="get_user")
     warranty = fields.Integer(string="Thời gian bảo hành (Tháng)")
-    @api.depends('hide')
-    def get_user(self):
-
-        user_crnt = self._uid
-
-        res_user = self.env['res.users'].search([('id', '=', user_crnt)])
-
-        if res_user.has_group('custom_b2c.group_ql'):
-            self.hide = False
-        else:
-            self.hide = True
-
-
     warehouse_quantity = fields.Char(compute='_get_warehouse_quantity', string='Quantity per warehouse')
+    vitri_kehang = fields.Many2one(comodel_name='ke.hang', string='Vị trí trong kho')
+    def setprice_product(self):
+        return {
+            'name': ('Cài đặt giá cho sản phẩm'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'set.price',
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
     def _get_warehouse_quantity(self):
         for record in self:
             warehouse_quantity_text = ''

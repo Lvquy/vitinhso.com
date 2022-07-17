@@ -4,7 +4,7 @@
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context(lang=doc.khach_hang.lang)"/>
             <div>
-                <img src="/custom_b2c/static/src/img/logo_report.jpg" class="text-center img-fluid mb-5 mt-0"/>
+                <img src="//static/src/img/logo_report.jpg" class="text-center img-fluid mb-5 mt-0"/>
             </div>
             <div class="page">
                 <div class="oe_structure"/>
