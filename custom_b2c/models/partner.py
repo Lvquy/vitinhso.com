@@ -35,7 +35,7 @@ class OrderPartner(models.Model):
     _description = 'Đơn hàng của đối tác'
     _rec_name = 'partner'
 
-    partner = fields.Many2one(stirng='Đối tác', comodel_name='partner', readonly=True)
+    partner = fields.Many2one(string='Đối tác', comodel_name='partner', readonly=True)
     total = fields.Integer(string='Tổng giá trị đơn hàng')
     cus_name = fields.Char(string='Tên khách hàng')
     cus_mobile = fields.Char(string='Số điện thoại khách hàng')
@@ -81,5 +81,6 @@ class OrderPartner(models.Model):
 
 class CatgPartner(models.Model):
     _name = 'catg.partner'
+    _description = 'Danh muc partner'
 
     name = fields.Char(string='Tên danh mục')

@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 class Report(models.Model):
     _name = 'report.b2c'
     _order = 'id'
+    _description = 'Report vitinhso'
 
     cost_total = fields.Integer(string='Tổng số vốn tiền mặt')
     type_profit = fields.Selection([('sale','Bán hàng'),('invest','Đầu tư'),
@@ -21,6 +22,7 @@ class Report(models.Model):
 
 class QuyCty(models.Model):
     _name = 'quy.cty'
+    _description = 'Quỹ công ty'
 
     name = fields.Char(string='Tên quỹ')
     discount = fields.Integer(string='Số % trích từ tổng lợi nhuận')
@@ -75,6 +77,7 @@ class QuyCty(models.Model):
 
 class LogQuy(models.Model):
     _name = 'log.quy'
+    _description = 'Log Quy'
 
     date_chi = fields.Date(string='Ngày chi', default=datetime.today())
     user_admin = fields.Many2one(comodel_name='res.users', string='Người nhận tiền')
@@ -91,6 +94,7 @@ class LogQuy(models.Model):
                 rec.user_admin.user_profile.wallet_balance += rec.so_tien
 class Thuong(models.Model):
     _name = 'thuong.nv'
+    _description = 'Thuong nhan vien'
 
     so_tien_thuong = fields.Integer(string='Số tiền thưởng')
     tong_nguoi_thu_huong = fields.Integer(string='Tổng người nhận thưởng', compute="_compute_tong_nguoi_thu_huong")

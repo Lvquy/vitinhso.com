@@ -159,7 +159,7 @@ class LineDautu(models.Model):
 
     share_holder = fields.Many2one(comodel_name='user.profile', string='Người đầu tư')
     sl_dautu = fields.Integer(string='Số lượng cổ phần đầu tư')
-    join_date = fields.Datetime(stirng='Ngày tham gia', default=datetime.today(), readonly=True)
+    join_date = fields.Datetime(string='Ngày tham gia', default=datetime.today(), readonly=True)
     ref_dautu = fields.Many2one(comodel_name='dau.tu', string='Đầu tư ID')
     cp2_vnd = fields.Integer(string='Quy ra VNĐ', compute='_compute_cp2_vnd')
     lai_cp = fields.Integer(string='Lãi nhận được (vnđ)', compute='get_lai')

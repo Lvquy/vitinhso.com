@@ -21,7 +21,7 @@ class CoPhan(models.Model):
     of_create = fields.Many2one(comodel_name='phat.cp', string='Tên đợt phát hành', readonly=True,
                                 track_visibility='onchange')
     log_history = fields.One2many(comodel_name='log.cp', inverse_name='name', string='Lịch sử CP', readonly=True,
-                                  ondelet="cascade")
+                                  ondelete="cascade")
 
     @api.model
     def create(self, vals):

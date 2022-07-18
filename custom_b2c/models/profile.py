@@ -168,7 +168,7 @@ class LineBank(models.Model):
     name = fields.Char(string='Tên ngân hàng', required=True)
     bank_no = fields.Char(string='Số tài khoản', required=True)
     user_bank = fields.Char(string='Chủ tài khoản', required=True)
-    of_user = fields.Many2one(comodel_name='user.profile', string='Chủ tài khoản')
+    of_user = fields.Many2one(comodel_name='user.profile', string='Tài khoản')
 
 
 class LineReward2CP(models.Model):

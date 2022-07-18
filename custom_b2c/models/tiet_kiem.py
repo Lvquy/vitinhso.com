@@ -161,6 +161,7 @@ class TietKiem(models.Model):
 
 class TraLai(models.Model):
     _name = 'line.tralai'
+    _description = 'Line Tra lai'
 
     ngay_tra = fields.Datetime(string='Ngày trả', default=datetime.today())
     cp_lai = fields.Integer(string='Số tiền lãi', compute='get_lai')
@@ -175,6 +176,7 @@ class TraLai(models.Model):
 class CamCo(models.Model):
     _name = 'cam.co'
     _rec_name = 'code'
+    _description = 'Cam co co phan'
 
     code = fields.Char(string='Mã phiếu', default=lambda self: ('New'), readonly=True)
     qty = fields.Integer(string='Số lượng cổ phần')
