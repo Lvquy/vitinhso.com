@@ -24,6 +24,7 @@
         'security/custom_b2c_security.xml',
         'security/ir.model.access.csv',
         # security end
+        'views/res_company.xml',
         'views/search.xml',
         'views/set_price.xml',
         'views/stock_picking_form_custom.xml',

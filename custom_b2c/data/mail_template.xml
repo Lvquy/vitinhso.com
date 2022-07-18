@@ -2,6 +2,189 @@
 <odoo>
     <data noupdate="0">
 
+        <record id="mail_template_dautu" model="mail.template">
+            <field name="model_id" ref="custom_b2c.model_dau_tu"/>
+            <field name="body_html" type="html">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+
+                        </div>
+                        <div class="col-12">
+                            <h1 class="text-success text-center">XÁC NHẬN ĐẦU TƯ</h1>
+                        </div>
+                        <hr/>
+                        <div class="col-12">
+                            <br/>
+                        </div>
+                        <div class="col-12">
+                            <h4 >
+                                Cảm ơn bạn <span class="text-success">%s</span>,
+                                bạn đã đầu tư <span class="text-success">%s</span>
+                                cổ phần và nhận được: <span class="text-success">%s</span> tiền lãi (VNĐ)
+                            </h4>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-info">Chi tiết gói đầu tư bên dưới, Mọi thắc mắc vui lòng liên hệ admin@vitinhso.com</span>
+                        </div>
+                        <div class="col-12">
+                            <br/>
+                        </div>
+                        <div class="col-4">
+                            <strong>Mã đầu tư:</strong>
+                        </div>
+                        <div class="col-8">%s</div>
+
+                        <div class="col-4">
+                            <strong>Tên gói đầu tư:</strong>
+                        </div>
+                        <div class="col-8">%s</div>
+
+                        <div class="col-4">
+                            <strong>Danh mục đầu tư:</strong>
+                        </div>
+                        <div class="col-8">%s</div>
+
+                        <div class="col-4">
+                            <strong>Thời gian đầu tư:</strong>
+                        </div>
+                        <div class="col-8">%s tháng</div>
+
+                        <div class="col-4">
+                            <strong>Ngày bắt đầu khởi chạy đầu tư:</strong>
+                        </div>
+                        <div class="col-8">%s</div>
+
+                        <div class="col-4">
+                            <strong>Lãi suất:</strong>
+                        </div>
+                        <div class="col-8">%s phần trăm</div>
+                        <hr/>
+
+                        <div class="col-12">
+                            <span class="text-info">Email được gửi từ website <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a></span>
+                        </div>
+
+
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <record id="mail_template_su_chua_bao_hanh" model="mail.template">
+            <field name="name">Sửa chữa / bảo hành</field>
+            <field name="model_id" ref="custom_b2c.model_sua_chua"/>
+            <field name="subject">{{ ('BIÊN NHẬN' if object.type_sc == 'sc' else 'XÁC NHẬN BẢO HÀNH') }}</field>
+            <field name="email_from">{{ (object.company_id.email) }}</field>
+            <field name="email_to">{{ (object.khach_hang.email) or 'noemail@vitinhso.com' }}</field>
+            <field name="body_html" type="html">
+                <div class="container">
+                    <div class="row ">
+                        <img t-attf-alt="logo" style="width: 50%;"
+                             t-attf-src="data:image/png;base64,{{object.company_id.logo_report}}"/>
+                        <t t-if="object.type_sc == 'sc'">
+                            <h2 class="col-12  text-success">BIÊN NHẬN</h2>
+                        </t>
+                        <t t-if="object.type_sc == 'bh'">
+                            <h2 class="col-12  text-success">XÁC NHẬN BẢO HÀNH</h2>
+                        </t>
+
+                        <div class="mb-2" id="informations">
+                            <div class="mb-2">
+                                <strong>Tên khách hàng:</strong>
+                                <span class="m-0" t-field="object.khach_hang.name"/>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Địa chỉ:</strong>
+                                <span t-field="object.khach_hang.street"/>,<span t-field="object.khach_hang.street2"/>,
+                                <span
+                                        t-field="object.khach_hang.city"/>,
+                                <span t-field="object.khach_hang.state_id.name"/>
+
+                            </div>
+                            <div class="mb-2">
+                                <strong>Liên hệ:</strong>
+                                <t t-foreach="object.khach_hang.child_ids" t-as="child">
+                                    <span t-esc="child.mobile"/>
+                                    -
+                                    <span t-esc="child.name"/>
+                                    -
+                                    <span t-esc="child.email"/>
+                                </t>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Đơn hàng số:</strong>
+                                <span t-field="object.code"/>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Ngày tạo:</strong>
+                                <span t-field="object.ngay_nhan"/>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Nhân viên phụ trách:</strong>
+                                <span t-field="object.nguoi_nhan.name"/>
+                            </div>
+
+                            <table class="table table-sm o_main_table">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th class="text-center text-primary">STT</th>
+                                        <th class="text-center text-primary">Nội dung</th>
+                                        <th class="text-center text-primary">Số lượng</th>
+                                        <th class="text-center text-primary">Serial</th>
+                                        <th class="text-center text-primary">Bảo hành</th>
+                                        <th class="text-center text-primary">Ghi chú</th>
+                                        <th class="text-right text-primary">Thành tiền</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-set="stt" t-value="1"/>
+                                    <t t-foreach="object.products" t-as="line">
+                                        <tr t-att-class="'bg-200 font-weight-bold o_line_section'">
+                                            <td class="text-center">
+                                                <span t-esc="stt"/>
+                                                <t t-set="stt" t-value="stt+1"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.product_template.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.qty"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.serial_num"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.bao_hanh"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.note"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.chi_phi"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tr class="is-subtotal text-right">
+                                    <td colspan="99">
+                                        <strong class="mr16">Tổng:</strong>
+                                        <span t-field="object.chi_phi"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div>
+                                <span t-field="object.note"/>
+                            </div>
+                            <div class="oe_structure"/>
+                        </div>
+                    </div>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
         <record id="mail_template_b2c_otp" model="mail.template">
             <field name="name">OTP CODE Points</field>
             <field name="model_id" ref="custom_b2c.model_trans_points"/>
@@ -22,6 +205,59 @@
                         </td>
                     </tr>
                 </table>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+<!--        tiet.kiem-->
+        <record id="mail_template_tiet_kiem" model="mail.template">
+            <field name="name">Gửi tiết kiệm</field>
+            <field name="model_id" ref="custom_b2c.model_tiet_kiem"/>
+            <field name="subject">Xác nhận gửi tiết kiệm</field>
+            <field name="email_from">{{ (object.company_id.email) }}</field>
+            <field name="email_to">{{ (object.user_tk.email) }}</field>
+            <field name="body_html" type="html">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <img t-attf-class="text-center" t-attf-alt="logo" style="width: 50%;"
+                             t-attf-src="data:image/png;base64,{{object.company_id.logo_report}}"/>
+                        </div>
+
+                        <div class="col-12">
+                            <br/>
+                        </div>
+                            <h2 class="col-12 text-center text-success">XÁC NHẬN GỬI TIẾT KIỆM</h2>
+                        <div class="col-12">
+                            <hr/>
+                        </div>
+                        <div class="col-4"><strong>Mã chứng từ:</strong></div>
+                        <div class="col-8"><span t-out="object.code"/></div>
+
+                        <div class="col-4"><strong>Người gửi:</strong></div>
+                        <div class="col-8"><span t-out="object.user_tk.name"/></div>
+
+                        <div class="col-4"><strong>Ngày xác nhận gửi:</strong></div>
+                        <div class="col-8"><span t-out="object.start_date"/></div>
+
+                        <div class="col-4"><strong>Số lượng cổ phần gửi:</strong></div>
+                        <div class="col-8"><span t-out="object.sl_cophan"/></div>
+
+                        <div class="col-4"><strong>Lãi suất:</strong></div>
+                        <div class="col-8"><span t-out="object.lai_suat"/></div>
+
+                        <div class="col-4"><strong>Số lượng cổ phần gửi:</strong></div>
+                        <div class="col-8"><span t-out="object.sl_cophan"/></div>
+
+                        <div class="col-4"><strong>Giá cổ phần hiện tại:</strong></div>
+                        <div class="col-8"><span t-out="object.gia_cp"/></div>
+
+                        <div class="col-4"><strong>Lãi nhận được (vnđ):</strong></div>
+                        <div class="col-8"><span t-out="object.cp_lai"/></div>
+                        <br/>
+                        <div class="col-12 text-info"><span>Thư được gửi tự động từ website <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a></span></div>
+                    </div>
+                </div>
             </field>
             <field name="auto_delete" eval="True"/>
         </record>

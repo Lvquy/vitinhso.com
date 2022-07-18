@@ -16,7 +16,7 @@ class SuaChua(models.Model):
     ngay_nhan = fields.Date(string='Ngày nhận', default=datetime.today())
     ngay_tra = fields.Date(string='Ngày trả')
     ly_do_sua = fields.Text(string='Chuẩn đoán lỗi')
-    khach_hang = fields.Many2one(comodel_name='res.partner', string='Khách hàng')
+    khach_hang = fields.Many2one(comodel_name='res.partner', string='Khách hàng', required=True)
     products = fields.One2many(comodel_name='product.suachua.lines', inverse_name='product', string='Mặt hàng')
     note = fields.Text(string='Kết quả sửa chữa')
     state = fields.Selection([('0', 'Nháp'), ('1', 'Đã xác nhận'), ('2', 'Đã trả cho khách')], string='Trạng thái',
@@ -25,6 +25,7 @@ class SuaChua(models.Model):
     access_user = fields.Many2many(comodel_name='res.users', string='Access User')
     img_product = fields.Binary('Hình ảnh')
     type_sc = fields.Selection([('bh', 'Bảo hành'), ('sc', 'Sửa chữa')], default='bh', string='Kiểu', required=True)
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     @api.onchange('products')
     def compute_total_chiphi(self):
@@ -59,17 +60,24 @@ class SuaChua(models.Model):
             res = super(SuaChua, self).create(vals)
         return res
 
+    def send_email(self):
+        for rec in self:
+            template_id = rec.env.ref('custom_b2c.mail_template_su_chua_bao_hanh').id
+            template = rec.env['mail.template'].browse(template_id)
+            template.send_mail(rec.id, force_send=True)
+
     def confirm(self):
         for rec in self:
             if rec.state == '0':
-                rec.state = '1'
-                rec.ngay_nhan = datetime.today()
-                # report
-                REPORT_B2C = self.env['report.b2c']
-                REPORT_B2C.create({
-                    'price': self.chi_phi,
-                    'type_profit': 'suachua'
-                })
+                rec.send_email()
+                # rec.state = '1'
+                # rec.ngay_nhan = datetime.today()
+                # # report
+                # REPORT_B2C = self.env['report.b2c']
+                # REPORT_B2C.create({
+                #     'price': self.chi_phi,
+                #     'type_profit': 'suachua'
+                # })
             else:
                 raise UserError('Làm mới trình duyệt')
 

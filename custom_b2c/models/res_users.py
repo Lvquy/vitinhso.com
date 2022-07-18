@@ -20,7 +20,7 @@ class ResUsers(models.Model):
                 raise UserError('User already exists in system')
             else:
                 User_Profile = rec.env['user.profile']
-                LOGIN = rec.env['res.user'].search([('login', '=', rec.login)], litmit=1)
+                LOGIN = rec.env['res.users'].search([('login', '=', rec.login)], limit=1)
                 UP = User_Profile.create({
                     'name': rec.name,
                     'email': rec.login,

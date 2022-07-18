@@ -32,14 +32,15 @@ class TietKiem(models.Model):
                              string='Trạng thái', default='0')
 
     start_date = fields.Date(string='Ngày xác nhận gửi', default=datetime.today(), required=True)
-    end_date = fields.Date(string='Ngày đáo hạn', required=True)
+    end_date = fields.Date(string='Ngày đáo hạn')
     log_tra_lai = fields.One2many(comodel_name='line.tralai', inverse_name='ref_tietkiem', string='Nhật ký trả lãi',
                                   readonly=True)
     cp_lai = fields.Integer(string='Lãi nhận được (vnđ)', compute='get_lai')
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     def _compute_gia_cp(self):
         for rec in self:
-            rec.gia_cp = int(rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp'))
+            rec.gia_cp = float(rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp'))
 
     @api.onchange('sl_cophan', 'gia_cp')
     def _compute_thanh_vnd(self):
@@ -56,11 +57,18 @@ class TietKiem(models.Model):
         if self.sl_cophan > CP:
             raise UserError("Số lượng cổ phần bạn không đủ")
 
+    def send_email(self):
+        for rec in self:
+            template_id = rec.env.ref('custom_b2c.mail_template_tiet_kiem').id
+            template = rec.env['mail.template'].browse(template_id)
+            template.send_mail(rec.id, force_send=True)
+
     def action_1(self):
         self._check_cp()
         if self.state not in ('0'):
             raise UserError("Vui lòng làm mới trình duyệt")
         self.start_date = datetime.today()
+        self.send_email()
         self.state = '1'
         domain = ['&', ('status', '=', '1'), ('of_user', '=', self.user_tk.id)]
         CP = self.env['co.phan'].search(domain, limit=self.sl_cophan)

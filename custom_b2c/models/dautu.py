@@ -33,12 +33,13 @@ class Dautu(models.Model):
     gia_ban = fields.Float(string='Giá bán', track_visibility='onchange')
     lenh_dautu = fields.One2many(comodel_name='line.log', inverse_name='ref_dautu', string='Lệnh đầu tư')
     total_cp = fields.Integer(string='Tổng cổ phần', compute='get_total_cp')
-    gia_tri = fields.Integer(string='Tương đương(VNĐ)', compute='get_total_gt')
+    gia_tri = fields.Float(string='Tương đương(VNĐ)', compute='get_total_gt')
     to_usd = fields.Float(string='Tương đương(USD)')
     lai_lo = fields.Float(string='Lãi/Lỗ', compute='get_lai_lo')
     chung_tu = fields.Html(string='Hình ảnh chứng từ liên quan')
     done_date = fields.Datetime(string='Ngày hoàn thành đầu tư')
     so_tien_lai = fields.Integer(string='Số tiền mặt lãi (vnđ)')
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     @api.onchange('gia_trungbinh', 'gia_ban')
     def get_lai_lo(self):
@@ -48,7 +49,7 @@ class Dautu(models.Model):
     @api.onchange('total_cp')
     def get_total_gt(self):
         for rec in self:
-            gia_cp = rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp')
+            gia_cp = float(rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp'))
             rec.gia_tri = rec.total_cp * gia_cp
 
     @api.onchange('share_holder')
@@ -87,17 +88,44 @@ class Dautu(models.Model):
         # state = đang nhận cổ đông
         self.state = '1'
 
+    def send_email(self, email_to,name, cp, lai):
+        for rec in self:
+            message_body = rec.env.ref('custom_b2c.mail_template_dautu').body_html
+            ma_dautu = rec.code_dautu
+            ten_dautu = rec.name
+            danh_muc = ''
+            if rec.catg_dautu == '0':
+                danh_muc = 'Tiền số'
+            if rec.catg_dautu == '1':
+                danh_muc = 'Bất động sản'
+            thoi_gian = rec.thoi_han
+            lai_suat = rec.lai_suat
+            start_date = rec.close_date
+            message_body_ok = message_body %(name,cp,lai,ma_dautu,ten_dautu,danh_muc,thoi_gian,start_date,lai_suat)
+            sender = rec.company_id.email
+            template_obj = rec.env['mail.mail']
+            template_data = {
+                'subject': 'Xác nhận đầu tư cổ phần tại Vi tính số',
+                'body_html': message_body_ok,
+                'email_from': sender,
+                'email_to': email_to
+            }
+            template_id = template_obj.create(template_data)
+            template_obj.send(template_id)
+
+
     def action_2(self):
         if self.state not in '1':
             raise UserError("Vui lòng làm mới trình duyệt")
         # state = đã đóng (đang tiến hành đầu tư)
-        self.state = '2'
+        # self.state = '2'
 
         for rec in self.share_holder:
-            domain = ['&', ('status', '=', '6'), ('of_user', '=', rec.share_holder.id)]
-            CP = self.env['co.phan'].search(domain, limit=rec.sl_dautu)
-            for l in CP:
-                l.status = '2'
+            self.send_email(rec.share_holder.email,rec.share_holder.name,rec.sl_dautu,rec.lai_cp)
+            # domain = ['&', ('status', '=', '6'), ('of_user', '=', rec.share_holder.id)]
+            # CP = self.env['co.phan'].search(domain, limit=rec.sl_dautu)
+            # for l in CP:
+            #     l.status = '2'
 
     def action_3(self):
         if self.state not in '2':
@@ -167,7 +195,7 @@ class LineDautu(models.Model):
     @api.onchange('sl_dautu')
     def _compute_cp2_vnd(self):
         for rec in self:
-            gia_cp = int(rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp'))
+            gia_cp = float(rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp'))
             rec.cp2_vnd = gia_cp * rec.sl_dautu
 
     @api.onchange('sl_dautu', 'share_holder')
