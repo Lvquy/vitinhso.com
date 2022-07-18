@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 
+from datetime import datetime
 
 from odoo import api, fields, models
-from datetime import datetime, timedelta
-from odoo.exceptions import *
+from odoo.exceptions import UserError
 
 
 class TietKiem(models.Model):
@@ -14,40 +14,42 @@ class TietKiem(models.Model):
     _order = 'state desc,end_date desc'
     _rec_name = 'code'
 
-
-    code = fields.Char(string='Mã chứng từ', default= lambda self:('New'), readonly=True)
+    code = fields.Char(string='Mã chứng từ', default=lambda self: ('New'), readonly=True)
     user_tk = fields.Many2one(comodel_name='user.profile', string='Người gửi',
-                              default=lambda self: self.env.user.user_profile.id,readonly=True)
-    ky_han = fields.Selection([('1','1 tháng'),('3','3 tháng'),('6','6 tháng'),('12','12 tháng'),
-                               ('18','18 tháng'),('24','24 tháng'),('36','36 tháng')],
-                              string='Kỳ hạn gửi',required=True, track_visibility = 'onchange')
+                              default=lambda self: self.env.user.user_profile.id, readonly=True)
+    ky_han = fields.Selection([('1', '1 tháng'), ('3', '3 tháng'), ('6', '6 tháng'), ('12', '12 tháng'),
+                               ('18', '18 tháng'), ('24', '24 tháng'), ('36', '36 tháng')],
+                              string='Kỳ hạn gửi', required=True, track_visibility='onchange')
     lai_suat = fields.Integer(string='Lãi suất (%)',
                               help='Nhập phần trăm lãi suất ví dụ 5% thì điền số 5',
-                              required=True,track_visibility = 'onchange', readonly=True, compute='change_lai_suat'
+                              required=True, track_visibility='onchange', readonly=True, compute='change_lai_suat'
                               )
-    sl_cophan = fields.Integer(string='Số lượng cổ phần gửi', required=True,track_visibility = 'onchange')
+    sl_cophan = fields.Integer(string='Số lượng cổ phần gửi', required=True, track_visibility='onchange')
     gia_cp = fields.Integer(string='Giá cổ phần', compute="_compute_gia_cp")
     thanh_vnd = fields.Integer(string='Quy đổi ra VNĐ', compute="_compute_thanh_vnd")
     note = fields.Text(string='Note')
-    state = fields.Selection([('0','Nháp'),('1','Đang gửi'),('2','Đã thanh toán hợp đồng'),('3','Đã hủy')],string='Trạng thái', default='0')
+    state = fields.Selection([('0', 'Nháp'), ('1', 'Đang gửi'), ('2', 'Đã thanh toán hợp đồng'), ('3', 'Đã hủy')],
+                             string='Trạng thái', default='0')
 
-    start_date = fields.Date(string='Ngày xác nhận gửi',default=datetime.today(),required=True)
+    start_date = fields.Date(string='Ngày xác nhận gửi', default=datetime.today(), required=True)
     end_date = fields.Date(string='Ngày đáo hạn', required=True)
-    log_tra_lai = fields.One2many(comodel_name='line.tralai', inverse_name='ref_tietkiem', string='Nhật ký trả lãi', readonly=True)
+    log_tra_lai = fields.One2many(comodel_name='line.tralai', inverse_name='ref_tietkiem', string='Nhật ký trả lãi',
+                                  readonly=True)
     cp_lai = fields.Integer(string='Lãi nhận được (vnđ)', compute='get_lai')
 
     def _compute_gia_cp(self):
         for rec in self:
             rec.gia_cp = int(rec.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp'))
-    @api.onchange('sl_cophan','gia_cp')
+
+    @api.onchange('sl_cophan', 'gia_cp')
     def _compute_thanh_vnd(self):
         for rec in self:
-            rec.thanh_vnd = int(rec.sl_cophan*rec.gia_cp)
-    @api.onchange('lai_suat','ky_han','sl_cophan')
+            rec.thanh_vnd = int(rec.sl_cophan * rec.gia_cp)
+
+    @api.onchange('lai_suat', 'ky_han', 'sl_cophan')
     def get_lai(self):
         for rec in self:
-            rec.cp_lai = int((rec.lai_suat*rec.thanh_vnd)*0.01)
-
+            rec.cp_lai = int((rec.lai_suat * rec.thanh_vnd) * 0.01)
 
     def _check_cp(self):
         CP = self.user_tk.total_cp_ready
@@ -60,13 +62,13 @@ class TietKiem(models.Model):
             raise UserError("Vui lòng làm mới trình duyệt")
         self.start_date = datetime.today()
         self.state = '1'
-        domain = ['&',('status','=','1'),('of_user','=',self.user_tk.id)]
-        CP = self.env['co.phan'].search(domain,limit=self.sl_cophan)
+        domain = ['&', ('status', '=', '1'), ('of_user', '=', self.user_tk.id)]
+        CP = self.env['co.phan'].search(domain, limit=self.sl_cophan)
         for rec in CP:
             rec.status = '3'
             self.env['log.cp'].create({
                 'name': rec.id,
-                'code_giaodich':  ('gửi tiết kiệm', self.code),
+                'code_giaodich': ('gửi tiết kiệm', self.code),
             })
 
     def action_2(self):
@@ -120,7 +122,6 @@ class TietKiem(models.Model):
 
                 })
 
-
     def action_3(self):
         if self.state not in ('0'):
             raise UserError("Vui lòng làm mới trình duyệt")
@@ -128,6 +129,7 @@ class TietKiem(models.Model):
 
     @api.model
     def create(self, vals):
+        global res
         if vals.get('code', ('New') == ('New')):
             vals['code'] = self.env['ir.sequence'].next_by_code('tietkiem.code') or ('New')
             res = super(TietKiem, self).create(vals)
@@ -156,34 +158,39 @@ class TietKiem(models.Model):
             }
             rec.lai_suat = switcher.get(i)
 
+
 class TraLai(models.Model):
     _name = 'line.tralai'
 
-    ngay_tra = fields.Datetime(string='Ngày trả',default=datetime.today())
+    ngay_tra = fields.Datetime(string='Ngày trả', default=datetime.today())
     cp_lai = fields.Integer(string='Số tiền lãi', compute='get_lai')
-    nguoi_thu_huong = fields.Many2one(comodel_name='user.profile',readonly=True, string='Người thụ hưởng')
+    nguoi_thu_huong = fields.Many2one(comodel_name='user.profile', readonly=True, string='Người thụ hưởng')
     ref_tietkiem = fields.Many2one(comodel_name='tiet.kiem', string='Name')
-    state = fields.Selection([('0','Gửi yêu cầu'),('1','Đã trả')],string='Trạng thái',default='0')
+    state = fields.Selection([('0', 'Gửi yêu cầu'), ('1', 'Đã trả')], string='Trạng thái', default='0')
 
     def get_lai(self):
-        self.cp_lai = int((self.ref_tietkiem.thanh_vnd*self.ref_tietkiem.lai_suat)*0.01)
+        self.cp_lai = int((self.ref_tietkiem.thanh_vnd * self.ref_tietkiem.lai_suat) * 0.01)
+
 
 class CamCo(models.Model):
     _name = 'cam.co'
     _rec_name = 'code'
 
-    code = fields.Char(string='Mã phiếu', default= lambda self: ('New'), readonly=True)
+    code = fields.Char(string='Mã phiếu', default=lambda self: ('New'), readonly=True)
     qty = fields.Integer(string='Số lượng cổ phần')
-    thoi_gian = fields.Selection([('12','12 Tháng'),('24','24 Tháng'),('36','36 Tháng')],string='Thời hạn cầm', default='12')
+    thoi_gian = fields.Selection([('12', '12 Tháng'), ('24', '24 Tháng'), ('36', '36 Tháng')], string='Thời hạn cầm',
+                                 default='12')
     gia_cp = fields.Integer(string='Giá cổ phần quy đổi hiện tại', readonly=True)
-    so_tien = fields.Integer(string='Số tiền nhận được / Phải trả (VNĐ)', compute= 'compute_so_tien',readonly=True)
-    nguoi_cam = fields.Many2one(comodel_name='res.users',string='Người cầm', default = lambda self: self.env.user,readonly=True)
-    state = fields.Selection([('0','Nháp'),('1','Đã xác nhận'),('2','Đã trả')],string='Trạng thái', default='0')
+    so_tien = fields.Integer(string='Số tiền nhận được / Phải trả (VNĐ)', compute='compute_so_tien', readonly=True)
+    nguoi_cam = fields.Many2one(comodel_name='res.users', string='Người cầm', default=lambda self: self.env.user,
+                                readonly=True)
+    state = fields.Selection([('0', 'Nháp'), ('1', 'Đã xác nhận'), ('2', 'Đã trả')], string='Trạng thái', default='0')
     ngay_cam = fields.Date(string='Ngày cầm cố', default=datetime.today())
     ngay_rut = fields.Date(string='Ngày rút cổ phần')
 
     @api.model
     def create(self, vals):
+        global res
         if vals.get('code', ('New') == ('New')):
             vals['code'] = self.env['ir.sequence'].next_by_code('camco.code') or ('New')
             res = super(CamCo, self).create(vals)
@@ -193,13 +200,15 @@ class CamCo(models.Model):
     def compute_so_tien(self):
         for rec in self:
             rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
-            rec.so_tien = rec.gia_cp*rec.qty
+            rec.so_tien = rec.gia_cp * rec.qty
+
     def confirm(self):
         for rec in self:
             if rec.state == '0':
                 rec.state = '1'
                 if rec.nguoi_cam.user_profile.total_cp_ready >= rec.qty:
-                    CP_READY_USER = rec.env['co.phan'].search(['&',('status','=','1'),('of_user','=', rec.nguoi_cam.user_profile.id)],limit=rec.qty)
+                    CP_READY_USER = rec.env['co.phan'].search(
+                        ['&', ('status', '=', '1'), ('of_user', '=', rec.nguoi_cam.user_profile.id)], limit=rec.qty)
                     for cp in CP_READY_USER:
                         cp.status = '4'
                     rec.nguoi_cam.user_profile.wallet_balance += rec.so_tien
@@ -211,11 +220,10 @@ class CamCo(models.Model):
     def update_gia_cp(self):
         for rec in self:
             rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
-            rec.so_tien = rec.gia_cp*rec.qty
-
+            rec.so_tien = rec.gia_cp * rec.qty
 
     def done(self):
-        #chuộc cổ phần
+        # chuộc cổ phần
         for rec in self:
             rec.update_gia_cp()
             if rec.state == '1':
@@ -224,9 +232,11 @@ class CamCo(models.Model):
                 wallet_balance = rec.nguoi_cam.user_profile.wallet_balance
                 if wallet_balance >= rec.so_tien:
                     rec.nguoi_cam.user_profile.wallet_balance -= rec.so_tien
-                    CP_LOCK_USER = rec.env['co.phan'].search(['&',('status','=','4'),('of_user','=', rec.nguoi_cam.user_profile.id)],limit=rec.qty)
+                    CP_LOCK_USER = rec.env['co.phan'].search(
+                        ['&', ('status', '=', '4'), ('of_user', '=', rec.nguoi_cam.user_profile.id)], limit=rec.qty)
                     for cp in CP_LOCK_USER:
                         cp.status = '1'
                 else:
                     raise UserError("Số tiền không đủ")
-            else: raise UserError("Làm mới trình duyệt")
+            else:
+                raise UserError("Làm mới trình duyệt")

@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 
 
+from datetime import datetime
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
-from datetime import datetime
+
 
 class Partner(models.Model):
     _inherit = ['res.partner']
 
-    reward_points = fields.Integer('Điểm thưởng', readonly=True,track_visibility='onchange')
-    date_cs_min  = fields.Date(string='Ngày chăm sóc gần nhất')
+    reward_points = fields.Integer('Điểm thưởng', readonly=True, track_visibility='onchange')
+    date_cs_min = fields.Date(string='Ngày chăm sóc gần nhất')
     nv_cs = fields.Many2one(comodel_name='res.users', string='Nhân viên chăm sóc gần nhất')
-    date_cs_max  = fields.Date(string='Ngày cần chăm sóc tiếp theo')
-    status_cs = fields.Selection([('0','Chưa chăm sóc'),('1','Đã chăm sóc'),('2','Cần chăm sóc ngay')],
+    date_cs_max = fields.Date(string='Ngày cần chăm sóc tiếp theo')
+    status_cs = fields.Selection([('0', 'Chưa chăm sóc'), ('1', 'Đã chăm sóc'), ('2', 'Cần chăm sóc ngay')],
                                  default='0',
                                  string='Trạng thái chăm sóc')
-    is_cskh = fields.Boolean(string='Tới ngày CSKH', compute ='_compute_is_cskh')
+    is_cskh = fields.Boolean(string='Tới ngày CSKH', compute='_compute_is_cskh')
     user_profile = fields.Many2one(comodel_name='user.profile', string='TK giao dịch', readonly=True)
 
     # get default -> error create new user
@@ -51,29 +51,32 @@ class Partner(models.Model):
         })
         self.user_profile = U.id
         LOGIN = User.create({
-            'name':self.name,
+            'name': self.name,
             'partner_id': self.id,
-            'login':self.email,
-            'user_profile':U.id,
+            'login': self.email,
+            'user_profile': U.id,
         })
-        U.write({'login':LOGIN.id})
+        U.write({'login': LOGIN.id})
         self.reward_points = 0
         self.user_id = LOGIN.id
+
 
 class cskh(models.Model):
     _name = 'cskh'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = 'Chăm sóc khách hang'
 
-    date_recall = fields.Date(string='Ngày chăm sóc khách hàng',track_visibility='onchange', default=datetime.today(), required=True)
-    date_next = fields.Date(string='Ngày chăm sóc tiếp theo',track_visibility='onchange', required=True)
-    status_recall = fields.Selection([('0','Chưa chăm sóc'),('1','Đã chăm sóc')],
+    date_recall = fields.Date(string='Ngày chăm sóc khách hàng', track_visibility='onchange', default=datetime.today(),
+                              required=True)
+    date_next = fields.Date(string='Ngày chăm sóc tiếp theo', track_visibility='onchange', required=True)
+    status_recall = fields.Selection([('0', 'Chưa chăm sóc'), ('1', 'Đã chăm sóc')],
                                      string='Trạng thái chăm sóc',
                                      readonly=True,
-                                     default='0',track_visibility='onchange')
+                                     default='0', track_visibility='onchange')
     nv_cham_soc = fields.Many2one(comodel_name='res.users', string='Nhân viên chăm sóc', readonly=True,
                                   track_visibility='onchange')
-    khach_hang_list = fields.One2many(comodel_name='line.cskh',inverse_name='ref_kh', string='Khách hàng')
-    limit_kh = fields.Integer(string='Số lượng khách hàng muốn chăm sóc', required = True)
+    khach_hang_list = fields.One2many(comodel_name='line.cskh', inverse_name='ref_kh', string='Khách hàng')
+    limit_kh = fields.Integer(string='Số lượng khách hàng muốn chăm sóc', required=True)
 
     def confirm(self):
         for rec in self:
@@ -84,6 +87,7 @@ class cskh(models.Model):
                 kh.khach_hang.date_cs_min = datetime.today()
                 kh.khach_hang.date_cs_max = rec.date_next
                 kh.khach_hang.status_cs = '1'
+
     def update_date_cs(self):
         for rec in self:
             KH = rec.env['res.partner'].search([])
@@ -91,16 +95,16 @@ class cskh(models.Model):
 
                 today = datetime.today().strftime('%Y-%m-%d')
                 if i.date_cs_max == False:
-                    i.date_cs_max  = datetime.today()
+                    i.date_cs_max = datetime.today()
                 date_max = i.date_cs_max.strftime('%Y-%m-%d')
                 if date_max <= today:
-
                     i.status_cs = '2'
+
     def get_line_kh(self):
         self.update_date_cs()
         for rec in self:
-            domain=['|',('status_cs','=','0'),('status_cs','=','2')]
-            KH = rec.env['res.partner'].search(domain, limit =rec.limit_kh)
+            domain = ['|', ('status_cs', '=', '0'), ('status_cs', '=', '2')]
+            KH = rec.env['res.partner'].search(domain, limit=rec.limit_kh)
             for i in KH:
                 rec.env['line.cskh'].create({
                     'khach_hang': i.id,
@@ -110,12 +114,12 @@ class cskh(models.Model):
 
 class LineCSKH(models.Model):
     _name = 'line.cskh'
+    _description = 'Line CSKH'
 
     khach_hang = fields.Many2one(comodel_name='res.partner', string='Khách hàng',
-                                 domain=['|',('status_cs','=','0'),('status_cs','=','2')], required=True)
+                                 domain=['|', ('status_cs', '=', '0'), ('status_cs', '=', '2')], required=True)
     phone = fields.Char(string='Điện thoại', related='khach_hang.phone')
     status_cs = fields.Selection(string='Trạng thái chăm sóc', related='khach_hang.status_cs')
     nv_cs = fields.Many2one(string='Nhân viên chăm sóc gần nhất', related='khach_hang.nv_cs')
     ref_kh = fields.Many2one(comodel_name='cskh', string='Khách hàng')
     note = fields.Text(string='Note')
-

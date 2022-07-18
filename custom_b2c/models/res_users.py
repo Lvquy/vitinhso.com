@@ -20,7 +20,7 @@ class ResUsers(models.Model):
                 raise UserError('User already exists in system')
             else:
                 User_Profile = rec.env['user.profile']
-                LOGIN = rec.env['res.user'].search([('login','=',rec.login)],litmit=1)
+                LOGIN = rec.env['res.user'].search([('login', '=', rec.login)], litmit=1)
                 UP = User_Profile.create({
                     'name': rec.name,
                     'email': rec.login,
@@ -31,7 +31,6 @@ class ResUsers(models.Model):
                 rec.user_profile = UP.id
                 rec.partner_id.user_id = rec.id
                 rec.partner_id.user_profile = UP.id
-
 
     @api.onchange('user_profile')
     def onchange_user(self):

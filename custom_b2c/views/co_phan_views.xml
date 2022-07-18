@@ -176,10 +176,10 @@
                   parent="menu_cophan"  sequence="3"/>
 
         <menuitem id="sub_cophan" name="Danh sách" parent="menu_cophan_1" action="action_view_cophan"
-                  sequence="1" groups="custom_b2c.group_co_phan_adm"/>
+                  sequence="1" groups="custom_b2c.group_co_phan_adm,base.group_system"/>
 
         <menuitem id="sub_phat_cophan" name="Phát hành cổ phần" parent="menu_cophan_1" action="action_view_phatcp"
-                  sequence="2" groups="custom_b2c.group_co_phan_adm"/>
+                  sequence="2" groups="custom_b2c.group_co_phan_adm,base.group_system"/>
 
         <!--    co phan-->
         <record id="res_config_settings_view_form_cp" model="ir.ui.view">

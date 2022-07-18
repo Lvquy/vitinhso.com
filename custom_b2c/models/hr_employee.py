@@ -18,7 +18,8 @@ class HR(models.Model):
     pdf_doc = fields.Binary(string='PDF Scan')
     ngay_nghi = fields.One2many(comodel_name='ngay.nghi', inverse_name='nhanvien')
     ung_tien = fields.One2many(comodel_name='ung.luong', inverse_name='nguoi_ung')
-    bao_cao_cv = fields.One2many(comodel_name='baocao.cv', inverse_name='nhan_vien', string='Báo cáo công việc hàng ngày')
+    bao_cao_cv = fields.One2many(comodel_name='baocao.cv', inverse_name='nhan_vien',
+                                 string='Báo cáo công việc hàng ngày')
     phep_nghi = fields.Date(string='Ngày nghỉ đặc biệt')
     thuoc_kho = fields.Many2one(comodel_name='nha.kho', string='Kho làm việc', store=True)
 
@@ -28,7 +29,6 @@ class NgayNghi(models.Model):
     _rec_name = 'nhanvien'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Quản lý ngày nghỉ nhân viên'
-
 
     @api.model
     def create(self, vals):
@@ -46,6 +46,7 @@ class NgayNghi(models.Model):
             <ul/>
         </div>"""
         return result
+
     ma_phieu = fields.Char(string='Mã phiếu', readonly=True)
     nhanvien = fields.Many2one(comodel_name='hr.employee', string='Nhân viên', track_visibility='onchange')
     ngay_viet_don = fields.Date(string='Ngày viết đơn', default=datetime.today(), readonly=True)
@@ -55,7 +56,7 @@ class NgayNghi(models.Model):
     state = fields.Selection([('0', 'Mới tạo'), ('1', 'Cho nghỉ'), ('2', 'Không cho nghỉ')], string='Trạng thái đơn',
                              default='0', track_visibility='onchange')
     pdf = fields.Binary(string='Chứng từ')
-    thuoc_kho = fields.Many2one(comodel_name='nha.kho', related='nhanvien.thuoc_kho' ,store=True)
+    thuoc_kho = fields.Many2one(comodel_name='nha.kho', related='nhanvien.thuoc_kho', store=True)
 
     def confirm(self):
         notification = {
@@ -95,14 +96,17 @@ class NgayNghi(models.Model):
             for rec in self:
                 return super(NgayNghi, rec).unlink()
 
+
 class UngLuong(models.Model):
     _name = 'ung.luong'
+    _description = 'ứng lương'
 
     date_create = fields.Date(string='Ngày làm đơn', readonly=True, default=datetime.today())
     date_confirm = fields.Date(string='Ngày duyệt đơn', readonly=True)
     nguoi_ung = fields.Many2one(comodel_name='hr.employee', string='Người nhận')
     so_tien = fields.Integer(string='Số tiền ứng')
-    status = fields.Selection([('0','Nháp'),('1','Xác nhận'),('2','Từ chối',)], string='Trạng thái đơn', default='0')
+    status = fields.Selection([('0', 'Nháp'), ('1', 'Xác nhận'), ('2', 'Từ chối',)], string='Trạng thái đơn',
+                              default='0')
     nguoi_xacnhan = fields.Many2one(comodel_name='res.users', string='Tài khoản xác nhận', readonly=True)
 
     def confirm(self):

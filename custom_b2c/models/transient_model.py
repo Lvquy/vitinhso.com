@@ -2,9 +2,7 @@
 
 
 from odoo import api, fields, models
-from odoo import api, fields, models, SUPERUSER_ID, _
-from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.osv import expression
+
 
 class ResConfigSetting(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -27,41 +25,38 @@ class ResConfigSetting(models.TransientModel):
     discount_for_cty = fields.Float(string='Phần trăm thưởng cho công ty')
 
     def up_value_cp(self):
-        ICP =  self.env['ir.config_parameter'].sudo()
+        ICP = self.env['ir.config_parameter'].sudo()
         total_cp = self.env['co.phan'].search_count([])
-        value_up = self.price_unit_cp + (self.loi_nhuan_ban_hang/total_cp)
+        value_up = self.price_unit_cp + (self.loi_nhuan_ban_hang / total_cp)
         ICP.set_param('custom_b2c.price_unit_cp', value_up)
-        ICP.set_param('custom_b2c.loi_nhuan_ban_hang',0)
+        ICP.set_param('custom_b2c.loi_nhuan_ban_hang', 0)
         super(ResConfigSetting, self).set_values()
-
 
     @api.model
     def set_values(self):
-
-        ICP =  self.env['ir.config_parameter'].sudo()
-        ICP.set_param('custom_b2c.discount',self.discount)
-        ICP.set_param('custom_b2c.price_unit_cp',self.price_unit_cp)
-        ICP.set_param('custom_b2c.price_unit_r2cp',self.price_unit_r2cp)
-        ICP.set_param('custom_b2c.lai_tk_36',self.lai_tk_36)
-        ICP.set_param('custom_b2c.lai_tk_24',self.lai_tk_24)
-        ICP.set_param('custom_b2c.lai_tk_18',self.lai_tk_18)
-        ICP.set_param('custom_b2c.lai_tk_12',self.lai_tk_12)
-        ICP.set_param('custom_b2c.lai_tk_6',self.lai_tk_6)
-        ICP.set_param('custom_b2c.lai_tk_3',self.lai_tk_3)
-        ICP.set_param('custom_b2c.lai_tk_1',self.lai_tk_1)
-        ICP.set_param('custom_b2c.doi_cp',self.doi_cp)
-        ICP.set_param('custom_b2c.phi_giao_dich',self.phi_giao_dich)
-        ICP.set_param('custom_b2c.total_cp',self.total_cp)
-        ICP.set_param('custom_b2c.discount_for_cty',self.discount_for_cty)
-        ICP.set_param('custom_b2c.loi_nhuan_ban_hang',self.loi_nhuan_ban_hang)
-        ICP.set_param('custom_b2c.discount_up_cp',self.discount_up_cp)
-        super(ResConfigSetting,self).set_values()
-
+        ICP = self.env['ir.config_parameter'].sudo()
+        ICP.set_param('custom_b2c.discount', self.discount)
+        ICP.set_param('custom_b2c.price_unit_cp', self.price_unit_cp)
+        ICP.set_param('custom_b2c.price_unit_r2cp', self.price_unit_r2cp)
+        ICP.set_param('custom_b2c.lai_tk_36', self.lai_tk_36)
+        ICP.set_param('custom_b2c.lai_tk_24', self.lai_tk_24)
+        ICP.set_param('custom_b2c.lai_tk_18', self.lai_tk_18)
+        ICP.set_param('custom_b2c.lai_tk_12', self.lai_tk_12)
+        ICP.set_param('custom_b2c.lai_tk_6', self.lai_tk_6)
+        ICP.set_param('custom_b2c.lai_tk_3', self.lai_tk_3)
+        ICP.set_param('custom_b2c.lai_tk_1', self.lai_tk_1)
+        ICP.set_param('custom_b2c.doi_cp', self.doi_cp)
+        ICP.set_param('custom_b2c.phi_giao_dich', self.phi_giao_dich)
+        ICP.set_param('custom_b2c.total_cp', self.total_cp)
+        ICP.set_param('custom_b2c.discount_for_cty', self.discount_for_cty)
+        ICP.set_param('custom_b2c.loi_nhuan_ban_hang', self.loi_nhuan_ban_hang)
+        ICP.set_param('custom_b2c.discount_up_cp', self.discount_up_cp)
+        super(ResConfigSetting, self).set_values()
 
     @api.model
     def get_values(self):
         ICP = self.env['ir.config_parameter'].sudo()
-        res = super(ResConfigSetting,self).get_values()
+        res = super(ResConfigSetting, self).get_values()
         res['discount'] = ICP.get_param('custom_b2c.discount', default=0)
         res['price_unit_cp'] = ICP.get_param('custom_b2c.price_unit_cp', default=0)
         res['price_unit_r2cp'] = int(ICP.get_param('custom_b2c.price_unit_r2cp', default=0))

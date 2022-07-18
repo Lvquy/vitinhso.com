@@ -32,12 +32,13 @@ class UserProfile(models.Model):
     total_cp_ready = fields.Integer(string='Cổ phần đang sẵn sàng', compute='get_total_cp_ready')
     total_cp_wait = fields.Integer(string='Cổ phần đang chờ', compute='get_total_cp_wait')
     reward_cp = fields.One2many(comodel_name='line.reward2cp', inverse_name='name', string='Đổi điểm lấy cổ phần')
-    chuyen_points = fields.One2many(comodel_name='trans.points', inverse_name='account_self', string='Chuyển điểm', readonly=True)
-    lock_edit = fields.Boolean(string='Khóa sửa thông tin',default=False, readonly=True)
+    chuyen_points = fields.One2many(comodel_name='trans.points', inverse_name='account_self', string='Chuyển điểm',
+                                    readonly=True)
+    lock_edit = fields.Boolean(string='Khóa sửa thông tin', default=False, readonly=True)
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
-    #kyc
+    # kyc
     kyc_status = fields.Selection([('0', 'Chưa kyc'), ('1', 'Đã kyc')], string='Trạng thái kyc', default='0')
     img_cmnd_tcc_f = fields.Binary('Chứng minh / Thẻ căn cước / hộ chiếu mặt trước')
     img_cmnd_tcc_b = fields.Binary('Chứng minh / Thẻ căn cước / hộ chiếu  mặt sau')
@@ -63,6 +64,7 @@ class UserProfile(models.Model):
             rec.lock_edit = True
             rec.otp = ' '
             rec.otp_save = random.randrange(100000, 999999)
+
     def unlock_edit(self):
         for rec in self:
             if rec.otp == rec.otp_save:
@@ -161,6 +163,7 @@ class UserProfile(models.Model):
 
 class LineBank(models.Model):
     _name = 'line.bank'
+    _description = 'Tài khoản ngân hàng'
 
     name = fields.Char(string='Tên ngân hàng', required=True)
     bank_no = fields.Char(string='Số tài khoản', required=True)
@@ -170,6 +173,7 @@ class LineBank(models.Model):
 
 class LineReward2CP(models.Model):
     _name = 'line.reward2cp'
+    _description = 'Đổi điểm sang cổ phần'
 
     @api.onchange('qty_cp')
     def get_value_price(self):
@@ -218,15 +222,16 @@ class LineReward2CP(models.Model):
 
 class NapRutTien(models.Model):
     _name = 'nap.rut.tien'
+    _description = 'Nạp rút tiền'
 
     code = fields.Char(string='Mã chứng từ', default=lambda self: ('New'), readonly=True)
     state = fields.Selection(
-        [('0', 'Nháp'),('otp','Đã gửi mã OTP'), ('1', 'Xác nhận giao dịch'), ('2', 'Thành công'), ('3', 'Đã hủy')],
+        [('0', 'Nháp'), ('otp', 'Đã gửi mã OTP'), ('1', 'Xác nhận giao dịch'), ('2', 'Thành công'), ('3', 'Đã hủy')],
         string='Trạng thái', default='0')
     account = fields.Many2one(comodel_name='user.profile', string='Tài khoản', required=True,
                               default=lambda self: self.env.user.user_profile)
     self_account = fields.Many2one(comodel_name='user.profile', string='Người tạo',
-                                   default=lambda  self: self.env.user.user_profile, readonly=True)
+                                   default=lambda self: self.env.user.user_profile, readonly=True)
     wallet = fields.Char(string='Ví tài khoản giao dịch', store=True, related='account.wallet')
     sotien = fields.Integer(string='Số tiền')
     create_date = fields.Datetime(string='Ngày tạo đơn', default=datetime.today())
@@ -332,14 +337,16 @@ class NapRutTien(models.Model):
 
 class TransferPoints(models.Model):
     _name = 'trans.points'
+    _description = 'Đổi điểm'
 
     date_create = fields.Datetime(string='Ngày tạo', default=datetime.today())
     account_thu_huong = fields.Many2one(comodel_name='user.profile', string='Tài khoản nhận', required=True)
     wallet = fields.Char(related='account_thu_huong.wallet', string='Ví cá nhân')
-    account_self = fields.Many2one(comodel_name='user.profile', string='Tài khoản gửi',readonly=True,
-                                   default=lambda self:self.env.user.user_profile)
+    account_self = fields.Many2one(comodel_name='user.profile', string='Tài khoản gửi', readonly=True,
+                                   default=lambda self: self.env.user.user_profile)
     qty_points = fields.Integer(string='Số điểm')
-    state = fields.Selection([('0', 'Nháp'),('otp','Đã gửi mã OTP'), ('1', 'Đã chuyển')], string='Trạng thái', default='0', readonly=True)
+    state = fields.Selection([('0', 'Nháp'), ('otp', 'Đã gửi mã OTP'), ('1', 'Đã chuyển')], string='Trạng thái',
+                             default='0', readonly=True)
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     note = fields.Text(string='Note')
@@ -369,7 +376,7 @@ class TransferPoints(models.Model):
     def confirm(self):
         for rec in self:
             if rec.otp == rec.otp_save:
-                Total_Wallet= rec.account_self.reward_points
+                Total_Wallet = rec.account_self.reward_points
                 if rec.qty_points > Total_Wallet:
                     raise UserError('Số điểm không đủ')
                 else:
@@ -392,6 +399,7 @@ class TransferPoints(models.Model):
                 }
                 return notification
 
+
 class TransWallet(models.Model):
     _name = 'trans.wallet'
     _description = 'chuyen tien'
@@ -400,14 +408,14 @@ class TransWallet(models.Model):
     account_thu_huong = fields.Many2one(comodel_name='user.profile', string='Tài khoản nhận', required=True)
     wallet = fields.Char(related='account_thu_huong.wallet', string='Ví cá nhân')
     account_self = fields.Many2one(comodel_name='user.profile', string='Tài khoản gửi', required=True,
-                                   default = lambda self: self.env.user.user_profile, readonly=True)
+                                   default=lambda self: self.env.user.user_profile, readonly=True)
     qty_wallet = fields.Integer(string='Số tiền (vnđ)')
-    state = fields.Selection([('0', 'Nháp'),('otp','Đã gửi mã OTP'), ('1', 'Đã chuyển')], string='Trạng thái', default='0', readonly=True)
+    state = fields.Selection([('0', 'Nháp'), ('otp', 'Đã gửi mã OTP'), ('1', 'Đã chuyển')], string='Trạng thái',
+                             default='0', readonly=True)
     otp = fields.Char(string='Mã OTP xác thực')
     otp_save = fields.Char(string='OTP SYSTEM', default=random.randrange(100000, 999999))
     note = fields.Text(string='Note')
     company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
-
 
     def send_otp(self):
         otp = random.randrange(100000, 999999)
