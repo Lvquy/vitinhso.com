@@ -70,14 +70,14 @@ class SuaChua(models.Model):
         for rec in self:
             if rec.state == '0':
                 rec.send_email()
-                # rec.state = '1'
-                # rec.ngay_nhan = datetime.today()
-                # # report
-                # REPORT_B2C = self.env['report.b2c']
-                # REPORT_B2C.create({
-                #     'price': self.chi_phi,
-                #     'type_profit': 'suachua'
-                # })
+                rec.state = '1'
+                rec.ngay_nhan = datetime.today()
+                # report
+                REPORT_B2C = self.env['report.b2c']
+                REPORT_B2C.create({
+                    'price': self.chi_phi,
+                    'type_profit': 'suachua'
+                })
             else:
                 raise UserError('Làm mới trình duyệt')
 

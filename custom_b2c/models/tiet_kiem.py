@@ -197,6 +197,7 @@ class CamCo(models.Model):
     state = fields.Selection([('0', 'Nháp'), ('1', 'Đã xác nhận'), ('2', 'Đã trả')], string='Trạng thái', default='0')
     ngay_cam = fields.Date(string='Ngày cầm cố', default=datetime.today())
     ngay_rut = fields.Date(string='Ngày rút cổ phần')
+    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
 
     @api.model
     def create(self, vals):
@@ -209,8 +210,14 @@ class CamCo(models.Model):
     @api.onchange('qty')
     def compute_so_tien(self):
         for rec in self:
-            rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
+            rec.gia_cp = float(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
             rec.so_tien = rec.gia_cp * rec.qty
+
+    def send_email(self):
+        for rec in self:
+            template_id = rec.env.ref('custom_b2c.mail_template_cam_co').id
+            template = rec.env['mail.template'].browse(template_id)
+            template.send_mail(rec.id, force_send=True)
 
     def confirm(self):
         for rec in self:
@@ -222,6 +229,7 @@ class CamCo(models.Model):
                     for cp in CP_READY_USER:
                         cp.status = '4'
                     rec.nguoi_cam.user_profile.wallet_balance += rec.so_tien
+                    rec.send_email()
                 else:
                     raise UserError('Số cổ phần sẵn sàng không đủ')
             else:
@@ -229,7 +237,7 @@ class CamCo(models.Model):
 
     def update_gia_cp(self):
         for rec in self:
-            rec.gia_cp = int(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
+            rec.gia_cp = float(self.env['ir.config_parameter'].sudo().get_param('custom_b2c.price_unit_cp') or 0)
             rec.so_tien = rec.gia_cp * rec.qty
 
     def done(self):

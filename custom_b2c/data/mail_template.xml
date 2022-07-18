@@ -2,14 +2,12 @@
 <odoo>
     <data noupdate="0">
 
+        <!-- XÁC NHẬN ĐẦU TƯ-->
         <record id="mail_template_dautu" model="mail.template">
             <field name="model_id" ref="custom_b2c.model_dau_tu"/>
             <field name="body_html" type="html">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12">
-
-                        </div>
                         <div class="col-12">
                             <h1 class="text-success text-center">XÁC NHẬN ĐẦU TƯ</h1>
                         </div>
@@ -18,14 +16,17 @@
                             <br/>
                         </div>
                         <div class="col-12">
-                            <h4 >
+                            <h4>
                                 Cảm ơn bạn <span class="text-success">%s</span>,
-                                bạn đã đầu tư <span class="text-success">%s</span>
+                                bạn đã đầu tư
+                                <span class="text-success">%s</span>
                                 cổ phần và nhận được: <span class="text-success">%s</span> tiền lãi (VNĐ)
                             </h4>
                         </div>
                         <div class="col-12">
-                            <span class="text-info">Chi tiết gói đầu tư bên dưới, Mọi thắc mắc vui lòng liên hệ admin@vitinhso.com</span>
+                            <span class="text-info">Chi tiết gói đầu tư bên dưới, Mọi thắc mắc vui lòng liên hệ
+                                admin@vitinhso.com
+                            </span>
                         </div>
                         <div class="col-12">
                             <br/>
@@ -60,17 +61,17 @@
                         </div>
                         <div class="col-8">%s phần trăm</div>
                         <hr/>
-
                         <div class="col-12">
-                            <span class="text-info">Email được gửi từ website <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a></span>
+                            <span class="text-info">Email được gửi từ website
+                                <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a>
+                            </span>
                         </div>
-
-
                     </div>
                 </div>
             </field>
         </record>
 
+        <!-- Sửa chữa / bảo hành-->
         <record id="mail_template_su_chua_bao_hanh" model="mail.template">
             <field name="name">Sửa chữa / bảo hành</field>
             <field name="model_id" ref="custom_b2c.model_sua_chua"/>
@@ -80,15 +81,12 @@
             <field name="body_html" type="html">
                 <div class="container">
                     <div class="row ">
-                        <img t-attf-alt="logo" style="width: 50%;"
-                             t-attf-src="data:image/png;base64,{{object.company_id.logo_report}}"/>
                         <t t-if="object.type_sc == 'sc'">
-                            <h2 class="col-12  text-success">BIÊN NHẬN</h2>
+                            <h1 class="col-12  text-success">BIÊN NHẬN</h1>
                         </t>
                         <t t-if="object.type_sc == 'bh'">
-                            <h2 class="col-12  text-success">XÁC NHẬN BẢO HÀNH</h2>
+                            <h1 class="col-12  text-success">XÁC NHẬN BẢO HÀNH</h1>
                         </t>
-
                         <div class="mb-2" id="informations">
                             <div class="mb-2">
                                 <strong>Tên khách hàng:</strong>
@@ -100,7 +98,6 @@
                                 <span
                                         t-field="object.khach_hang.city"/>,
                                 <span t-field="object.khach_hang.state_id.name"/>
-
                             </div>
                             <div class="mb-2">
                                 <strong>Liên hệ:</strong>
@@ -124,8 +121,7 @@
                                 <strong>Nhân viên phụ trách:</strong>
                                 <span t-field="object.nguoi_nhan.name"/>
                             </div>
-
-                            <table class="table table-sm o_main_table">
+                            <table class="table table-striped">
                                 <thead style="display: table-row-group">
                                     <tr>
                                         <th class="text-center text-primary">STT</th>
@@ -135,7 +131,6 @@
                                         <th class="text-center text-primary">Bảo hành</th>
                                         <th class="text-center text-primary">Ghi chú</th>
                                         <th class="text-right text-primary">Thành tiền</th>
-
                                     </tr>
                                 </thead>
                                 <tbody class="sale_tbody">
@@ -179,12 +174,93 @@
                             </div>
                             <div class="oe_structure"/>
                         </div>
+                        <div class="col-12">
+                            <span class="text-info">Email được gửi từ website
+                                <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </field>
             <field name="auto_delete" eval="True"/>
         </record>
 
+        <!--   cam.co-->
+        <record id="mail_template_cam_co" model="mail.template">
+            <field name="name">Cầm cố cổ phần</field>
+            <field name="model_id" ref="custom_b2c.model_cam_co"/>
+            <field name="subject">Xác nhận cầm cố cổ phần</field>
+            <field name="email_from">{{ (object.company_id.email) }}</field>
+            <field name="email_to">{{ (object.nguoi_cam.login) }}</field>
+            <field name="body_html" type="html">
+                <div class="container">
+                    <div class="row">
+                        <h1 class="col-12 text-center text-success">XÁC NHẬN CẦM CỐ CỔ PHẦN</h1>
+                        <div class="col-12">
+                            <hr/>
+                        </div>
+                        <div class="col-4">
+                            <strong>Mã chứng từ:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.code"/>
+                        </div>
+
+                        <div class="col-4">
+                            <strong>Người cầm:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.nguoi_cam.name"/>
+                        </div>
+
+                        <div class="col-4">
+                            <strong>Số lượng cổ phần:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.qty"/>
+                        </div>
+
+                        <div class="col-4">
+                            <strong>Thời gian:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.thoi_gian"/> Tháng
+                        </div>
+
+                        <div class="col-4">
+                            <strong>Giá cổ phần hiện tại:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.gia_cp"/>
+                        </div>
+
+                        <div class="col-4">
+                            <strong>Số tiền nhận được:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.so_tien"/>
+                        </div>
+
+                        <div class="col-4">
+                            <strong>Ngày cầm:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.ngay_cam"/>
+                        </div>
+
+                        <br/>
+                        <div class="col-12 text-info">
+                            <span>Thư được gửi tự động từ website
+                                <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!--OTP CODE Points-->
         <record id="mail_template_b2c_otp" model="mail.template">
             <field name="name">OTP CODE Points</field>
             <field name="model_id" ref="custom_b2c.model_trans_points"/>
@@ -209,7 +285,7 @@
             <field name="auto_delete" eval="True"/>
         </record>
 
-<!--        tiet.kiem-->
+        <!--   tiet.kiem-->
         <record id="mail_template_tiet_kiem" model="mail.template">
             <field name="name">Gửi tiết kiệm</field>
             <field name="model_id" ref="custom_b2c.model_tiet_kiem"/>
@@ -219,48 +295,77 @@
             <field name="body_html" type="html">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 text-center">
-                            <img t-attf-class="text-center" t-attf-alt="logo" style="width: 50%;"
-                             t-attf-src="data:image/png;base64,{{object.company_id.logo_report}}"/>
-                        </div>
-
-                        <div class="col-12">
-                            <br/>
-                        </div>
-                            <h2 class="col-12 text-center text-success">XÁC NHẬN GỬI TIẾT KIỆM</h2>
+                        <h1 class="col-12 text-center text-success">XÁC NHẬN GỬI TIẾT KIỆM</h1>
                         <div class="col-12">
                             <hr/>
                         </div>
-                        <div class="col-4"><strong>Mã chứng từ:</strong></div>
-                        <div class="col-8"><span t-out="object.code"/></div>
+                        <div class="col-4">
+                            <strong>Mã chứng từ:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.code"/>
+                        </div>
 
-                        <div class="col-4"><strong>Người gửi:</strong></div>
-                        <div class="col-8"><span t-out="object.user_tk.name"/></div>
+                        <div class="col-4">
+                            <strong>Người gửi:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.user_tk.name"/>
+                        </div>
 
-                        <div class="col-4"><strong>Ngày xác nhận gửi:</strong></div>
-                        <div class="col-8"><span t-out="object.start_date"/></div>
+                        <div class="col-4">
+                            <strong>Ngày xác nhận gửi:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.start_date"/>
+                        </div>
 
-                        <div class="col-4"><strong>Số lượng cổ phần gửi:</strong></div>
-                        <div class="col-8"><span t-out="object.sl_cophan"/></div>
+                        <div class="col-4">
+                            <strong>Số lượng cổ phần gửi:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.sl_cophan"/>
+                        </div>
 
-                        <div class="col-4"><strong>Lãi suất:</strong></div>
-                        <div class="col-8"><span t-out="object.lai_suat"/></div>
+                        <div class="col-4">
+                            <strong>Lãi suất:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.lai_suat"/>
+                        </div>
 
-                        <div class="col-4"><strong>Số lượng cổ phần gửi:</strong></div>
-                        <div class="col-8"><span t-out="object.sl_cophan"/></div>
+                        <div class="col-4">
+                            <strong>Số lượng cổ phần gửi:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.sl_cophan"/>
+                        </div>
 
-                        <div class="col-4"><strong>Giá cổ phần hiện tại:</strong></div>
-                        <div class="col-8"><span t-out="object.gia_cp"/></div>
+                        <div class="col-4">
+                            <strong>Giá cổ phần hiện tại:</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.gia_cp"/>
+                        </div>
 
-                        <div class="col-4"><strong>Lãi nhận được (vnđ):</strong></div>
-                        <div class="col-8"><span t-out="object.cp_lai"/></div>
+                        <div class="col-4">
+                            <strong>Lãi nhận được (vnđ):</strong>
+                        </div>
+                        <div class="col-8">
+                            <span t-out="object.cp_lai"/>
+                        </div>
                         <br/>
-                        <div class="col-12 text-info"><span>Thư được gửi tự động từ website <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a></span></div>
+                        <div class="col-12 text-info">
+                            <span>Thư được gửi tự động từ website
+                                <a href="https://vitinhso.com" target="_blank">https://vitinhso.com</a>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </field>
             <field name="auto_delete" eval="True"/>
         </record>
+
         <!--        otp nạp rút tiền-->
         <record id="mail_template_b2c_otp_nr_tien" model="mail.template">
             <field name="name">OTP CODE NR Tiền</field>
@@ -286,7 +391,7 @@
             <field name="auto_delete" eval="True"/>
         </record>
 
-
+        <!--OTP CODE Wallet-->
         <record id="mail_template_b2c_otp_wallet" model="mail.template">
             <field name="name">OTP CODE Wallet</field>
             <field name="model_id" ref="custom_b2c.model_trans_wallet"/>
@@ -310,7 +415,8 @@
             </field>
             <field name="auto_delete" eval="True"/>
         </record>
-        <!--        otp nạp lock edit profile-->
+
+        <!-- otp nạp lock edit profile-->
         <record id="mail_template_b2c_otp_edit_profile1" model="mail.template">
             <field name="name">OTP CODE Edit Profile</field>
             <field name="model_id" ref="custom_b2c.model_user_profile"/>
