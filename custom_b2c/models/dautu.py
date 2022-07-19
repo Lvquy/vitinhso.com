@@ -118,14 +118,14 @@ class Dautu(models.Model):
         if self.state not in '1':
             raise UserError("Vui lòng làm mới trình duyệt")
         # state = đã đóng (đang tiến hành đầu tư)
-        # self.state = '2'
+        self.state = '2'
 
         for rec in self.share_holder:
             self.send_email(rec.share_holder.email,rec.share_holder.name,rec.sl_dautu,rec.lai_cp)
-            # domain = ['&', ('status', '=', '6'), ('of_user', '=', rec.share_holder.id)]
-            # CP = self.env['co.phan'].search(domain, limit=rec.sl_dautu)
-            # for l in CP:
-            #     l.status = '2'
+            domain = ['&', ('status', '=', '6'), ('of_user', '=', rec.share_holder.id)]
+            CP = self.env['co.phan'].search(domain, limit=rec.sl_dautu)
+            for l in CP:
+                l.status = '2'
 
     def action_3(self):
         if self.state not in '2':
