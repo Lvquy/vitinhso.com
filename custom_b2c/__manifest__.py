@@ -60,6 +60,7 @@
         'views/sale_order.xml',
         'views/khieunai_gopy.xml',
         'winzard/report_b2c.xml',
+        'winzard/log_pricecp.xml',
         # report
         'report/sua_chua_template.xml',
         'report/sua_chua_report.xml',

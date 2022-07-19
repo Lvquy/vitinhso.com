@@ -19,7 +19,7 @@ class ResConfigSetting(models.TransientModel):
     lai_tk_24 = fields.Integer(string='Lãi gửi tiết kiệm 24 tháng (nhập %)')
     lai_tk_36 = fields.Integer(string='Lãi gửi tiết kiệm 36 tháng (nhập %)')
     doi_cp = fields.Boolean(string='Cho phép đổi điểm lấy cổ phần', default=False)
-    phi_giao_dich = fields.Integer(string='Phí giao dịch (%)')
+    phi_giao_dich = fields.Float(string='Phí giao dịch (%)')
     loi_nhuan_ban_hang = fields.Float(string='Số tiền tăng giá trị cổ phần sẵn sàng')
     discount_up_cp = fields.Float(string='Số % trích từ lợi nhuận để tăng giá trị cp')
     discount_for_cty = fields.Float(string='Phần trăm thưởng cho công ty')
@@ -29,14 +29,27 @@ class ResConfigSetting(models.TransientModel):
         total_cp = self.env['co.phan'].search_count([])
         value_up = self.price_unit_cp + (self.loi_nhuan_ban_hang / total_cp)
         ICP.set_param('custom_b2c.price_unit_cp', value_up)
+
+        # tạo log giá cp
+        LOG_PRICECP = self.env['log.pricecp']
+        LOG_PRICECP.sudo().create({
+            'price': value_up
+        })
+
         ICP.set_param('custom_b2c.loi_nhuan_ban_hang', 0)
         super(ResConfigSetting, self).set_values()
 
     @api.model
     def set_values(self):
         ICP = self.env['ir.config_parameter'].sudo()
-        ICP.set_param('custom_b2c.discount', self.discount)
+        LOG_PRICECP = self.env['log.pricecp']
+        LOG_PRICECP.sudo().create({
+            'price': self.price_unit_cp
+        })
         ICP.set_param('custom_b2c.price_unit_cp', self.price_unit_cp)
+
+
+        ICP.set_param('custom_b2c.discount', self.discount)
         ICP.set_param('custom_b2c.price_unit_r2cp', self.price_unit_r2cp)
         ICP.set_param('custom_b2c.lai_tk_36', self.lai_tk_36)
         ICP.set_param('custom_b2c.lai_tk_24', self.lai_tk_24)

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="log_pricecp_form" model="ir.ui.view">
+            <field name="name">log.pricecp.form</field>
+            <field name="model">log.pricecp</field>
+            <field name="arch" type="xml">
+                <form string="Lịch sử giá cổ phần">
+                    <sheet>
+                        <group string="Giá cổ phần">
+                            <field name="date_update"/>
+                            <field name="price"/>
+                            <field name="user_update"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="log_pricecp_tree" model="ir.ui.view">
+            <field name="name">log.pricecp.tree</field>
+            <field name="model">log.pricecp</field>
+            <field name="arch" type="xml">
+                <tree string="Lịch sử giá cổ phần" editable="bottom">
+                    <field name="date_update"/>
+                    <field name="price"/>
+                    <field name="user_update"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action view-->
+        <record id="action_view_log_pricecp" model="ir.actions.act_window">
+            <field name="name">Lịch sử giá cổ phần</field>
+            <field name="res_model">log.pricecp</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new ...
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_log_pricecp" name="Lịch sử giá cổ phần" sequence="1" parent="menu_report"
+                  groups="base.group_system,custom_b2c.group_ql"/>
+        <menuitem id="menu_sub_log_pricecp" name="Lịch sử giá cổ phần" parent="menu_log_pricecp"
+                  action="action_view_log_pricecp"
+                  sequence="1" groups="base.group_system,custom_b2c.group_ql"/>
+    </data>
+</odoo>

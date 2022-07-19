@@ -4,6 +4,9 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 acess_custom_b2c_ke_hang_root,ke.hang.root,model_ke_hang,base.group_system,1,1,1,1
 acess_custom_b2c_ke_hang_ql,ke.hang.ql,model_ke_hang,custom_b2c.group_ql,1,1,1,1
 
+access_custom_b2c_log_pricecp_root,log.pricecp.root,model_log_pricecp,base.group_system,1,1,1,1
+access_custom_b2c_log_pricecp_ql,log.pricecp.ql,model_log_pricecp,custom_b2c.group_ql,1,1,1,1
+
 
 
 acess_custom_b2c_thicong_root,thi.cong.root,model_thi_cong,base.group_system,1,1,1,1

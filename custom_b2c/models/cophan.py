@@ -46,7 +46,6 @@ class PhatCP(models.Model):
                                   default=lambda self: self.env.user, track_visibility='onchange')
     line_cp = fields.One2many(comodel_name='co.phan', inverse_name='of_create', string='List Cổ phần')
 
-
     def confirm(self):
         global res
         self.state = '1'
@@ -70,3 +69,16 @@ class LogCP(models.Model):
     to_user = fields.Many2one(comodel_name='user.profile', string='Đến User')
     code_giaodich = fields.Char(string='Mã chứng từ')
     name = fields.Many2one(comodel_name='co.phan', string='Name')
+
+
+class LogPriceCp(models.Model):
+    _name = 'log.pricecp'
+    _description = 'Lịch sử giá cổ phần'
+    _rec_name = 'date_update'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    date_update = fields.Datetime(string='Ngày cập nhật giá', default=datetime.today(), readonly=True)
+    price = fields.Float(string='Giá cổ phần (VNĐ)', readonly=True)
+    user_update = fields.Many2one(comodel_name='res.users', string='Người cập nhật', readonly=True,
+                                  default=lambda self: self.env.user.id)
+
