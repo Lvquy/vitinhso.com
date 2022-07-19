@@ -26,7 +26,7 @@
             <field name="name">log.pricecp.tree</field>
             <field name="model">log.pricecp</field>
             <field name="arch" type="xml">
-                <tree string="Lịch sử giá cổ phần" editable="bottom">
+                <tree string="Lịch sử giá cổ phần" create="false"  editable="bottom">
                     <field name="date_update"/>
                     <field name="price"/>
                     <field name="user_update"/>
