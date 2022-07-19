@@ -18,6 +18,7 @@ class Report(models.Model):
                                     ],string='Kiểu lợi nhuận', default='sale')
     price = fields.Float(string='Số tiền')
     date_update = fields.Date(string='Ngày phát sinh', readonly=True, default=datetime.today())
+    source = fields.Char(string='Nguồn tiền')
 
 
 class QuyCty(models.Model):

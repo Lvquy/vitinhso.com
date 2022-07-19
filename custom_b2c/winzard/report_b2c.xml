@@ -11,6 +11,7 @@
                             <field name="cost_total"/>
                             <field name="price"/>
                             <field name="type_profit"/>
+                            <field name="source"/>
                             <field name="date_update"/>
                         </group>
                     </sheet>

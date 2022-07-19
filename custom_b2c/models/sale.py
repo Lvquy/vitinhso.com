@@ -64,7 +64,8 @@ class SaleOrderInherit(models.Model):
         REPORT_B2C.create({
             'price': ln_cty,
             'type_profit': 'sale',
-            'date_update': datetime.today()
+            'date_update': datetime.today(),
+            'source': self.name
         })
         ADMIN_CTY = self.env['user.profile'].search([('is_adm_cty', '=', True)], limit=1)
         ADMIN_CTY.reward_points += reward_cty
@@ -92,7 +93,8 @@ class SaleOrderInherit(models.Model):
         REPORT_B2C = self.env['report.b2c']
         REPORT_B2C.create({
             'price': -ln_cty,
-            'type_profit': 'sale'
+            'type_profit': 'sale',
+            'source': self.name
         })
 
         self.partner_id.reward_points -= reward

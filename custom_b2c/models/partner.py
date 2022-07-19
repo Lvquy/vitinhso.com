@@ -58,7 +58,8 @@ class OrderPartner(models.Model):
                 REPORT_B2C = self.env['report.b2c'].sudo()
                 REPORT_B2C.create({
                     'price': self.total,
-                    'type_profit': 'partner'
+                    'type_profit': 'partner',
+                    'source': self.partner.name
                 })
 
                 POINTS_CUA_HANG = 0

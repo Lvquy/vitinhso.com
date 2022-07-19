@@ -200,7 +200,8 @@ class GiaoDichCoPhan(models.Model):
             REPORT_B2C = self.env['report.b2c']
             REPORT_B2C.create({
                 'price': self.phi_giao_dich,
-                'type_profit': 'fee'
+                'type_profit': 'fee',
+                'source': self.code
             })
 
     def action_tras_false(self):

@@ -146,7 +146,8 @@ class Dautu(models.Model):
         REPORT_B2C = self.env['report.b2c']
         REPORT_B2C.create({
             'price': self.so_tien_lai,
-            'type_profit': 'invest'
+            'type_profit': 'invest',
+            'source': self.code_dautu
         })
 
     def joined(self):

@@ -76,7 +76,8 @@ class SuaChua(models.Model):
                 REPORT_B2C = self.env['report.b2c']
                 REPORT_B2C.create({
                     'price': self.chi_phi,
-                    'type_profit': 'suachua'
+                    'type_profit': 'suachua',
+                    'source': self.code
                 })
             else:
                 raise UserError('Làm mới trình duyệt')
