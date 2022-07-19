@@ -21,7 +21,7 @@ class ResConfigSetting(models.TransientModel):
     doi_cp = fields.Boolean(string='Cho phép đổi điểm lấy cổ phần', default=False)
     phi_giao_dich = fields.Float(string='Phí giao dịch (%)')
     loi_nhuan_ban_hang = fields.Float(string='Số tiền tăng giá trị cổ phần sẵn sàng')
-    discount_up_cp = fields.Float(string='Số % trích từ lợi nhuận để tăng giá trị cp')
+    discount_up_cp = fields.Float(string='Số % trích từ tổng giá trị đơn bán hàng để tăng giá trị cp')
     discount_for_cty = fields.Float(string='Phần trăm thưởng cho công ty')
 
     def up_value_cp(self):
